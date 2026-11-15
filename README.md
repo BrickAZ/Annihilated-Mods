@@ -28,26 +28,27 @@
 
 ## 下载与安装
 
-1. 在 Steam 库右键点击游戏，选择「管理 → 浏览本地文件」，找到 `Annihilated.exe`。给这个游戏安装 [MelonLoader 0.7.3](https://github.com/LavaGang/MelonLoader/releases/tag/v0.7.3)，然后从 Steam 正常启动一次，等到游戏标题界面出现。
+1. 打开含 `Annihilated.exe` 的游戏目录。通过 Steam 安装的玩家可以在库中右键点击游戏，选择「管理 → 浏览本地文件」。给该游戏安装 [MelonLoader 0.7.3](https://github.com/LavaGang/MelonLoader/releases/tag/v0.7.3)，再正常启动一次，等到标题界面出现。
 2. 退出游戏，解压上面相应的安装包。把包内的 `Mods` 文件夹合并到 `Annihilated.exe` 所在目录。
-3. 玩杯赛时，再把包内的 `Launch-Cup.cmd` 复制到同一目录，保持 Steam 开启并双击脚本。杯赛包已经包含 F9 插件。普通游玩及使用其他 Mod 时，从 Steam 正常启动。
+3. 玩杯赛时，再把包内的 `Launch-Cup.cmd` 复制到同一目录，保持 Steam 开启并双击脚本。杯赛包已经包含 F9 插件。普通游玩和使用其他 Mod 时，按平时的方式启动游戏。
 
 每个 ZIP 都附有安装与卸载说明。需要检查下载完整性时，可使用 [SHA256SUMS.txt](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.0/SHA256SUMS.txt)。
 
 ## 从源码构建
 
-需要 .NET 8 SDK、PowerShell 7，以及已经用 MelonLoader 0.7.3 启动过的本机游戏。四个项目面向 `net6.0`，首次构建可能需要由 SDK 获取对应的参考包。
+需要 .NET 8 SDK 和 PowerShell 7。游戏目录里应已有 MelonLoader 0.7.3 的 `MelonLoader/net6/`，以及首次启动时生成的 `MelonLoader/Il2CppAssemblies/`。四个项目面向 `net6.0`，首次构建可能需要由 SDK 获取对应的参考包。
 
-请在仓库根目录执行下面的命令，并填入你的游戏目录。
+克隆或下载本仓库源码后，在含 `scripts/` 的仓库根目录打开 PowerShell 7，运行下面两行。在提示处粘贴你电脑上含 `Annihilated.exe` 的文件夹路径。路径可以在任意盘符，文件夹名可以包含空格。
 
 ```powershell
-pwsh -NoProfile -File ./scripts/Build-Releases.ps1 -GameRoot 'D:\SteamLibrary\steamapps\common\Annihilated'
+$gameRoot = (Read-Host '游戏文件夹路径').Trim().Trim('"')
+./scripts/Build-Releases.ps1 -GameRoot $gameRoot
 ```
 
-脚本会构建四个项目，并在 `dist/` 生成四个安装包和 `SHA256SUMS.txt`。也可以单独构建某个 Mod。下面以杯赛为例。
+脚本会构建四个项目，并在仓库的 `dist/` 生成安装包和 `SHA256SUMS.txt`。如果只想构建杯赛 Mod，在同一个窗口设置好 `$gameRoot` 后运行下面这一行。
 
 ```powershell
-dotnet build ./CupMod/AnnihilatedCup.csproj -c Release '-p:GameRoot=D:\SteamLibrary\steamapps\common\Annihilated'
+dotnet build ./CupMod/AnnihilatedCup.csproj -c Release "-p:GameRoot=$gameRoot"
 ```
 
 下面两个逻辑检查可在没有游戏的环境中运行。
