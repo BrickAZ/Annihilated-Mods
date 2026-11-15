@@ -1,0 +1,16 @@
+**/bin/
+**/obj/
+**/__pycache__/
+/.work/
+/dist/
+/.vs/
+/Annihilated_Data/
+/MelonLoader/
+/Mods/
+/UserData/
+*.dll
+*.exe
+*.pdb
+*.nson
+*.log
+*.zip

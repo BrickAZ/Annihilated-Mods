@@ -1,0 +1,20 @@
+《勇者小队全灭了》战斗攻击方式切换 Mod v1.1.0
+
+适用版本为 Windows x64、Steam Build 26646212。
+请先安装 MelonLoader 0.7.3，并正常启动一次游戏，让加载器生成互操作程序集。
+加载器发布页：https://github.com/LavaGang/MelonLoader/releases/tag/v0.7.3
+
+安装
+退出游戏，将压缩包中的 Mods 文件夹解压到 Annihilated.exe 所在目录，
+使 AnnihilatedAttackModeSwitch.dll 位于游戏的 Mods 文件夹内。
+安装后从 Steam 正常启动游戏。
+
+使用
+普通战斗中打开原版设置，在游戏设置的「攻击方式」下拉框选择。
+「决心与意志」是 QTE 判定，「抉择与命运」是概率判定。
+关掉设置后回到同一场战斗，下一次攻击使用新选的方式。
+已经进入攻击条操作时，等这次攻击结束后再打开设置切换。
+通过杯赛入口启动时，沿用杯赛选定的判定方式。
+
+卸载
+退出游戏，删除 Mods\AnnihilatedAttackModeSwitch.dll。

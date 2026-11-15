@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework><Nullable>enable</Nullable><ImplicitUsings>enable</ImplicitUsings>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks><DefaultItemExcludes>$(DefaultItemExcludes);Checks/**</DefaultItemExcludes>
+    <AssemblyName>AnnihilatedCup</AssemblyName>
+    <GameRoot Condition="'$(GameRoot)' == ''">$(MSBuildThisFileDirectory)..</GameRoot>
+    <InteropDir>$(GameRoot)/MelonLoader/Il2CppAssemblies</InteropDir>
+    <LoaderDir>$(GameRoot)/MelonLoader/net6</LoaderDir>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="$(InteropDir)/Il2CppSystem.Core.dll;$(InteropDir)/Unity.InputSystem.dll" Private="false" />
+    <Reference Include="$(LoaderDir)/MelonLoader.dll;$(LoaderDir)/0Harmony.dll;$(LoaderDir)/Il2CppInterop.Runtime.dll" Private="false" />
+    <Reference Include="$(InteropDir)/Il2Cppmscorlib.dll;$(InteropDir)/Assembly-CSharp.dll;$(InteropDir)/Il2CppElringus.Naninovel.Runtime.dll;$(InteropDir)/UnityEngine.CoreModule.dll;$(InteropDir)/UnityEngine.IMGUIModule.dll;$(InteropDir)/UnityEngine.TextRenderingModule.dll;$(InteropDir)/UnityEngine.ImageConversionModule.dll;$(InteropDir)/UnityEngine.UI.dll" Private="false" />
+  </ItemGroup>
+</Project>

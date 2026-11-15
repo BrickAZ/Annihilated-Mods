@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <GameRoot Condition="'$(GameRoot)' == ''">$(MSBuildThisFileDirectory)../..</GameRoot>
+    <InteropDir>$(GameRoot)/MelonLoader/Il2CppAssemblies</InteropDir>
+    <LoaderDir>$(GameRoot)/MelonLoader/net6</LoaderDir>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MelonLoader" HintPath="$(LoaderDir)/MelonLoader.dll" Private="false" />
+    <Reference Include="0Harmony" HintPath="$(LoaderDir)/0Harmony.dll" Private="false" />
+    <Reference Include="Il2CppInterop.Runtime" HintPath="$(LoaderDir)/Il2CppInterop.Runtime.dll" Private="false" />
+    <Reference Include="Il2Cppmscorlib" HintPath="$(InteropDir)/Il2Cppmscorlib.dll" Private="false" />
+    <Reference Include="Il2CppElringus.Naninovel.Runtime" HintPath="$(InteropDir)/Il2CppElringus.Naninovel.Runtime.dll" Private="false" />
+    <Reference Include="Assembly-CSharp" HintPath="$(InteropDir)/Assembly-CSharp.dll" Private="false" />
+    <Reference Include="UnityEngine.CoreModule" HintPath="$(InteropDir)/UnityEngine.CoreModule.dll" Private="false" />
+    <Reference Include="UnityEngine.UI" HintPath="$(InteropDir)/UnityEngine.UI.dll" Private="false" />
+    <Reference Include="UnityEngine.UIModule" HintPath="$(InteropDir)/UnityEngine.UIModule.dll" Private="false" />
+    <Reference Include="Unity.TextMeshPro" HintPath="$(InteropDir)/Unity.TextMeshPro.dll" Private="false" />
+  </ItemGroup>
+</Project>
