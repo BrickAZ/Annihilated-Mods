@@ -8,7 +8,7 @@
 
 主办方可以指定结局或 Boss，统一地图种子、战斗方式、起始楼层和限时。选手在游戏内按当届规则开赛，使用独立的比赛存档。支持重打和死亡额度、罚秒及可选娱乐规则。停表后，选手导出带八位本局编号和事件时间轴的成绩 JSON，连同录像交给裁判。
 
-[下载杯赛 ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.0/Annihilated-Cup-v0.4.11.zip) · [安装与卸载](CupMod/INSTALL.md) · [完整比赛规则](CupMod/README.md)
+[下载杯赛 ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/latest/download/Annihilated-Cup-v0.4.11.zip) · [安装与卸载](CupMod/INSTALL.md) · [完整比赛规则](CupMod/README.md)
 
 ## 杯赛裁判台
 
@@ -22,17 +22,18 @@
 
 | Mod | 功能 | 安装包 |
 | --- | --- | --- |
-| [剧情回放与 CG 画廊](GalleryMod/使用说明.md) | 从标题界面回看 38 个剧情条目、浏览 591 张 CG。可切换主角外观，回放使用独立存档。 | [下载 v1.2.0](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.0/Annihilated-Gallery-v1.2.0.zip) |
-| [F9 重打当前房间](RoomRetryMod/使用说明.md) | 进入新战斗时建立检查点，按 F9 回到本场开头。杯赛中的重打额度和罚秒由当届规则决定。 | [下载 v1.0.1](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.0/Annihilated-RoomRetry-v1.0.1.zip) |
-| [战斗攻击方式切换](AttackModeSwitchMod/使用说明.txt) | 在普通战斗中，从原版设置切换 QTE 或概率判定，下一次攻击采用新方式。 | [下载 v1.1.0](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.0/Annihilated-AttackModeSwitch-v1.1.0.zip) |
+| [剧情回放与 CG 画廊](GalleryMod/使用说明.md) | 从标题界面回看 38 个剧情条目、浏览 591 张 CG。可切换主角外观，回放使用独立存档。 | [下载 v1.2.0](https://github.com/BrickAZ/Annihilated-Mods/releases/latest/download/Annihilated-Gallery-v1.2.0.zip) |
+| [F9 重打当前房间](RoomRetryMod/使用说明.md) | 进入新战斗时建立检查点，按 F9 回到本场开头。杯赛中的重打额度和罚秒由当届规则决定。 | [下载 v1.0.1](https://github.com/BrickAZ/Annihilated-Mods/releases/latest/download/Annihilated-RoomRetry-v1.0.1.zip) |
+| [战斗攻击方式切换](AttackModeSwitchMod/使用说明.txt) | 在普通战斗中，从原版设置切换 QTE 或概率判定，下一次攻击采用新方式。 | [下载 v1.1.0](https://github.com/BrickAZ/Annihilated-Mods/releases/latest/download/Annihilated-AttackModeSwitch-v1.1.0.zip) |
 
 ## 下载与安装
 
-1. 打开含 `Annihilated.exe` 的游戏目录。通过 Steam 安装的玩家可以在库中右键点击游戏，选择「管理 → 浏览本地文件」。给该游戏安装 [MelonLoader 0.7.3](https://github.com/LavaGang/MelonLoader/releases/tag/v0.7.3)，再正常启动一次，等到标题界面出现。
-2. 退出游戏，解压上面相应的安装包。把包内的 `Mods` 文件夹合并到 `Annihilated.exe` 所在目录。
-3. 玩杯赛时，再把包内的 `Launch-Cup.cmd` 复制到同一目录，保持 Steam 开启并双击脚本。杯赛包已经包含 F9 插件。普通游玩和使用其他 Mod 时，按平时的方式启动游戏。
+1. 找到你电脑上含 `Annihilated.exe` 的文件夹。Steam 用户可以在库中右键点击游戏，选择「管理 → 浏览本地文件」。
+2. 退出游戏，按 [MelonLoader 官方安装说明](https://github.com/LavaGang/MelonLoader/blob/v0.7.3/README.md#requirements) 为这个游戏安装 0.7.3。如果安装器没列出游戏，点 **Add Game Manually**，选刚找到的 `Annihilated.exe`。首次配置后，正常启动游戏并等到标题界面，让加载器生成互操作程序集。如果加载器提示缺少 .NET，按官方说明安装 **.NET 6 Desktop Runtime（Windows x64）**。
+3. 退出游戏，完整解压上面相应的 ZIP。把解压出的 `Mods` 文件夹合并到 `Annihilated.exe` 旁边。安装完成后，DLL 应位于游戏目录的 `Mods/` 下。
+4. 玩杯赛时，把 `Launch-Cup.cmd` 复制到 `Annihilated.exe` 旁边再双击。Steam 版请保持 Steam 开启。杯赛包已包含 F9 插件。普通游玩及使用其他 Mod 时，按平时的方式启动游戏。
 
-每个 ZIP 都附有安装与卸载说明。需要检查下载完整性时，可使用 [SHA256SUMS.txt](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.0/SHA256SUMS.txt)。
+请从 Release 的 **Assets** 获取安装包。GitHub 自动生成的 **Source code** 压缩包用于下面的源码构建。核对安装包时，请使用与它同一 Release 的 [SHA256SUMS.txt](https://github.com/BrickAZ/Annihilated-Mods/releases/latest/download/SHA256SUMS.txt)。
 
 ## 从源码构建
 

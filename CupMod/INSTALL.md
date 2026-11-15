@@ -1,20 +1,20 @@
 # 杯赛 Mod v0.4.11 安装说明
 
-适用于 Windows x64、Steam Build 26646212 和 [MelonLoader 0.7.3](https://github.com/LavaGang/MelonLoader/releases/tag/v0.7.3)。
+测试环境为 Windows x64、Steam Build 26646212 和 MelonLoader 0.7.3。下文的「游戏目录」是你电脑上含 `Annihilated.exe` 的文件夹。Steam 用户可在库中右键点击游戏，选择「管理 → 浏览本地文件」。
 
 ## 选手
 
-1. 给已经安装的游戏安装 MelonLoader 0.7.3。先从 Steam 正常启动游戏一次并等待进入标题界面，让加载器生成互操作程序集。
-2. 退出游戏，解压 `Annihilated-Cup-v0.4.11.zip`。在 Steam 库右键点击游戏，选择「管理 → 浏览本地文件」，打开含 `Annihilated.exe` 的目录。
-3. 把压缩包内的 `Mods` 文件夹合并到该目录，再把 `Launch-Cup.cmd` 复制到同一目录。包里已包含配合杯赛使用的 F9 插件 v1.0.1。
-4. 保持 Steam 开启，双击游戏目录中的 `Launch-Cup.cmd`。在标题界面进入「杯赛配置」，按主办方给出的规则开赛。日常游戏仍可从 Steam 正常启动。
-5. 停表后点杯赛 HUD 下方的「导出比赛成绩」。提交 `UserData/AnnihilatedCup/exports` 内本局的 JSON 和录像，用八位本局编号对应两份材料。
+1. 按 [MelonLoader 官方安装说明](https://github.com/LavaGang/MelonLoader/blob/v0.7.3/README.md#requirements) 给游戏安装 0.7.3。如果加载器提示缺少 .NET，按官方说明安装 .NET 6 Desktop Runtime（Windows x64）。首次配置后，正常启动游戏并等到标题界面。
+2. 退出游戏，完整解压 `Annihilated-Cup-v0.4.11.zip`。把解压出的 `Mods` 文件夹合并到游戏目录，再把 `Launch-Cup.cmd` 复制到 `Annihilated.exe` 旁边。
+3. 确认游戏目录里有 `Launch-Cup.cmd`、`Mods/AnnihilatedCup.dll` 和 `Mods/AnnihilatedRoomRetry.dll`。后者随杯赛包附带，版本为 v1.0.1。
+4. 打杯赛时双击游戏目录中的 `Launch-Cup.cmd`。Steam 版请保持 Steam 开启。在标题界面进入「杯赛配置」，按主办方给出的规则开赛。日常游玩按平时的方式启动游戏。
+5. 停表后点杯赛 HUD 下方的「导出比赛成绩」。提交游戏目录中 `UserData/AnnihilatedCup/exports` 下的本局 JSON 和录像，用八位本局编号对应两份材料。
 
 如果标题上未显示「杯赛配置」，检查 `Mods/AnnihilatedCup.dll` 的位置和 `MelonLoader/Latest.log`，并确认已经用 `Launch-Cup.cmd` 启动。
 
 ## 裁判
 
-解压后可直接在浏览器打开 `Cup-Referee.html`，详见[裁判台说明](REFEREE.md)。
+双击解压目录中的 `Cup-Referee.html` 即可在浏览器离线使用。裁判只需浏览器，操作见[裁判台说明](REFEREE.md)。
 
 ## 卸载
 

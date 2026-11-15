@@ -1,15 +1,15 @@
 # 《勇者小队全灭了。》杯赛 Mod
 
-适用于 Windows x64 Steam Build 26646212。使用 MelonLoader 0.7.3 和当前游戏生成的 IL2CPP 互操作程序集。
+测试环境为 Windows x64、Steam Build 26646212 和 MelonLoader 0.7.3。运行依赖玩家本机游戏生成的 IL2CPP 互操作程序集。
 
-首次使用见[安装与卸载](INSTALL.md)。主办方可以直接打开 [Cup-Referee.html](Cup-Referee.html)，并用[裁判台说明](REFEREE.md)中的虚构成绩试用。
+首次使用见[安装与卸载](INSTALL.md)。主办方可以从杯赛 ZIP 中解压 `Cup-Referee.html`，并按[裁判台说明](REFEREE.md)用虚构成绩试用。
 
 ## 开赛
 
-1. 保持 Steam 开启，退出已打开的游戏，在游戏目录双击 `Launch-Cup.cmd`。也可以给 `Annihilated.exe` 加参数 `--annihilated-cup`。
+1. 退出已打开的游戏，在含 `Annihilated.exe` 的目录双击 `Launch-Cup.cmd`。Steam 版请保持 Steam 开启。也可以给 `Annihilated.exe` 加参数 `--annihilated-cup`。
 2. 在标题界面的「杯赛配置」选择比赛模式、目标和战斗方式，输入杯赛编号、地图种子、限时和起始楼层，然后点「开始杯赛」。开局跳过取名、教程及序章谈话。指定结局时从起始楼层首区开始计时，指定 Boss 时从选择同伴开始计时。「献祭仪式」直接进入献祭场景。
 3. 地图岔路由选手自行决定。达成指定目标、正式战败或限时用尽时停表。
-4. 日常游戏从 Steam 正常启动。比赛模式单独使用 NaninovelData/CupSaves 下的新档目录。普通读档、快速读档和回滚在杯赛中禁用。一局结束后退出游戏，再用启动脚本开下一局。
+4. 日常游玩按平时的方式启动游戏。比赛模式单独使用 `NaninovelData/CupSaves` 下的新档目录。普通读档、快速读档和回滚在杯赛中禁用。一局结束后退出游戏，再用启动脚本开下一局。
 
 原版存档页和文字输入框打开时停表。固定演出，以及原版快进正在推进的对白或可跳过的剧情等待，也会停表。地图选格、同伴和剧情选项、整备、战斗判定照常计时，包括按住 Ctrl 时。限时使用同一个计时器。
 

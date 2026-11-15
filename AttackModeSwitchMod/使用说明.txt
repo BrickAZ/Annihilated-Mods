@@ -1,13 +1,17 @@
 《勇者小队全灭了》战斗攻击方式切换 Mod v1.1.0
 
-适用版本为 Windows x64、Steam Build 26646212。
-请先安装 MelonLoader 0.7.3，并正常启动一次游戏，让加载器生成互操作程序集。
-加载器发布页：https://github.com/LavaGang/MelonLoader/releases/tag/v0.7.3
+测试环境为 Windows x64、Steam Build 26646212 和 MelonLoader 0.7.3。
+游戏目录是你电脑上含 Annihilated.exe 的文件夹。
+Steam 用户可通过游戏库的「管理 → 浏览本地文件」打开。
 
 安装
-退出游戏，将压缩包中的 Mods 文件夹解压到 Annihilated.exe 所在目录，
-使 AnnihilatedAttackModeSwitch.dll 位于游戏的 Mods 文件夹内。
-安装后从 Steam 正常启动游戏。
+1. 按下面的官方说明给游戏安装 MelonLoader 0.7.3。
+   https://github.com/LavaGang/MelonLoader/blob/v0.7.3/README.md#requirements
+   如果加载器提示缺少 .NET，按官方说明安装 .NET 6 Desktop Runtime（Windows x64）。
+   首次配置后，正常启动游戏并等到标题界面。
+2. 退出游戏并解压 ZIP。将包内的 Mods 文件夹合并到游戏目录，
+   确认 DLL 位于游戏目录的 Mods\AnnihilatedAttackModeSwitch.dll。
+3. 按平时的方式启动游戏。
 
 使用
 普通战斗中打开原版设置，在游戏设置的「攻击方式」下拉框选择。
