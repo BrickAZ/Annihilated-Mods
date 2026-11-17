@@ -74,14 +74,14 @@ public sealed partial class CupMod
     private void ObserveCurseMenu(string script, int line)
     {
         if (script != "GameOver") return;
-        // Only the death-menu entry calls BuyByCurseCore through line 269. Its other callers have their own rules.
-        if (line is 0 or 270 or 322)
+        // Only the death-menu entry calls BuyByCurseCore through line 272. Its other callers have their own rules.
+        if (line is 0 or 273 or 326)
         {
             cursePoolDungeon = 0;
             cursePool = null;
         }
-        else if (line == 269) cursePoolDungeon = Number("dungeonId");
-        else if (line == 299 && cursePoolDungeon > 0)
+        else if (line == 272) cursePoolDungeon = Number("dungeonId");
+        else if (line == 303 && cursePoolDungeon > 0)
             cursePool = BuildCursePool(cursePoolDungeon);
     }
 

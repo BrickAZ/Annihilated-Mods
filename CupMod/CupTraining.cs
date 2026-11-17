@@ -75,7 +75,7 @@ public sealed partial class CupMod
         if (Active is not { Run.Running: true, Settings.HarshTraining: true } cup || string.IsNullOrEmpty(__0))
             return true;
         var spot = cup.player!.PlaybackSpot;
-        bool nativeStealAttack = spot.ScriptName == "Action" && spot.LineIndex == 1307 &&
+        bool nativeStealAttack = spot.ScriptName == "Action" && spot.LineIndex == 1316 &&
             cup.Read("actionType") == "stealAttack" && cup.Read("actionUserId") is "player" or "partner";
         if (!cup.buildingTrainingStealBar && !nativeStealAttack) return true;
         if (!cup.HasTrainingStealTarget(__0, out int id) || !EnemyCustomFunctions.IsEnemyTargetable(id))
@@ -127,19 +127,19 @@ public sealed partial class CupMod
         if (script != "Battle") return;
         switch (line)
         {
-            case 1809:
+            case 1820:
                 companionHasStealSkill = false;
                 break;
-            case 1910 when Read("turnCharacter") == "partner":
+            case 1921 when Read("turnCharacter") == "partner":
                 companionHasStealSkill |= HasNativeSteal(Number("actionNumber"));
                 break;
-            case 2028 when trainingSmoke && Read("turnCharacter") == "partner" &&
+            case 2041 when trainingSmoke && Read("turnCharacter") == "partner" &&
                 Environment.GetCommandLineArgs().Contains("--annihilated-cup-training-native-card-smoke", StringComparer.Ordinal):
                 // Reproduce the native warrior-hand configuration at the point where the game chooses its basic card.
                 vars!.SetVariableValue("partnerCharacter", "warrior");
                 vars.SetVariableValue("xSwitchSlimeWarriorSpecialWeaponActive", "1");
                 break;
-            case 2044:
+            case 2057:
                 string actor = Read("turnCharacter");
                 bool show = actor == "player" || actor == "partner" &&
                     !companionHasStealSkill && !HasNativeSteal(Number("defaultActionNumber"));
@@ -225,7 +225,7 @@ public sealed partial class CupMod
                     yield break;
                 }
                 var choices = UnityEngine.Object.FindObjectsByType<ChoiceHandlerButton>(FindObjectsSortMode.None);
-                if (!clicked && player!.PlaybackSpot.ScriptName == "Battle" && player.PlaybackSpot.LineIndex == 2123)
+                if (!clicked && player!.PlaybackSpot.ScriptName == "Battle" && player.PlaybackSpot.LineIndex == 2137)
                 {
                     var basic = choices.FirstOrDefault(choice => choice.ChoiceState?.Summary == Read("defaultActionNumber") &&
                         ActiveButton(choice) != null);

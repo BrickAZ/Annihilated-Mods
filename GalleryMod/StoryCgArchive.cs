@@ -16,6 +16,7 @@ internal sealed class StoryCgArchive : IDisposable
         public string Asset { get; set; }
         public string Actor { get; set; }
         public string Key => $"{Script}-{Line}";
+        public int PlaybackLine { get; set; }
     }
 
     private readonly string directory = Path.Combine(AppContextPath.GameRoot, "UserData", "AnnihilatedGallery", "StoryCG");
@@ -36,10 +37,18 @@ internal sealed class StoryCgArchive : IDisposable
         using var stream = typeof(StoryCgArchive).Assembly.GetManifestResourceStream("AnnihilatedGallery.StoryCgMarks");
         var entries = JsonSerializer.Deserialize<Mark[]>(stream);
         contextDirectory = Path.Combine(directory, "SceneContext");
-        marks = entries.ToDictionary(mark => (mark.Script, mark.Line));
+        marks = new Dictionary<(string Script, int Line), Mark>();
         filenames = new Dictionary<string, Mark>(StringComparer.Ordinal);
+        var game = GalleryGameBuild.Current;
+        var lines = game?.Lines?.StoryCg;
         foreach (var mark in entries)
+        {
             filenames.Add(mark.Key, mark);
+            mark.PlaybackLine = lines != null && lines.TryGetValue(mark.Script, out var script) &&
+                script.TryGetValue(mark.Line, out int line) ? line : mark.Line;
+            if (game != null)
+                marks.Add((mark.Script, mark.PlaybackLine), mark);
+        }
         this.warn = warn;
         player = Engine.GetService<IScriptPlayer>().Cast<CustomScriptPlayer>();
         listener = (Il2CppSystem.Action<Command>)OnCommand;
@@ -78,7 +87,7 @@ internal sealed class StoryCgArchive : IDisposable
         string filename = $"{mark.Key}-{variant}.png";
         // Older captures don't record whether they came from normal play or a replay with missing scenery.
         string targetDirectory = scenes.Any(scene => scene.InheritedBackdrop != null && scene.Script == mark.Script &&
-            mark.Line >= scene.Start && mark.Line < scene.End) ? contextDirectory : directory;
+            mark.PlaybackLine >= scene.Start && mark.PlaybackLine < scene.End) ? contextDirectory : directory;
         string path = Path.Combine(targetDirectory, filename);
         if (File.Exists(path))
             return;

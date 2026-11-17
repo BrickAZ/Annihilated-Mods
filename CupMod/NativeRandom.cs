@@ -35,7 +35,7 @@ internal sealed class NativeRandom : IDisposable
     {
         var module = Process.GetCurrentProcess().Modules.Cast<ProcessModule>()
             .Single(m => string.Equals(m.ModuleName, "GameAssembly.dll", StringComparison.OrdinalIgnoreCase));
-        var address = module.BaseAddress + 0x830e70;
+        var address = module.BaseAddress + 0x860f30;
         callback = RunMap;
         var callbackPointer = Marshal.GetFunctionPointerForDelegate(callback);
         mapHook = new NativeHook<MapMoveNext>(address, callbackPointer);
@@ -43,11 +43,11 @@ internal sealed class NativeRandom : IDisposable
         if (mapHook.TrampolineHandle == address) throw new InvalidOperationException("Map generation hook failed.");
         trampoline = mapHook.Trampoline;
         saveCallback = InitializeSaveState;
-        saveHook = new NativeHook<StateConstructor>(module.BaseAddress + 0xaf96c0, Marshal.GetFunctionPointerForDelegate(saveCallback));
+        saveHook = new NativeHook<StateConstructor>(module.BaseAddress + 0xb17770, Marshal.GetFunctionPointerForDelegate(saveCallback));
         saveHook.Attach();
         if (saveHook.TrampolineHandle == saveHook.Target) throw new InvalidOperationException("Save isolation hook failed.");
         clickCallback = SelectMapTile;
-        clickHook = new NativeHook<MapClick>(module.BaseAddress + 0x7b0ba0, Marshal.GetFunctionPointerForDelegate(clickCallback));
+        clickHook = new NativeHook<MapClick>(module.BaseAddress + 0x7c8920, Marshal.GetFunctionPointerForDelegate(clickCallback));
         clickHook.Attach();
         if (clickHook.TrampolineHandle == clickHook.Target) throw new InvalidOperationException("Map choice hook failed.");
         ItemSource = (Il2CppSystem.Func<double>)NextItem;

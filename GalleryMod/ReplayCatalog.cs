@@ -24,6 +24,16 @@ internal static class ReplayCatalog
     {
         using var stream = typeof(ReplayCatalog).Assembly.GetManifestResourceStream("AnnihilatedGallery.Replays")
             ?? throw new InvalidDataException("缺少剧情回放索引。");
-        return JsonSerializer.Deserialize<ReplayEntry[]>(stream);
+        var entries = JsonSerializer.Deserialize<ReplayEntry[]>(stream);
+        var lines = GalleryGameBuild.Current?.Lines?.Replays;
+        if (lines != null)
+        {
+            foreach (var entry in entries)
+            {
+                if (lines.TryGetValue(entry.Id, out var bounds))
+                    (entry.Start, entry.End) = (bounds[0], bounds[1]);
+            }
+        }
+        return entries;
     }
 }

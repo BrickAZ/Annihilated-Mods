@@ -11,6 +11,7 @@
     <EmbeddedResource Include="GalleryCatalog.json" LogicalName="AnnihilatedGallery.Catalog" />
     <EmbeddedResource Include="ReplayCatalog.json" LogicalName="AnnihilatedGallery.Replays" />
     <EmbeddedResource Include="StoryCgMarks.json" LogicalName="AnnihilatedGallery.StoryCgMarks" />
+    <EmbeddedResource Include="GalleryCoordinates.26705080.json" LogicalName="AnnihilatedGallery.Coordinates.26705080" />
     <Reference Include="MelonLoader" HintPath="$(LoaderDir)/MelonLoader.dll" Private="false" />
     <Reference Include="0Harmony" HintPath="$(LoaderDir)/0Harmony.dll" Private="false" />
     <Reference Include="Il2CppInterop.Runtime" HintPath="$(LoaderDir)/Il2CppInterop.Runtime.dll" Private="false" />

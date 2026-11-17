@@ -33,7 +33,7 @@ foreach ($project in $projects) {
 }
 
 $packages = [ordered]@{
-    'Annihilated-Cup-v0.4.11.zip' = [ordered]@{
+    'Annihilated-Cup-v0.4.12.zip' = [ordered]@{
         'Mods/AnnihilatedCup.dll' = $cup
         'Mods/AnnihilatedRoomRetry.dll' = $retry
         'Launch-Cup.cmd' = 'CupMod/Launch-Cup.cmd'
@@ -42,7 +42,7 @@ $packages = [ordered]@{
         'REFEREE.md' = 'CupMod/REFEREE.md'
         'examples/example-ritual.json' = 'CupMod/examples/example-ritual.json'
     }
-    'Annihilated-Gallery-v1.2.0.zip' = [ordered]@{
+    'Annihilated-Gallery-v1.2.1.zip' = [ordered]@{
         'Mods/AnnihilatedGallery.dll' = $gallery
         'INSTALL.md' = 'GalleryMod/使用说明.md'
     }
@@ -53,6 +53,10 @@ $packages = [ordered]@{
     'Annihilated-AttackModeSwitch-v1.1.0.zip' = [ordered]@{
         'Mods/AnnihilatedAttackModeSwitch.dll' = $attack
         'INSTALL.txt' = 'AttackModeSwitchMod/使用说明.txt'
+    }
+    'Annihilated-SaveSlotUnlimiter-v1.25-Build26705080-Patch.zip' = [ordered]@{
+        'Patch-Slot125.ps1' = 'SaveSlotUnlimiter/Patch-Slot125.ps1'
+        'README.md' = 'SaveSlotUnlimiter/README.md'
     }
 }
 

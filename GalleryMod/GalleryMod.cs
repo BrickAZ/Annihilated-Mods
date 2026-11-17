@@ -3,7 +3,7 @@ using Il2CppNaninovel.UI;
 using MelonLoader;
 using UnityEngine;
 
-[assembly: MelonInfo(typeof(AnnihilatedGallery.GalleryMod), "Annihilated CG Gallery", "1.2.0", "Brick")]
+[assembly: MelonInfo(typeof(AnnihilatedGallery.GalleryMod), "Annihilated CG Gallery", "1.2.1", "Brick")]
 [assembly: MelonGame("DeathKumiai", "Annihilated")]
 
 namespace AnnihilatedGallery;

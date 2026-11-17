@@ -18,8 +18,8 @@ internal sealed record BossGoal(string Id, string Name, int Floor)
     };
 
     public static bool IsVictoryMarker(string script, int line) => (script, line) is
-        ("Battle", 3509 or 4407 or 13761) or
-        ("Scenario_Hero5", 1578) or ("Scenario_Priest5", 300);
+        ("Battle", 3552 or 4453 or 13834) or
+        ("Scenario_Hero5", 1587) or ("Scenario_Priest5", 301);
 
     public static string BattleId(string target, string enemies) => target.Length > 0 ? target : enemies switch
     {
@@ -43,11 +43,11 @@ internal sealed record BossGoal(string Id, string Name, int Floor)
         return (script, line) switch
         {
             // The hero finisher reports a generic win signal even when it misses.
-            ("Scenario_Hero5", 1578) when heroFinisher && dungeon == 5 => ForBattle("priest", dungeon),
-            ("Scenario_Priest5", 300) when dungeon == 7 => ForBattle("priest", dungeon),
-            ("Battle", 4407) when battle == "priest" && dungeon == 8 => ForBattle(battle, dungeon),
-            ("Battle", 13761) when battle == "warriorFinalDuel" => ForBattle(battle, dungeon),
-            ("Battle", 3509) when battle != "priest" || dungeon != 5 => ForBattle(battle, dungeon),
+            ("Scenario_Hero5", 1587) when heroFinisher && dungeon == 5 => ForBattle("priest", dungeon),
+            ("Scenario_Priest5", 301) when dungeon == 7 => ForBattle("priest", dungeon),
+            ("Battle", 4453) when battle == "priest" && dungeon == 8 => ForBattle(battle, dungeon),
+            ("Battle", 13834) when battle == "warriorFinalDuel" => ForBattle(battle, dungeon),
+            ("Battle", 3552) when battle != "priest" || dungeon != 5 => ForBattle(battle, dungeon),
             _ => null
         };
     }

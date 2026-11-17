@@ -1,7 +1,5 @@
-using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
-using System.Security.Cryptography;
 using System.Text.Json;
 using HarmonyLib;
 using Il2CppNaninovel;
@@ -15,15 +13,11 @@ namespace AnnihilatedGallery;
 
 internal sealed class ReplayWorker : IDisposable
 {
-    private const string GameHash = "38F5ADA37FEC235248A61971C06E4ACCF4C95A74B5C74FCCBE32412AB04C26F1";
-    private const int StateManagerConstructor = 11507392;
     private const string WorkerArg = "--gallery-worker=";
     private const string SessionArg = "--gallery-session=";
     private const string LocaleArg = "--gallery-locale=";
     private const string AppearanceArg = "--gallery-appearance=";
     private const string PreludeScript = "GalleryReplayPrelude";
-    // The final return of Func.ShowBackground, after ShowPreparedObjectBackground.
-    private const int BackgroundReturnLine = 530;
     private static readonly string[] DungeonLayers = { "FrameBackground", "FarBackground", "RoadBackground", "SceneBackground" };
     private enum Stage { Title, Locale, Initializing, Redirect, PrepareBackdrop, BackdropReady, Load, Playing, Done }
 
@@ -36,6 +30,7 @@ internal sealed class ReplayWorker : IDisposable
     private readonly string locale;
     private readonly bool longHair;
     private readonly string profile;
+    private readonly int backgroundReturnLine;
     private readonly StateConstructor intercept;
     private readonly NativeHook<StateConstructor> saveHook;
     private Stage stage;
@@ -58,32 +53,29 @@ internal sealed class ReplayWorker : IDisposable
 
     public static ReplayWorker Open(string[] arguments, HarmonyLib.Harmony harmony, Action<string> log)
     {
+        var game = GalleryGameBuild.Current
+            ?? throw new InvalidOperationException("剧情回放尚未适配当前游戏版本。");
         string entryId = Value(arguments, WorkerArg);
         string sessionId = Value(arguments, SessionArg);
         if (!Guid.TryParseExact(sessionId, "N", out Guid id))
             throw new InvalidOperationException("剧情回放缺少存档隔离标识。");
         var entry = ReplayCatalog.Read().SingleOrDefault(item => item.Id == entryId)
             ?? throw new InvalidOperationException("找不到剧情回放条目。");
-        return new ReplayWorker(entry, id.ToString("N"), Value(arguments, LocaleArg),
+        return new ReplayWorker(game, entry, id.ToString("N"), Value(arguments, LocaleArg),
             Value(arguments, AppearanceArg) == "1", harmony, log);
     }
 
-    private ReplayWorker(ReplayEntry entry, string session, string locale, bool longHair, HarmonyLib.Harmony harmony, Action<string> log)
+    private ReplayWorker(GalleryGameBuild game, ReplayEntry entry, string session, string locale, bool longHair, HarmonyLib.Harmony harmony, Action<string> log)
     {
         this.entry = entry;
         this.locale = locale;
         this.longHair = longHair;
         this.log = log;
         profile = $"GalleryReplayProfiles/{session}";
+        backgroundReturnLine = game.BackgroundReturnLine;
 
-        // The native hook is tied to this exact shipping IL2CPP build.
-        var game = Process.GetCurrentProcess().Modules.Cast<ProcessModule>().Single(m => m.ModuleName == "GameAssembly.dll");
-        using var binary = File.OpenRead(game.FileName);
-        using var hash = SHA256.Create();
-        if (!Convert.ToHexString(hash.ComputeHash(binary)).Equals(GameHash, StringComparison.Ordinal))
-            throw new InvalidOperationException("剧情回放尚未适配当前游戏版本。");
         intercept = SetSaveProfile;
-        saveHook = new NativeHook<StateConstructor>(game.BaseAddress + StateManagerConstructor,
+        saveHook = new NativeHook<StateConstructor>(game.StateManagerConstructor,
             Marshal.GetFunctionPointerForDelegate(intercept));
         saveHook.Attach();
         if (saveHook.TrampolineHandle == saveHook.Target)
@@ -326,7 +318,7 @@ internal sealed class ReplayWorker : IDisposable
         var spot = __instance.PlaybackSpot;
         string type = __instance.GetIl2CppType().Name;
         bool preludeEnd = spot.ScriptName == PreludeScript && type == "Stop" ||
-                          spot.ScriptName == "Func" && spot.LineIndex == BackgroundReturnLine;
+                          spot.ScriptName == "Func" && spot.LineIndex == worker.backgroundReturnLine;
         if (worker.stage == Stage.PrepareBackdrop && preludeEnd && worker.IsCurrent(spot))
         {
             worker.stage = Stage.BackdropReady;

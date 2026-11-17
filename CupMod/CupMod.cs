@@ -18,9 +18,10 @@ namespace CupCompetition;
 
 public sealed partial class CupMod : MelonMod
 {
-    public const string Version = "0.4.11";
-    internal const string BuildHash = "38F5ADA37FEC235248A61971C06E4ACCF4C95A74B5C74FCCBE32412AB04C26F1";
-    internal const string CatalogHash = "b9254bd24d0daef581f2186fa1da77c5";
+    public const string Version = "0.4.12";
+    internal const int GameBuild = 26705080;
+    internal const string BuildHash = "13B13F97BBE50154B451753351656F99595AE0A542586097F27536F55C24F3C4";
+    internal const string CatalogHash = "c867cf04b05171a82710f970f4122af7";
     internal const string ModeVariable = "xSwitchGameCursorOperationMode";
     private const string RoomRetrySlot = "AnnihilatedRoomRetryCheckpoint";
     private const string Profile = "AnnihilatedCup";
@@ -146,7 +147,7 @@ public sealed partial class CupMod : MelonMod
             using var sha = SHA256.Create();
             if (Convert.ToHexString(sha.ComputeHash(assembly)) != BuildHash ||
                 File.ReadAllText(Path.Combine(game, "Annihilated_Data", "StreamingAssets", "aa", "catalog.hash")).Trim() != CatalogHash)
-                throw new InvalidDataException("游戏版本不匹配。需要 Steam Build 26646212。");
+                throw new InvalidDataException($"游戏版本不匹配。需要 Steam Build {GameBuild}。");
             setup = new CupSetup(smoke ? new CupSettings { EventId = "Smoke" } : ReadLastSetup(config));
             if (smoke)
             {
@@ -423,8 +424,8 @@ public sealed partial class CupMod : MelonMod
     }
 
     private static bool IsStartingConfirmation(int line) => line is
-        >= 2017 and <= 2019 or >= 2025 and <= 2027 or >= 2398 and <= 2400 or
-        >= 2466 and <= 2468 or >= 2853 and <= 2860;
+        >= 2020 and <= 2022 or >= 2028 and <= 2030 or >= 2402 and <= 2404 or
+        >= 2470 and <= 2472 or >= 2859 and <= 2866;
 
     private static bool FilterScriptCommand(Command __instance, ref bool __result)
     {
@@ -443,20 +444,20 @@ public sealed partial class CupMod : MelonMod
         }
         var spot = __instance.PlaybackSpot;
         if (cup.Settings.HarshTraining && spot.ScriptName == "Battle" &&
-            (spot.LineIndex is 1960 or 2044 || cup.IsTrainingKickChoice && spot.LineIndex is 1896 or 1901 or 1909))
+            (spot.LineIndex is 1973 or 2057 || cup.IsTrainingKickChoice && spot.LineIndex is 1907 or 1912 or 1920))
         {
-            __result = spot.LineIndex == 2044;
+            __result = spot.LineIndex == 2057;
             return false;
         }
         if (cup.openingDeathInProgress && spot.ScriptName == "GameOver")
         {
-            if (spot.LineIndex is 37 or 38 or 39 or 123 or 124 or 125)
+            if (spot.LineIndex is 39 or 40 or 41 or 126 or 127 or 128)
             {
                 // Keep the original starting inventory and skip ordinary death rewards.
                 __result = false;
                 return false;
             }
-            if (spot.LineIndex == 695)
+            if (spot.LineIndex == 707)
             {
                 // Return after revival, keeping the unspent starting curse instead of converting it to XP.
                 __result = true;
@@ -467,11 +468,11 @@ public sealed partial class CupMod : MelonMod
         bool skip = spot.ScriptName switch
         {
             "Opening" => type is nameof(PrintText) or nameof(Wait) or nameof(ImpulseDisplay)
-                || spot.LineIndex is 249 or 250 or 257 or >= 292 and <= 309,
+                || spot.LineIndex is 249 or 250 or 257 or >= 293 and <= 310,
             "Opening2" => type is nameof(PrintText) or nameof(Wait) or nameof(ImpulseDisplay),
             "Opening3" => type is nameof(PrintText) or nameof(Wait) or nameof(ImpulseDisplay)
                 || (cup.Target is { Partner: not "common" } && type == nameof(Stop) && IsStartingConfirmation(spot.LineIndex)),
-            "Func" => spot.LineIndex is 1347 or 1349 or 1350,
+            "Func" => spot.LineIndex is 1370 or 1372 or 1373,
             _ => false
         };
         if (!skip) return true;
@@ -581,7 +582,7 @@ public sealed partial class CupMod : MelonMod
             }
             scriptEvents++;
             if ((!explorationStarted && script == "Dungeon" && line is 335 or 336) ||
-                (!clockStarted && script == "Opening3" && line is >= 1983 and <= 1986))
+                (!clockStarted && script == "Opening3" && line is >= 1986 and <= 1989))
             {
                 // Let the first screen enter its input loop while the native choice UI finishes loading.
                 command.Wait = false;
@@ -592,12 +593,12 @@ public sealed partial class CupMod : MelonMod
                     command.Cast<Goto>().Path = new NamedString("Opening3", "PartnerChoice");
                 if (script == "Opening3" && Target is { Partner: not "common" } locked)
                 {
-                    if (line == 1962)
+                    if (line == 1964)
                     {
                         string name = char.ToUpperInvariant(locked.Partner[0]) + locked.Partner[1..];
                         command.Cast<Gosub>().Path = new NamedString("Opening3", "PartnerChoice" + name);
                     }
-                    else if (line == 2488)
+                    else if (line == 2492)
                         command.Cast<Goto>().Path = new NamedString("Opening3", "MageChoiceNotYakutatazu");
                 }
                 ShortenOpeningAnimation(command, script, line);
@@ -607,7 +608,7 @@ public sealed partial class CupMod : MelonMod
             cutsceneCommand = IsLockedPresentation(command, commandType, waitMode) ? command.Pointer : IntPtr.Zero;
             dialogueCommand = commandType == nameof(PrintText) || waitMode?.StartsWith("i", StringComparison.Ordinal) == true
                 ? command.Pointer : IntPtr.Zero;
-            if (!startRedirected && script == "First" && line == 284)
+            if (!startRedirected && script == "First" && line == 285)
             {
                 RedirectCupStart(command.Cast<Goto>());
             }
@@ -617,9 +618,9 @@ public sealed partial class CupMod : MelonMod
             if (WeaponRulesActive) ObserveWeaponRules(script, line);
             if (Settings.RunKnife) HandleKnifeCommand(command, script, line);
             if (Settings.HarshTraining) HandleTrainingCommand(command, script, line);
-            bool nativeStart = Boss != null ? (script, line) == ("Opening3", 1987) :
-                Target?.Id == "ritual" ? (script, line) == ("Opening3", 1440) :
-                !explorationStarted && (script, line) == ("Dungeon", 337);
+            bool nativeStart = Boss != null ? (script, line) == ("Opening3", 1990) :
+                Target?.Id == "ritual" ? (script, line) == ("Opening3", 1441) :
+                !explorationStarted && (script, line) == ("Dungeon", 338);
             if (!clockStarted && (nativeStart || openingDeathMenuReady))
             {
                 clockStarted = true;
@@ -631,7 +632,7 @@ public sealed partial class CupMod : MelonMod
             if (smoke && nativeStart) MelonCoroutines.Start(VerifyStartForSmoke());
             if (Run.Paused || cutsceneCommand != IntPtr.Zero || dialogueCommand != IntPtr.Zero) UpdateTimerPause();
 
-            if (script == "Dungeon" && line == 337)
+            if (script == "Dungeon" && line == 338)
             {
                 ObserveMap();
                 if (!explorationStarted && Target is { } target && Read("partnerCharacter") != target.Partner)
@@ -642,7 +643,7 @@ public sealed partial class CupMod : MelonMod
                 explorationStarted = true;
             }
 
-            if (script == "Dungeon" && line == 354)
+            if (script == "Dungeon" && line == 356)
             {
                 int dungeon = Number("dungeonId"), section = Number("sectionId");
                 int x = Number("dungeonX"), y = Number("mapChosenSpaceY");
@@ -651,7 +652,7 @@ public sealed partial class CupMod : MelonMod
                 seededTiles++;
             }
 
-            if ((script == "GameOver" && line == 0 && !openingDeathInProgress || script == "Opening" && line == 386) &&
+            if ((script == "GameOver" && line == 0 && !openingDeathInProgress || script == "Opening" && line == 388) &&
                 !Flag("xSwitchWarrior5LvUpGameOver") && !Flag("xSwitchTutorialCurseUsage"))
             {
                 bool allowed = Run.RecordDeath(Settings.MaxDeaths, Settings.DeathPenaltySeconds);
@@ -676,7 +677,7 @@ public sealed partial class CupMod : MelonMod
                 Finish(earlyEnding == Target?.Id ? "clear" : "wrong_ending");
                 return;
             }
-            if (script == "Ending" && line == 31)
+            if (script == "Ending" && line == 33)
             {
                 if (Flag("xSwitchEndingSkipHistory")) return;
                 string ending = Read("endingType");
@@ -690,7 +691,7 @@ public sealed partial class CupMod : MelonMod
 
             if (Boss is { } boss)
             {
-                if (script == "Battle" && line == 3)
+                if (script == "Battle" && line == 4)
                     bossBattle = BossGoal.BattleId(Read("battleTarget"), Read("addEnemyResourceNames"));
                 if (BossGoal.IsVictoryMarker(script, line) && BossGoal.WinAt(script, line, ReadBattleTarget(),
                         Number("dungeonId"), script == "Scenario_Hero5" && Flag("tempHeroRoute5StealHit")) == boss)
@@ -700,8 +701,8 @@ public sealed partial class CupMod : MelonMod
                 return;
             }
 
-            if (script == "Scenario_Hero3" && line == 2035 && !HeroChoiceAvailable() ||
-                script == "Scenario_Priest3" && line == 1163 && !PriestChoiceAvailable())
+            if (script == "Scenario_Hero3" && line == 2038 && !HeroChoiceAvailable() ||
+                script == "Scenario_Priest3" && line == 1167 && !PriestChoiceAvailable())
             {
                 Finish("required_choice_locked");
                 return;
@@ -709,7 +710,7 @@ public sealed partial class CupMod : MelonMod
 
             if (script == "Dungeon" && UsesMageDetour &&
                 Number("dungeonId") == 9 && Number("sectionId") == 2 &&
-                (line == 479 || line == 1423))
+                (line == 486 || line == 1439))
             {
                 Finish("wrong_story_branch");
                 return;
@@ -754,13 +755,13 @@ public sealed partial class CupMod : MelonMod
             audit!.Record(Run, "opening_death", "exempt");
             LoggerInstance.Msg("Cup opening death: no death count or penalty.");
         }
-        else if (script == "GameOver" && line == 211 && openingDeathInProgress && !openingDeathMenuReady)
+        else if (script == "GameOver" && line == 214 && openingDeathInProgress && !openingDeathMenuReady)
         {
             openingDeathMenuReady = true;
             if (curseUiSmoke) MelonCoroutines.Start(VerifyCurseUiForSmoke());
             else if (openingRulesSmoke) MelonCoroutines.Start(VerifyOpeningDeathForSmoke());
         }
-        else if (script == "Dungeon" && line == 337)
+        else if (script == "Dungeon" && line == 338)
         {
             openingDeathInProgress = false;
             openingDeathMenuReady = false;
@@ -786,7 +787,7 @@ public sealed partial class CupMod : MelonMod
 
     private static void ShortenOpeningAnimation(Command command, string script, int line)
     {
-        if (script == "Func" && line != 95 || script is not ("Opening" or "Opening2" or "Opening3" or "Func"))
+        if (script == "Func" && line != 99 || script is not ("Opening" or "Opening2" or "Opening3" or "Func"))
             return;
         switch (command.GetIl2CppType().Name)
         {
@@ -817,12 +818,12 @@ public sealed partial class CupMod : MelonMod
         try
         {
             var spot = command.PlaybackSpot;
-            if (Run.Running && Settings.HarshTraining && spot.ScriptName == "Action" && spot.LineIndex == 1306)
+            if (Run.Running && Settings.HarshTraining && spot.ScriptName == "Action" && spot.LineIndex == 1315)
             {
                 AllowTrainingStealAfterHit();
                 if (trainingSmoke) TraceTrainingHitForSmoke();
             }
-            if (Run.Running && spot.ScriptName == "Func" && spot.LineIndex == 133)
+            if (Run.Running && spot.ScriptName == "Func" && spot.LineIndex == 137)
             {
                 stealAddActive = false;
                 if (Settings.RunKnife && waitingForStolenItem) CaptureStolenItem();
@@ -937,9 +938,9 @@ public sealed partial class CupMod : MelonMod
             }
             else if (ritualSmoke)
             {
-                if (spot.ScriptName != "Opening3" || spot.LineIndex < 1440) continue;
+                if (spot.ScriptName != "Opening3" || spot.LineIndex < 1441) continue;
             }
-            else if (spot.ScriptName != "Dungeon" || spot.LineIndex != 337 ||
+            else if (spot.ScriptName != "Dungeon" || spot.LineIndex != 338 ||
                      Read("partnerCharacter") != (jumpSmokeFloor == 6 ? "priest" : mageSmoke ? "mage" : "warrior"))
                 continue;
 
@@ -1101,9 +1102,9 @@ public sealed partial class CupMod : MelonMod
         player.PreloadAndPlayAsync(defeatScript, 0, 0, null);
         deadline = Time.realtimeSinceStartupAsDouble + 10;
         while (Run.Running && Time.realtimeSinceStartupAsDouble < deadline &&
-            (player.PlaybackSpot.ScriptName != "GameOver" || player.PlaybackSpot.LineIndex < 7)) yield return null;
+            (player.PlaybackSpot.ScriptName != "GameOver" || player.PlaybackSpot.LineIndex < 8)) yield return null;
         if (!Run.Running || Run.Deaths != 1 || Run.DeathPenalty != TimeSpan.FromSeconds(17) ||
-            player.PlaybackSpot.ScriptName != "GameOver" || player.PlaybackSpot.LineIndex < 7)
+            player.PlaybackSpot.ScriptName != "GameOver" || player.PlaybackSpot.LineIndex < 8)
         {
             Fail(new InvalidOperationException("The first GameOver did not advance with exactly one penalty."));
             yield break;
@@ -1189,7 +1190,7 @@ public sealed partial class CupMod : MelonMod
             skipInput.Activate(1);
             sawSkip |= player!.SkipActive;
             yield return null;
-            if (Run.Paused || player.PlaybackSpot.LineIndex != 337 || !tile.IsInteractable()) break;
+            if (Run.Paused || player.PlaybackSpot.LineIndex != 338 || !tile.IsInteractable()) break;
         }
         skipInput.Activate(0);
         if (!sawSkip || Run.Paused || !tile.IsInteractable() ||
@@ -1239,28 +1240,28 @@ public sealed partial class CupMod : MelonMod
         vars.SetVariableValue("xSwitchEndingResumeStory", "1");
         if (ritualSmoke)
         {
-            Observe("Opening3", 1509);
+            Observe("Opening3", 1510);
         }
         else if (bossSmoke)
         {
-            Observe("Ending", 31);
+            Observe("Ending", 33);
             vars.SetVariableValue("dungeonId", "9");
             vars.SetVariableValue("battleTarget", "priest");
-            Observe("Battle", 4897);
+            Observe("Battle", 4960);
             vars.SetVariableValue("battleTarget", "outcastRe");
-            Observe("Battle", 3509);
+            Observe("Battle", 3552);
             if (!Run.Running || filteredChoices != 0)
                 throw new InvalidOperationException("Boss mode stopped before a target victory or restricted story choices.");
             vars.SetVariableValue("battleTarget", "priest");
-            Observe("Battle", 3509);
+            Observe("Battle", 3552);
         }
         else
         {
             vars.SetVariableValue("xSwitchEndingSkipHistory", "1");
-            Observe("Ending", 31);
+            Observe("Ending", 33);
             if (!Run.Running) throw new InvalidOperationException("An ending preview stopped the timer.");
             vars.SetVariableValue("xSwitchEndingSkipHistory", "0");
-            Observe("Ending", 31);
+            Observe("Ending", 33);
         }
         if (Run.Result != "clear") throw new InvalidOperationException("The selected goal did not stop the timer.");
         LoggerInstance.Msg($"Cup smoke passed: simulated goal events for {GoalId}.");
@@ -1404,8 +1405,8 @@ public sealed partial class CupMod : MelonMod
 
     private bool HeroChoiceAvailable() => Target?.HeroChoice switch
     {
-        2032 => Number("yValHeroDistrustPoint") <= 4,
-        2034 => Number("yValHeroDistrustPoint") >= 2,
+        2034 => Number("yValHeroDistrustPoint") <= 4,
+        2037 => Number("yValHeroDistrustPoint") >= 2,
         _ => true
     };
 
@@ -1415,9 +1416,9 @@ public sealed partial class CupMod : MelonMod
         int dependence = Number("PriestYoriPoint");
         return Target?.PriestChoice(returned) switch
         {
-            1160 => dependence >= 2 && !Flag("xSwitchPriestLowSanEndedAfterMesorasiChoice"),
-            1161 => dependence <= 4 || returned || Flag("xSwitchPriestLowSanEndedAfterMesorasiChoice"),
-            1162 => dependence <= 4 && !Flag("xSwitchPriestLowSanEndedAfterTakeHandChoice"),
+            1164 => dependence >= 2 && !Flag("xSwitchPriestLowSanEndedAfterMesorasiChoice"),
+            1165 => dependence <= 4 || returned || Flag("xSwitchPriestLowSanEndedAfterMesorasiChoice"),
+            1166 => dependence <= 4 && !Flag("xSwitchPriestLowSanEndedAfterTakeHandChoice"),
             _ => true
         };
     }
@@ -1466,17 +1467,17 @@ public sealed partial class CupMod : MelonMod
     private void ObserveProgress(string script, int line)
     {
         if (!explorationStarted || Target == null) return;
-        if (script == "Dungeon" && line == 337) ObserveFloorProgress(6);
+        if (script == "Dungeon" && line == 338) ObserveFloorProgress(6);
         int boss = (script, line) switch
         {
-            ("Scenario_Hero1", 569) or ("Scenario_Mage1", 831) or ("Scenario_Warrior1", 1305) or ("Scenario_Priest1", 687) => 1,
-            ("Scenario_Hero2", 1342) or ("Scenario_Mage2", 2325) or ("Scenario_Warrior2", 3369) or ("Scenario_Priest2", 1857) => 2,
-            ("Scenario_Hero3", 2358) or ("Scenario_Mage3", 968) or ("Scenario_Warrior3", 1587) or ("Scenario_Priest3", 1750) => 3,
-            ("Scenario_Hero4", 1435) or ("Scenario_Mage4", 1328) or ("Scenario_Warrior4", 1358) or ("Scenario_Priest4", 2243) => 4,
+            ("Scenario_Hero1", 571) or ("Scenario_Mage1", 837) or ("Scenario_Warrior1", 1306) or ("Scenario_Priest1", 689) => 1,
+            ("Scenario_Hero2", 1344) or ("Scenario_Mage2", 2328) or ("Scenario_Warrior2", 3370) or ("Scenario_Priest2", 1863) => 2,
+            ("Scenario_Hero3", 2362) or ("Scenario_Mage3", 970) or ("Scenario_Warrior3", 1591) or ("Scenario_Priest3", 1755) => 3,
+            ("Scenario_Hero4", 1442) or ("Scenario_Mage4", 1330) or ("Scenario_Warrior4", 1362) or ("Scenario_Priest4", 2245) => 4,
             _ => 0
         };
         if (boss > 0) Split(boss * 100, $"已击败第 {boss} 层首领");
-        if (script == "Battle" && line == 6511 && Number("dungeonId") >= 5 &&
+        if (script == "Battle" && line == 6555 && Number("dungeonId") >= 5 &&
             Number("xPriestFinalPhase") is >= 1 and <= 3)
         {
             int phase = Number("xPriestFinalPhase");
@@ -1484,35 +1485,35 @@ public sealed partial class CupMod : MelonMod
                 !(Target.Id.StartsWith("mageNotMaryoku", StringComparison.Ordinal) && Flag("xSwitchRunAllowed")))
                 Split(420 + phase, $"终战 · 完成第 {phase} 阶段");
         }
-        if (script == "Scenario_Warrior5" && line is 1297 or 1536)
-            Split(line == 1297 ? 431 : 432, line == 1297 ? "终战 · 第一场决斗胜利" : "终战 · 第二场决斗胜利");
-        if (script == "Scenario_Priest5" && line == 300)
+        if (script == "Scenario_Warrior5" && line is 1310 or 1550)
+            Split(line == 1310 ? 431 : 432, line == 1310 ? "终战 · 第一场决斗胜利" : "终战 · 第二场决斗胜利");
+        if (script == "Scenario_Priest5" && line == 301)
             Split(435, "僧侣终战胜利");
-        if (script == "Scenario_Priest5" && line == 410)
+        if (script == "Scenario_Priest5" && line == 411)
             Split(520, "魔王终战胜利");
-        if (script == "Scenario_Hero5" && line == 1793)
+        if (script == "Scenario_Hero5" && line == 1803)
             Split(431, "勇者终击成功");
-        if (script == "Scenario_Mage5" && line is 624 or 2506 or 2929)
+        if (script == "Scenario_Mage5" && line is 629 or 2535 or 2969)
             Split(431, "魔法师终战胜利");
     }
 
     private void ObserveBossProgress(BossGoal boss, string script, int line)
     {
         if (!explorationStarted) return;
-        if (script == "Dungeon" && line == 337)
+        if (script == "Dungeon" && line == 338)
         {
             ObserveFloorProgress(boss.Floor);
             return;
         }
 
-        if (script != "Battle" || line is not (3 or 6511 or 8164)) return;
+        if (script != "Battle" || line is not (4 or 6555 or 8210)) return;
         if (BossGoal.ForBattle(ReadBattleTarget(), Number("dungeonId")) != boss) return;
         int rank = (boss.Floor - 1) * 100 + 90;
-        if (line == 3)
+        if (line == 4)
             Split(rank, "已进入目标 Boss 战");
         else
         {
-            int phase = Number(line == 6511 ? "xPriestFinalPhase" : "xGlausFinalPhase");
+            int phase = Number(line == 6555 ? "xPriestFinalPhase" : "xGlausFinalPhase");
             if (phase is >= 1 and <= 3 && (boss.Id != "priest" || !Flag("xSwitchRunAllowed")))
                 Split(rank + phase, $"目标 Boss · 完成第 {phase} 阶段");
         }
@@ -1570,7 +1571,7 @@ public sealed partial class CupMod : MelonMod
         string path = Path.Combine(dir, runId + ".json");
         var data = JsonSerializer.SerializeToUtf8Bytes(new
         {
-            Schema = 1, Mod = Version, GameBuild = 26646212, MatchHash = matchHash, RunId = runId, audit!.RunCode,
+            Schema = 1, Mod = Version, GameBuild, MatchHash = matchHash, RunId = runId, audit!.RunCode,
             Settings, Status = state, ElapsedMilliseconds = (long)Run.Elapsed.TotalMilliseconds,
             RoomRetriesUsed = Run.RoomRetries, Deaths = Run.Deaths,
             RoomRetryPenaltyMilliseconds = (long)Run.RoomRetryPenalty.TotalMilliseconds,

@@ -35,11 +35,11 @@ public sealed partial class CupMod
     {
         switch (script, line)
         {
-            case ("First", 304) when !openingRulesApplied:
+            case ("First", 305) when !openingRulesApplied:
                 // Opening invokes the same starter-inventory reset again before entering the dungeon.
                 openingWeaponCurse = 0;
                 break;
-            case ("Action", 2232):
+            case ("Action", 2246):
                 stealAddPending = stealAddActive = false;
                 int slot = Number("selectCommand");
                 playerKickSteal = slot == -101 && Read("actionUserId") == "player" && Read("timing") == "battle";
@@ -55,18 +55,18 @@ public sealed partial class CupMod
                     if (IsWeapon(source)) drushSource = source!.Pointer;
                 }
                 break;
-            case ("Action", 2271 or 2298):
+            case ("Action", 2287 or 2314):
                 stealAddPending = true;
                 break;
-            case ("Func", 133):
+            case ("Func", 137):
                 stealAddActive = stealAddPending && Read("addItem") == Read("enemyStealItem");
                 stealAddPending = false;
                 break;
-            case ("Action", 2304):
+            case ("Action", 2320):
                 stealAddPending = stealAddActive = false;
                 break;
-            case ("Battle", 1602 or 3404 or 3415 or 3509):
-            case ("Dungeon", 337):
+            case ("Battle", 1610 or 3442 or 3458 or 3552):
+            case ("Dungeon", 338):
             case ("GameOver", 0):
                 SettleWeaponReplacement();
                 break;

@@ -52,14 +52,14 @@ Assert(CupRandom.Seed(123, "map", 1, 1) != CupRandom.Seed(123, "map", 1, 2), "Ma
 Assert(Route.All.Select(x => x.Id).Distinct().Count() == 23, "All documented reachable ending IDs");
 foreach (Route route in Route.All)
 {
-    Assert(Enumerable.Range(1983, 4).Count(line => route.KeepChoice("Opening3", line, false)) == (route.Partner == "common" ? 0 : 1), route.Id + " locks one partner");
-    Assert(route.KeepChoice("Dungeon", 337, false), route.Id + " permits ordinary map movement");
+    Assert(Enumerable.Range(1986, 4).Count(line => route.KeepChoice("Opening3", line, false)) == (route.Partner == "common" ? 0 : 1), route.Id + " locks one partner");
+    Assert(route.KeepChoice("Dungeon", 338, false), route.Id + " permits ordinary map movement");
 }
 var glitch = Route.All.Single(x => x.Id == "warriorAfterGlitch");
-Assert(glitch.KeepChoice("Scenario_Warrior5", 1138, false) && !glitch.KeepChoice("Scenario_Warrior5", 1138, true),
+Assert(glitch.KeepChoice("Scenario_Warrior5", 1149, false) && !glitch.KeepChoice("Scenario_Warrior5", 1149, true),
     "Warrior recovery choice changes after story return");
 var priest = Route.All.Single(x => x.Id == "priestNodAfterLowSan");
-Assert(priest.KeepChoice("Scenario_Priest3", 1160, false) && priest.KeepChoice("Scenario_Priest3", 1161, true),
+Assert(priest.KeepChoice("Scenario_Priest3", 1164, false) && priest.KeepChoice("Scenario_Priest3", 1165, true),
     "Priest recovery choice changes after story return");
 var setup = new CupSetup(new CupSettings { EventId = "Spring", RouteId = "hero", Seed = 10 });
 setup.SelectPartner("mage");
@@ -84,30 +84,35 @@ setup.EventId = " ";
 Assert(!setup.TryGetSettings(out _, out _), "Blank event ID blocks start");
 Route ending(string id) => Route.All.Single(route => route.Id == id);
 var warriorBad = ending("warriorGlitchBad");
-Assert(warriorBad.KeepChoice("Scenario_Warrior5", 1138, false), "The glitch ending has a playable branch");
+Assert(warriorBad.KeepChoice("Scenario_Warrior5", 1149, false), "The glitch ending has a playable branch");
 Assert(warriorBad.IsEnding("warriorGlitchBad", "warrior", false) &&
     !glitch.IsEnding("warriorGlitchBad", "warrior", false) && glitch.ContinuesAfter("warriorGlitchBad"),
     "The same scripted return can end one race and continue another");
 Assert(ending("dropout_warrior").IsEnding("dropout", "warrior", false) &&
     !ending("dropout_warrior").IsEnding("dropout", "hero", false), "Shared ending type requires its actual partner");
-Assert(ending("mage5YakusokuSinaiBad").KeepChoice("Scenario_Mage3", 1166, false) &&
-    ending("mage5YakusokuSinaiBad").KeepChoice("Scenario_Mage5", 251, false), "No-promise branch uses the recovered-magic route");
-Assert(ending("ritual").KeepsEarlyEnding("Opening3", 1509) && ending("mage-exit").KeepsEarlyEnding("Scenario_Mage1", 269),
+Assert(ending("mage5YakusokuSinaiBad").KeepChoice("Scenario_Mage3", 1169, false) &&
+    !ending("mage5YakusokuSinaiBad").KeepChoice("Scenario_Mage3", 1170, false) &&
+    ending("mage5YakusokuSinaiBad").KeepChoice("Scenario_Mage5", 253, false) &&
+    !ending("mage5YakusokuSinaiBad").KeepChoice("Scenario_Mage5", 251, false), "No-promise branch uses the recovered-magic route");
+Assert(ending("hero4Bad").KeepChoice("Scenario_Hero3", 2037, false) &&
+    !ending("hero4Bad").KeepChoice("Scenario_Hero3", 2034, false) &&
+    !ending("hero4Bad").KeepChoice("Scenario_Hero3", 2035, false), "Hero's third-floor choices include the inserted save alias");
+Assert(ending("ritual").KeepsEarlyEnding("Opening3", 1510) && ending("mage-exit").KeepsEarlyEnding("Scenario_Mage1", 271),
     "Pre-credits endings have explicit success markers");
-Assert(BossGoal.WinAt("Battle", 3509, "outcast", 1)?.Id == "outcast", "Main first-floor boss recognized");
-Assert(BossGoal.WinAt("Battle", 3509, "outcastRe", 5) == null, "A same-name rematch does not count");
-Assert(BossGoal.WinAt("Battle", 3509, "priest", 5) == null &&
-    BossGoal.WinAt("Scenario_Hero5", 1578, "priest", 5, true)?.Id == "priest", "Hero finisher requires success");
-Assert(BossGoal.WinAt("Battle", 4897, "priest", 9) == null, "Leaving battle is not victory");
-Assert(BossGoal.WinAt("Battle", 3509, BossGoal.BattleId("", "outcast"), 1)?.Id == "outcast" &&
-    BossGoal.WinAt("Battle", 3509, BossGoal.BattleId("", "seaDragon,seaDragonPart"), 3)?.Id == "seaDragon",
+Assert(BossGoal.WinAt("Battle", 3552, "outcast", 1)?.Id == "outcast", "Main first-floor boss recognized");
+Assert(BossGoal.WinAt("Battle", 3552, "outcastRe", 5) == null, "A same-name rematch does not count");
+Assert(BossGoal.WinAt("Battle", 3552, "priest", 5) == null &&
+    BossGoal.WinAt("Scenario_Hero5", 1587, "priest", 5, true)?.Id == "priest", "Hero finisher requires success");
+Assert(BossGoal.WinAt("Battle", 4960, "priest", 9) == null, "Leaving battle is not victory");
+Assert(BossGoal.WinAt("Battle", 3552, BossGoal.BattleId("", "outcast"), 1)?.Id == "outcast" &&
+    BossGoal.WinAt("Battle", 3552, BossGoal.BattleId("", "seaDragon,seaDragonPart"), 3)?.Id == "seaDragon",
     "Named fixed fights without battleTarget still require a victory");
-Assert(BossGoal.WinAt("Battle", 3509, BossGoal.BattleId("outcastRe", "outcast"), 1) == null,
+Assert(BossGoal.WinAt("Battle", 3552, BossGoal.BattleId("outcastRe", "outcast"), 1) == null,
     "An explicit rematch ID takes precedence over the enemy list");
-Assert(BossGoal.WinAt("Battle", 4407, "priest", 8)?.Id == "priest" &&
-    BossGoal.WinAt("Scenario_Priest5", 300, "", 7)?.Id == "priest", "Scripted priest victories use their own markers");
-Assert(BossGoal.WinAt("Battle", 13761, "warriorFinalDuel", 6)?.Id == "warriorFinalDuel" &&
-    BossGoal.WinAt("Battle", 13761, "warriorLv1Duel", 6) == null, "Stop-card victory applies to the first duel only");
+Assert(BossGoal.WinAt("Battle", 4453, "priest", 8)?.Id == "priest" &&
+    BossGoal.WinAt("Scenario_Priest5", 301, "", 7)?.Id == "priest", "Scripted priest victories use their own markers");
+Assert(BossGoal.WinAt("Battle", 13834, "warriorFinalDuel", 6)?.Id == "warriorFinalDuel" &&
+    BossGoal.WinAt("Battle", 13834, "warriorLv1Duel", 6) == null, "Stop-card victory applies to the first duel only");
 setup.EventId = "Boss Cup";
 setup.BossMode = true;
 setup.SelectBoss("demonLord");

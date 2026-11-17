@@ -50,52 +50,52 @@ internal sealed record Route(string Id, string Partner, string Name, string Endi
 
     public static string? EarlyEndingAt(string script, int line) => (script, line) switch
     {
-        ("Opening3", 1509) => "ritual",
-        ("Scenario_Mage1", 217 or 269) => "mage-exit",
+        ("Opening3", 1510) => "ritual",
+        ("Scenario_Mage1", 219 or 271) => "mage-exit",
         _ => null
     };
 
     public bool KeepsEarlyEnding(string script, int line) => EarlyEndingAt(script, line) == Id;
 
-    public int HeroChoice => Id switch { "hero4Bad" => 2034, "dropout_hero" => 2033, _ => 2032 };
+    public int HeroChoice => Id switch { "hero4Bad" => 2037, "dropout_hero" => 2035, _ => 2034 };
     public int PriestChoice(bool returned) => Id switch
     {
-        "dropout_priest" => 1162,
-        "priest4KilledBad" => 1160,
-        "priestNodAfterLowSan" when !returned => 1160,
-        _ => 1161
+        "dropout_priest" => 1166,
+        "priest4KilledBad" => 1164,
+        "priestNodAfterLowSan" when !returned => 1164,
+        _ => 1165
     };
 
     public bool KeepChoice(string script, int line, bool returned)
     {
         if (script == "Opening" && line == 120) return false;
-        if (script == "Opening3" && line == 1431) return Id == "ritual";
+        if (script == "Opening3" && line == 1432) return Id == "ritual";
         if (Id == "ritual" && script == "Opening3")
         {
             if (line is >= 77 and <= 81) return line == 80;
-            if (line is >= 1388 and <= 1393) return line == 1388;
-            if (line == 1433) return false;
+            if (line is >= 1389 and <= 1394) return line == 1389;
+            if (line == 1434) return false;
         }
-        if (script == "Opening3" && line >= 1983 && line <= 1986)
-            return line == (Partner switch { "hero" => 1983, "warrior" => 1984, "mage" => 1985, "priest" => 1986, _ => -1 });
+        if (script == "Opening3" && line is >= 1986 and <= 1989)
+            return line == (Partner switch { "hero" => 1986, "warrior" => 1987, "mage" => 1988, "priest" => 1989, _ => -1 });
 
         return script switch
         {
-            "Scenario_Hero3" when line is >= 2032 and <= 2034 => line == HeroChoice,
-            "Scenario_Mage1" when line is >= 196 and <= 200 => (line is 196 or 199) == (Id == "mage-exit"),
-            "Scenario_Mage3" when line is 1166 or 1167 => line == (Id is "mageMaryoku" or "mage5YakusokuSinaiBad" ? 1166 : 1167),
-            "Scenario_Mage4" when line is 1561 or 1562 => Id == "mageNotMaryokuSpecialWin" ||
-                line == (Id == "mageNotMaryokuSuki" ? 1561 : 1562),
-            "Scenario_Mage5" when line is 250 or 251 => line == (Id == "mage5YakusokuSinaiBad" ? 251 : 250),
-            "Scenario_Warrior1" when line is >= 1538 and <= 1542 => (line == 1539) == (Id == "warriorKill"),
-            "Scenario_Warrior2" when line is 3484 or 3485 => line == (Box ? 3484 : 3485),
-            "Scenario_Warrior2" when line is 3515 or 3516 => line == (Box ? 3515 : 3516),
-            "Scenario_Warrior3" when line is 1433 or 1434 => line == (Id == "dropout_warrior" ? 1434 : 1433),
-            "Scenario_Warrior5" when line is 1137 or 1138 =>
-                line == ((Id is "warriorAfterGlitch" or "warriorGlitchBad") && !returned ? 1138 : 1137),
-            "Scenario_Priest3" when line is >= 1160 and <= 1162 =>
+            "Scenario_Hero3" when line is 2034 or 2035 or 2037 => line == HeroChoice,
+            "Scenario_Mage1" when line is 197 or 198 or 199 or 201 or 202 => (line is 197 or 201) == (Id == "mage-exit"),
+            "Scenario_Mage3" when line is 1169 or 1170 => line == (Id is "mageMaryoku" or "mage5YakusokuSinaiBad" ? 1169 : 1170),
+            "Scenario_Mage4" when line is 1564 or 1565 => Id == "mageNotMaryokuSpecialWin" ||
+                line == (Id == "mageNotMaryokuSuki" ? 1564 : 1565),
+            "Scenario_Mage5" when line is 251 or 253 => line == (Id == "mage5YakusokuSinaiBad" ? 253 : 251),
+            "Scenario_Warrior1" when line is >= 1540 and <= 1544 => (line == 1541) == (Id == "warriorKill"),
+            "Scenario_Warrior2" when line is 3485 or 3486 => line == (Box ? 3485 : 3486),
+            "Scenario_Warrior2" when line is 3516 or 3517 => line == (Box ? 3516 : 3517),
+            "Scenario_Warrior3" when line is 1436 or 1437 => line == (Id == "dropout_warrior" ? 1437 : 1436),
+            "Scenario_Warrior5" when line is 1148 or 1149 =>
+                line == ((Id is "warriorAfterGlitch" or "warriorGlitchBad") && !returned ? 1149 : 1148),
+            "Scenario_Priest3" when line is >= 1164 and <= 1166 =>
                 line == PriestChoice(returned),
-            "Scenario_Priest4" when line is 2907 or 2908 => line == (Id == "priest4NoReachBad" ? 2908 : 2907),
+            "Scenario_Priest4" when line is 2912 or 2913 => line == (Id == "priest4NoReachBad" ? 2913 : 2912),
             "Scenario_Priest5" when line is 141 or 142 =>
                 line == (Id is "priestLowLoop" or "priestHighLoop" ? 141 : 142),
             _ => true

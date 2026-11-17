@@ -1,6 +1,6 @@
 # 《勇者小队全灭了。》杯赛 Mod
 
-测试环境为 Windows x64、Steam Build 26646212 和 MelonLoader 0.7.3。运行依赖玩家本机游戏生成的 IL2CPP 互操作程序集。
+测试环境为 Windows x64、Steam Build 26705080 和 MelonLoader 0.7.3。运行依赖玩家本机游戏生成的 IL2CPP 互操作程序集。
 
 首次使用见[安装与卸载](INSTALL.md)。主办方可以从杯赛 ZIP 中解压 `Cup-Referee.html`，并按[裁判台说明](REFEREE.md)用虚构成绩试用。
 
