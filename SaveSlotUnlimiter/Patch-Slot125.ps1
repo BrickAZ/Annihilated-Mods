@@ -1,4 +1,4 @@
-#Requires -Version 7.0
+#Requires -Version 5.1
 param(
     [Parameter(Mandatory)]
     [string]$InputDll,
@@ -23,11 +23,21 @@ if ((Get-FileHash -LiteralPath $source).Hash -cne $originalSha) {
 }
 
 $game = (Get-Item -LiteralPath $GameRoot).FullName
-$cecil = Join-Path $game 'MelonLoader/net6/Mono.Cecil.dll'
+$framework = if ($PSVersionTable.PSEdition -eq 'Desktop') { 'net472' } else { 'net6' }
+$cecil = Join-Path $game "MelonLoader/$framework/Mono.Cecil.dll"
 if (!(Test-Path -LiteralPath $cecil -PathType Leaf)) {
-    throw 'GameRoot must point to your game directory with MelonLoader 0.7.3 installed.'
+    throw "GameRoot must contain the MelonLoader 0.7.3 dependency at MelonLoader/$framework/Mono.Cecil.dll."
 }
-Add-Type -LiteralPath $cecil
+$cecilSha = if ($framework -eq 'net472') {
+    'C41BDB9FFD3C5F6E17D2382C1012D73703E035E3F1100245FDD4E08C8DC6EB5B'
+} else {
+    '831DCA77470D85CB6FFBEA3072DAA7A3DF5B7C9FCFD9C3F43674A9BE99D4BFCF'
+}
+if ((Get-FileHash -LiteralPath $cecil).Hash -cne $cecilSha) {
+    throw 'Expected Mono.Cecil from the official MelonLoader 0.7.3 release.'
+}
+# Load the verified bytes consistently under both PowerShell editions.
+$null = [Reflection.Assembly]::Load([IO.File]::ReadAllBytes($cecil))
 
 $null = [IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($destination))
 $pending = "$destination.$([guid]::NewGuid()).tmp"
@@ -70,7 +80,11 @@ try {
     if ((Get-FileHash -LiteralPath $pending).Hash -cne $patchedSha) {
         throw 'Patched DLL differs from the tested build. Use Mono.Cecil from MelonLoader 0.7.3.'
     }
-    [IO.File]::Move($pending, $destination, $true)
+    if ([IO.File]::Exists($destination)) {
+        [IO.File]::Replace($pending, $destination, [NullString]::Value)
+    } else {
+        [IO.File]::Move($pending, $destination)
+    }
     Get-FileHash -LiteralPath $destination -Algorithm SHA256
 } finally {
     [IO.File]::Delete($pending)

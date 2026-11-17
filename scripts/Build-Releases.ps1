@@ -33,30 +33,45 @@ foreach ($project in $projects) {
 }
 
 $packages = [ordered]@{
-    'Annihilated-Cup-v0.4.12.zip' = [ordered]@{
-        'Mods/AnnihilatedCup.dll' = $cup
-        'Mods/AnnihilatedRoomRetry.dll' = $retry
-        'Launch-Cup.cmd' = 'CupMod/Launch-Cup.cmd'
-        'Cup-Referee.html' = 'CupMod/Cup-Referee.html'
-        'INSTALL.md' = 'CupMod/INSTALL.md'
-        'REFEREE.md' = 'CupMod/REFEREE.md'
-        'examples/example-ritual.json' = 'CupMod/examples/example-ritual.json'
+    'Annihilated-Cup-v0.4.12.zip' = @{
+        Id = 'cup'
+        Files = [ordered]@{
+            'Mods/AnnihilatedCup.dll' = $cup
+            'Mods/AnnihilatedRoomRetry.dll' = $retry
+            'Launch-Cup.cmd' = 'CupMod/Launch-Cup.cmd'
+            'Cup-Referee.html' = 'CupMod/Cup-Referee.html'
+            'INSTALL.md' = 'CupMod/INSTALL.md'
+            'REFEREE.md' = 'CupMod/REFEREE.md'
+            'examples/example-ritual.json' = 'CupMod/examples/example-ritual.json'
+        }
     }
-    'Annihilated-Gallery-v1.2.1.zip' = [ordered]@{
-        'Mods/AnnihilatedGallery.dll' = $gallery
-        'INSTALL.md' = 'GalleryMod/使用说明.md'
+    'Annihilated-Gallery-v1.2.1.zip' = @{
+        Id = 'gallery'
+        Files = [ordered]@{
+            'Mods/AnnihilatedGallery.dll' = $gallery
+            'INSTALL.md' = 'GalleryMod/使用说明.md'
+        }
     }
-    'Annihilated-RoomRetry-v1.0.1.zip' = [ordered]@{
-        'Mods/AnnihilatedRoomRetry.dll' = $retry
-        'INSTALL.md' = 'RoomRetryMod/使用说明.md'
+    'Annihilated-RoomRetry-v1.0.1.zip' = @{
+        Id = 'room-retry'
+        Files = [ordered]@{
+            'Mods/AnnihilatedRoomRetry.dll' = $retry
+            'INSTALL.md' = 'RoomRetryMod/使用说明.md'
+        }
     }
-    'Annihilated-AttackModeSwitch-v1.1.0.zip' = [ordered]@{
-        'Mods/AnnihilatedAttackModeSwitch.dll' = $attack
-        'INSTALL.txt' = 'AttackModeSwitchMod/使用说明.txt'
+    'Annihilated-AttackModeSwitch-v1.1.0.zip' = @{
+        Id = 'attack-mode'
+        Files = [ordered]@{
+            'Mods/AnnihilatedAttackModeSwitch.dll' = $attack
+            'INSTALL.txt' = 'AttackModeSwitchMod/使用说明.txt'
+        }
     }
-    'Annihilated-SaveSlotUnlimiter-v1.25-Build26705080-Patch.zip' = [ordered]@{
-        'Patch-Slot125.ps1' = 'SaveSlotUnlimiter/Patch-Slot125.ps1'
-        'README.md' = 'SaveSlotUnlimiter/README.md'
+    'Annihilated-SaveSlotUnlimiter-v1.25-Build26705080-Patch.zip' = @{
+        Id = 'save-slot'
+        Files = [ordered]@{
+            'Patch-Slot125.ps1' = 'SaveSlotUnlimiter/Patch-Slot125.ps1'
+            'README.md' = 'SaveSlotUnlimiter/README.md'
+        }
     }
 }
 
@@ -64,10 +79,15 @@ New-Item -ItemType Directory -Path $dist -Force | Out-Null
 $checksums = foreach ($name in $packages.Keys) {
     $target = Join-Path $dist $name
     $pending = "$target.$([guid]::NewGuid()).tmp"
+    $package = $packages[$name]
     try {
         $zip = [IO.Compression.ZipFile]::Open($pending, [IO.Compression.ZipArchiveMode]::Create)
         try {
-            foreach ($entry in $packages[$name].GetEnumerator()) {
+            [IO.Compression.ZipFileExtensions]::CreateEntryFromFile($zip, (Join-Path $PSScriptRoot 'Install-Mod.cmd'), '一键安装.cmd') | Out-Null
+            [IO.Compression.ZipFileExtensions]::CreateEntryFromFile($zip, (Join-Path $PSScriptRoot 'Install-Mod.ps1'), 'Install-Mod.ps1') | Out-Null
+            $writer = [IO.StreamWriter]::new($zip.CreateEntry('Install-Package.txt').Open())
+            try { $writer.WriteLine($package.Id) } finally { $writer.Dispose() }
+            foreach ($entry in $package.Files.GetEnumerator()) {
                 $source = Join-Path $repo $entry.Value
                 [IO.Compression.ZipFileExtensions]::CreateEntryFromFile($zip, $source, $entry.Key) | Out-Null
             }

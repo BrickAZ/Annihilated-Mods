@@ -31,12 +31,11 @@ v0.4.12 对应 Steam Build `26705080`。使用 Build `26646212` 的玩家可从 
 
 ## 下载与安装
 
-1. 找到你电脑上含 `Annihilated.exe` 的文件夹。Steam 用户可以在库中右键点击游戏，选择「管理 → 浏览本地文件」。
-2. 退出游戏，按 [MelonLoader 官方安装说明](https://github.com/LavaGang/MelonLoader/blob/v0.7.3/README.md#requirements) 为这个游戏安装 0.7.3。如果安装器没列出游戏，点 **Add Game Manually**，选刚找到的 `Annihilated.exe`。首次配置后，正常启动游戏并等到标题界面，让加载器生成互操作程序集。如果加载器提示缺少 .NET，按官方说明安装 **.NET 6 Desktop Runtime（Windows x64）**。
-3. 退出游戏，完整解压上面相应的 ZIP。把解压出的 `Mods` 文件夹合并到 `Annihilated.exe` 旁边。安装完成后，DLL 应位于游戏目录的 `Mods/` 下。
-4. 玩杯赛时，把 `Launch-Cup.cmd` 复制到 `Annihilated.exe` 旁边再双击。Steam 版请保持 Steam 开启。杯赛包已包含 F9 插件。普通游玩及使用其他 Mod 时，按平时的方式启动游戏。
+1. 退出游戏，完整解压对应的 ZIP，双击 **`一键安装.cmd`**。脚本会查找 Steam 游戏目录。如果未找到，请选择含 `Annihilated.exe` 的文件夹。也可以把该文件夹拖到 CMD 上。
+2. 若游戏缺少加载器或运行时，脚本会联网下载并校验官方 MelonLoader 0.7.3 和便携版 .NET 6，将依赖和所选 Mod 安装到游戏目录。
+3. 安装完成后按平时的方式启动游戏。首次启动加载器会生成互操作程序集，请等到标题界面。玩杯赛时，双击安装到游戏目录的 `Launch-Cup.cmd`。杯赛包附带 F9 插件。
 
-存档扩容适配工具使用你已有的 v1.25 DLL 生成兼容版本，步骤见[补丁说明](SaveSlotUnlimiter/README.md)。
+安装存档扩容时按提示选择你已有的 dsh 原版 v1.25 DLL，脚本会自动生成并安装兼容版本。已安装原版 v1.25 时，安装器可直接使用游戏目录中的 DLL。[扩容说明](SaveSlotUnlimiter/README.md)
 
 请从 Release 的 **Assets** 获取安装包。GitHub 自动生成的 **Source code** 压缩包用于下面的源码构建。核对安装包时，请使用与它同一 Release 的 [SHA256SUMS.txt](https://github.com/BrickAZ/Annihilated-Mods/releases/latest/download/SHA256SUMS.txt)。
 
