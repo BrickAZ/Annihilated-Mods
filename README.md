@@ -39,6 +39,14 @@ v0.4.12 对应 Steam Build `26705080`。使用 Build `26646212` 的玩家可从 
 
 请从 Release 的 **Assets** 获取安装包。GitHub 自动生成的 **Source code** 压缩包用于下面的源码构建。核对安装包时，请使用与它同一 Release 的 [SHA256SUMS.txt](https://github.com/BrickAZ/Annihilated-Mods/releases/latest/download/SHA256SUMS.txt)。
 
+### 离线前置修复
+
+遇到 Cpp2IL 下载失败、文件损坏，或启动日志出现 `Failed to Execute Cpp2IL` 时，可以使用离线前置修复包。它包含 MelonLoader、便携版 .NET 和 Cpp2IL，不含 Mod 或 Unity 库。[下载离线前置修复 ZIP（Windows x64）](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.4/Annihilated-Offline-Repair-ML0.7.3-Windows-x64.zip)
+
+1. 退出游戏，完整解压 ZIP，双击 `一键安装.cmd`，选择包含 `Annihilated.exe` 的游戏目录。**安装过程无需联网。**
+2. 已有可用的 Unity 6000.3.23 缓存时，安装器会直接复用。只有 Unity 缓存缺失或损坏时，才需要另外准备 `Managed.zip`。[从上游下载 Managed.zip](https://github.com/LavaGang/MelonLoader.UnityDependencies/releases/download/6000.3.23/Managed.zip)
+3. 如需补齐 Unity 依赖，把 `Managed.zip` 放到解压后的 `一键安装.cmd` 旁边，再运行一次即可离线导入。
+
 ## 从源码构建
 
 需要 .NET 8 SDK 和 PowerShell 7。游戏目录里应已有 MelonLoader 0.7.3 的 `MelonLoader/net6/`，以及首次启动时生成的 `MelonLoader/Il2CppAssemblies/`。四个项目面向 `net6.0`，首次构建可能需要由 SDK 获取对应的参考包。
