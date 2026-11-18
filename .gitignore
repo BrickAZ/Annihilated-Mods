@@ -9,6 +9,7 @@
 /Mods/
 /UserData/
 *.dll
+!/SaveSlotUnlimiter/payload/SaveSlotUnlimiter.dll
 *.exe
 *.pdb
 *.nson

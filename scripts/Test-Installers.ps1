@@ -3,9 +3,6 @@ param(
     [Parameter(Mandatory)]
     [string]$GameRoot,
 
-    [Parameter(Mandatory)]
-    [string]$OriginalSlotDll,
-
     [string]$DistDirectory = (Join-Path $PSScriptRoot '../dist'),
     [string]$DependencyCache = (Join-Path $PSScriptRoot '../.work/installer-cache')
 )
@@ -51,16 +48,15 @@ function New-GameFixture([string]$Path) {
     }
 }
 
-function Invoke-Installer([string]$Package, [string]$Game, [string]$SourceDll, [switch]$PowerShell) {
+function Invoke-Installer([string]$Package, [string]$Game, [switch]$PowerShell,
+    [string]$Launcher = '一键安装.cmd') {
     if ($PowerShell) {
         $arguments = @('-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass', '-File',
             (Join-Path $Package 'Install-Mod.ps1'), '-GameDirectory', $Game, '-DependencyCache', $cache)
-        if ($SourceDll) { $arguments += @('-OriginalSlotDll', $SourceDll) }
         $output = & powershell.exe @arguments 2>&1
     } else {
         $arguments = @($Game)
-        if ($SourceDll) { $arguments += $SourceDll }
-        $output = & (Join-Path $Package '一键安装.cmd') @arguments 2>&1
+        $output = & (Join-Path $Package $Launcher) @arguments 2>&1
     }
     return [pscustomobject]@{ ExitCode = $LASTEXITCODE; Output = ($output -join [Environment]::NewLine) }
 }
@@ -72,7 +68,6 @@ function Assert-Contents([string[]]$Actual, [string[]]$Expected, [string]$Label)
 
 $catalogPath = 'Annihilated_Data/StreamingAssets/aa/catalog.hash'
 $sourceGame = (Get-Item -LiteralPath $GameRoot).FullName
-$sourceSaveMod = (Get-Item -LiteralPath $OriginalSlotDll).FullName
 $dist = (Get-Item -LiteralPath $DistDirectory).FullName
 $cache = (Get-Item -LiteralPath $DependencyCache).FullName
 
@@ -96,8 +91,8 @@ $packages = @(
         Payload = @('Mods/AnnihilatedAttackModeSwitch.dll'); Extra = @('INSTALL.txt')
     }
     @{
-        Id = 'SaveSlot'; Archive = 'Annihilated-SaveSlotUnlimiter-v1.25-Build26705080-Patch.zip'
-        Payload = @(); Extra = @('Patch-Slot125.ps1', 'README.md')
+        Id = 'SaveSlot'; Archive = 'Annihilated-SaveSlotUnlimiter-v1.25-Build26705080.zip'
+        Payload = @('Mods/SaveSlotUnlimiter.dll'); Extra = @('README.md')
     }
 )
 
@@ -118,11 +113,10 @@ foreach ($package in $packages) {
 
 Assert-Sha256 (Join-Path $sourceGame 'GameAssembly.dll') '13B13F97BBE50154B451753351656F99595AE0A542586097F27536F55C24F3C4'
 Assert-Condition ((Get-Content -LiteralPath (Join-Path $sourceGame $catalogPath) -Raw).Trim() -ceq 'c867cf04b05171a82710f970f4122af7') 'GameRoot must contain Steam Build 26705080.'
-$originalSlotHash = 'B08ADB31EF98008AC5D57C3F8B0298896FE9DD8C76B18A5D9A528F418E042396'
-Assert-Sha256 $sourceSaveMod $originalSlotHash
-$patchInput = Join-Path $root 'Original SaveSlotUnlimiter.dll'
-Copy-Item -LiteralPath $sourceSaveMod -Destination $patchInput
 $patchedSlotHash = '6A6227AC519E27CA1A07198FE0D6C769C3633BB8C92EB4DA3840BF4A0F87F257'
+$save = $packages | Where-Object Id -eq 'SaveSlot'
+$slotDll = 'Mods/SaveSlotUnlimiter.dll'
+Assert-Sha256 (Join-Path $save.Extracted $slotDll) $patchedSlotHash
 
 $dependencyHashes = Get-DependencyHashes (Join-Path $cache 'MelonLoader-0.7.3-x64.zip') @(
     'version.dll', 'MelonLoader/net6/MelonLoader.dll', 'MelonLoader/net472/Mono.Cecil.dll'
@@ -143,13 +137,7 @@ try {
         foreach ($relative in $package.Payload) {
             $expectedPayload[$relative] = Get-Sha256 (Join-Path $package.Extracted $relative)
         }
-        $original = $null
-        if ($package.Id -eq 'SaveSlot') {
-            $original = $patchInput
-            $expectedPayload['Mods/SaveSlotUnlimiter.dll'] = $patchedSlotHash
-        }
-
-        $install = Invoke-Installer $package.Extracted $fixture $original
+        $install = Invoke-Installer $package.Extracted $fixture
         Assert-Condition ($install.ExitCode -eq 0) "$($package.Id) CMD installation failed ($($install.ExitCode)):`n$($install.Output)"
         foreach ($relative in $dependencyHashes.Keys) {
             Assert-Sha256 (Join-Path $fixture $relative) $dependencyHashes[$relative]
@@ -173,7 +161,7 @@ try {
         (Get-Item -LiteralPath $bootstrap).LastWriteTimeUtc = [DateTime]::new(2019, 5, 23, 1, 0, 0, [DateTimeKind]::Utc)
         $bootstrapTime = (Get-Item -LiteralPath $bootstrap).LastWriteTimeUtc
 
-        $repeat = Invoke-Installer $package.Extracted $fixture $original -PowerShell
+        $repeat = Invoke-Installer $package.Extracted $fixture -PowerShell
         Assert-Condition ($repeat.ExitCode -eq 0) "$($package.Id) repeat PS installation failed ($($repeat.ExitCode)):`n$($repeat.Output)"
         foreach ($file in $sentinelHashes.Keys) { Assert-Sha256 $file $sentinelHashes[$file] }
         foreach ($relative in ($expectedPayload.Keys + $dependencyHashes.Keys)) {
@@ -185,26 +173,34 @@ try {
         Write-Host "$($package.Id) passed fresh CMD installation and repeated PowerShell installation"
     }
 
+    $cup = $packages | Where-Object Id -eq 'Cup'
     $wrongBuild = Join-Path $root 'Cup wrong build'
     New-GameFixture $wrongBuild
     [IO.File]::WriteAllText((Join-Path $wrongBuild $catalogPath), ('0' * 32))
-    $cup = $packages | Where-Object Id -eq 'Cup'
-    $rejected = Invoke-Installer $cup.Extracted $wrongBuild $null
+    $rejected = Invoke-Installer $cup.Extracted $wrongBuild
     Assert-Condition ($rejected.ExitCode -ne 0 -and $rejected.Output -match '26705080') "Cup did not reject wrong build:`n$($rejected.Output)"
     Assert-Contents @(Get-ChildItem -LiteralPath $wrongBuild -Name -Force) @('Annihilated.exe', 'Annihilated_Data', 'GameAssembly.dll') 'Rejected Cup fixture root'
     Write-Host 'Cup passed wrong-build rejection'
 
-    $badSave = Join-Path $root 'SaveSlot invalid original'
-    New-GameFixture $badSave
-    $badInput = Join-Path $root 'Invalid source.dll'
-    [IO.File]::WriteAllText($badInput, 'Not the original SaveSlotUnlimiter v1.25 DLL')
-    $save = $packages | Where-Object Id -eq 'SaveSlot'
-    $rejected = Invoke-Installer $save.Extracted $badSave $badInput -PowerShell
-    Assert-Condition ($rejected.ExitCode -ne 0 -and $rejected.Output -match 'SHA-256|原版|v1\.25') "SaveSlot did not reject the wrong input DLL:`n$($rejected.Output)"
-    Assert-Contents @(Get-ChildItem -LiteralPath $badSave -Name -Force) @('Annihilated.exe', 'Annihilated_Data', 'GameAssembly.dll') 'Rejected SaveSlot fixture root'
-    Assert-Sha256 $patchInput $originalSlotHash
-    Assert-Sha256 $sourceSaveMod $originalSlotHash
-    Write-Host 'SaveSlot passed bad-original rejection and preserved the source DLL'
+    $saveGame = Join-Path $root 'SaveSlot game'
+    $installedSlot = Join-Path $saveGame $slotDll
+    [IO.File]::WriteAllText($installedSlot, 'Existing SaveSlotUnlimiter DLL sentinel')
+    $oldHash = Get-Sha256 $installedSlot
+    $upgrade = Invoke-Installer $save.Extracted $saveGame
+    Assert-Condition ($upgrade.ExitCode -eq 0) "SaveSlot CMD upgrade failed:`n$($upgrade.Output)"
+    Assert-Sha256 $installedSlot $patchedSlotHash
+    $backups = @(Get-ChildItem -LiteralPath (Join-Path $saveGame 'UserData/AnnihilatedModsInstaller/backups') -Recurse -File -Filter 'SaveSlotUnlimiter.dll')
+    Assert-Condition ($backups.Count -eq 1) 'SaveSlot should back up exactly one replaced DLL.'
+    Assert-Sha256 $backups[0].FullName $oldHash
+    Write-Host 'SaveSlot passed one-click upgrade with backup'
+
+    $wrongSaveBuild = Join-Path $root 'SaveSlot wrong build'
+    New-GameFixture $wrongSaveBuild
+    [IO.File]::WriteAllText((Join-Path $wrongSaveBuild $catalogPath), ('0' * 32))
+    $rejected = Invoke-Installer $save.Extracted $wrongSaveBuild
+    Assert-Condition ($rejected.ExitCode -ne 0 -and $rejected.Output -match '26705080') "SaveSlot did not reject wrong build:`n$($rejected.Output)"
+    Assert-Contents @(Get-ChildItem -LiteralPath $wrongSaveBuild -Name -Force) @('Annihilated.exe', 'Annihilated_Data', 'GameAssembly.dll') 'Rejected SaveSlot fixture root'
+    Write-Host 'SaveSlot passed wrong-build rejection'
 } finally {
     $env:ANNIHILATED_INSTALL_CACHE = $oldCache
     $env:ANNIHILATED_INSTALL_NO_PAUSE = $oldNoPause

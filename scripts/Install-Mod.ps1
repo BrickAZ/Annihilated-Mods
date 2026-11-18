@@ -1,7 +1,6 @@
 ﻿#Requires -Version 5.1
 param(
     [string]$GameDirectory,
-    [string]$OriginalSlotDll,
     [string]$DependencyCache = $env:ANNIHILATED_INSTALL_CACHE
 )
 
@@ -46,16 +45,6 @@ function Find-GameDirectory {
     } finally { $picker.Dispose() }
 }
 
-function Select-OriginalSlotDll {
-    Add-Type -AssemblyName System.Windows.Forms
-    $picker = New-Object System.Windows.Forms.OpenFileDialog
-    $picker.Title = '请选择 dsh 原版 v1.25 的 SaveSlotUnlimiter.dll'
-    $picker.Filter = 'SaveSlotUnlimiter.dll|SaveSlotUnlimiter.dll'
-    try {
-        if ($picker.ShowDialog() -eq [System.Windows.Forms.DialogResult]::OK) { return $picker.FileName }
-    } finally { $picker.Dispose() }
-}
-
 function Get-DependencyArchive([string]$Name, [string]$Uri, [string]$Algorithm, [string]$Hash) {
     $archive = Join-Path $DependencyCache $Name
     if ((Test-Path -LiteralPath $archive -PathType Leaf) -and
@@ -94,7 +83,7 @@ try {
         'gallery' { 'Mods/AnnihilatedGallery.dll' }
         'room-retry' { 'Mods/AnnihilatedRoomRetry.dll' }
         'attack-mode' { 'Mods/AnnihilatedAttackModeSwitch.dll' }
-        'save-slot' { 'Patch-Slot125.ps1' }
+        'save-slot' { 'Mods/SaveSlotUnlimiter.dll' }
         default { throw '安装包标识无效。请完整解压 ZIP。' }
     }
     foreach ($file in $packageFiles) {
@@ -112,34 +101,13 @@ try {
     }
     Write-Host "游戏目录  $game"
 
-    if ($package -eq 'cup') {
+    if ($package -in @('cup', 'save-slot')) {
         $buildHash = '13B13F97BBE50154B451753351656F99595AE0A542586097F27536F55C24F3C4'
         $catalog = Join-Path $game 'Annihilated_Data/StreamingAssets/aa/catalog.hash'
         if (!(Test-Path -LiteralPath $catalog -PathType Leaf) -or
             (Get-Content -LiteralPath $catalog -Raw).Trim() -ne 'c867cf04b05171a82710f970f4122af7' -or
             (Get-FileHash -LiteralPath (Join-Path $game 'GameAssembly.dll')).Hash -ne $buildHash) {
-            throw '杯赛 v0.4.12 对应 Steam Build 26705080。当前游戏版本不匹配。'
-        }
-    }
-
-    $slotRelative = 'Mods/SaveSlotUnlimiter.dll'
-    $patchedSha = '6A6227AC519E27CA1A07198FE0D6C769C3633BB8C92EB4DA3840BF4A0F87F257'
-    $patchNeeded = $false
-    if ($package -eq 'save-slot') {
-        $originalSha = 'B08ADB31EF98008AC5D57C3F8B0298896FE9DD8C76B18A5D9A528F418E042396'
-        $installedSlot = Join-Path $game $slotRelative
-        $installedSlotHash = if (Test-Path -LiteralPath $installedSlot -PathType Leaf) {
-            (Get-FileHash -LiteralPath $installedSlot).Hash
-        }
-        $patchNeeded = $installedSlotHash -ne $patchedSha
-        if ($patchNeeded) {
-            if (!$OriginalSlotDll) {
-                $OriginalSlotDll = if ($installedSlotHash -eq $originalSha) { $installedSlot } else { Select-OriginalSlotDll }
-            }
-            if (!$OriginalSlotDll -or !(Test-Path -LiteralPath $OriginalSlotDll -PathType Leaf) -or
-                (Get-FileHash -LiteralPath $OriginalSlotDll).Hash -ne $originalSha) {
-                throw '请选择 dsh 原版 v1.25 整合包的 Mods/SaveSlotUnlimiter.dll。'
-            }
+            throw '此安装包需要 Steam Build 26705080。当前游戏版本不匹配。'
         }
     }
 
@@ -156,8 +124,7 @@ try {
         }
     }
     if (!(Test-Path -LiteralPath (Join-Path $game 'MelonLoader/net6/Il2CppInterop.Runtime.dll') -PathType Leaf) -or
-        !(Test-Path -LiteralPath (Join-Path $game 'MelonLoader/Dependencies/Il2CppAssemblyGenerator/Il2CppAssemblyGenerator.dll') -PathType Leaf) -or
-        ($patchNeeded -and !(Test-Path -LiteralPath (Join-Path $game 'MelonLoader/net472/Mono.Cecil.dll') -PathType Leaf))) {
+        !(Test-Path -LiteralPath (Join-Path $game 'MelonLoader/Dependencies/Il2CppAssemblyGenerator/Il2CppAssemblyGenerator.dll') -PathType Leaf)) {
         $loaderNeeded = $true
     }
 
@@ -181,24 +148,12 @@ try {
         [IO.Compression.ZipFile]::ExtractToDirectory($archive, $runtimeStage)
     }
 
-    $payload = [ordered]@{}
-    if ($package -eq 'save-slot') {
-        if ($patchNeeded) {
-            $patchRoot = if ($loaderNeeded) { $loaderStage } else { $game }
-            $candidate = Join-Path $staging 'SaveSlotUnlimiter.dll'
-            & (Join-Path $PSScriptRoot 'Patch-Slot125.ps1') -InputDll $OriginalSlotDll -GameRoot $patchRoot -OutputDll $candidate | Out-Null
-            $payload[$slotRelative] = $candidate
-        }
-    } else {
-        foreach ($relative in $packageFiles) { $payload[$relative] = Join-Path $PSScriptRoot $relative }
-    }
-
     if ($loaderNeeded) { Copy-MissingTree (Join-Path $loaderStage 'MelonLoader') (Join-Path $game 'MelonLoader') }
     if ($runtimeNeeded) { Copy-MissingTree $runtimeStage $runtime }
 
     $backup = Join-Path $game ('UserData/AnnihilatedModsInstaller/backups/' + (Get-Date -Format 'yyyyMMdd-HHmmss-fff') + '-' + [guid]::NewGuid().ToString('N').Substring(0, 6))
-    foreach ($relative in $payload.Keys) {
-        $source = $payload[$relative]
+    foreach ($relative in $packageFiles) {
+        $source = Join-Path $PSScriptRoot $relative
         $target = Join-Path $game $relative
         $hash = (Get-FileHash -LiteralPath $source).Hash
         if (Test-Path -LiteralPath $target -PathType Leaf) {

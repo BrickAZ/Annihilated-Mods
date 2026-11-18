@@ -1,37 +1,47 @@
 #Requires -Version 7.0
 param(
-    [Parameter(Mandatory)]
-    [string]$GameRoot
+    [string]$GameRoot,
+
+    [string]$DistDirectory = (Join-Path $PSScriptRoot '../dist'),
+
+    [switch]$SaveSlotOnly
 )
 
 $ErrorActionPreference = 'Stop'
-$game = (Get-Item -LiteralPath $GameRoot).FullName
-if (!(Test-Path -LiteralPath (Join-Path $game 'Annihilated.exe') -PathType Leaf)) {
-    throw 'GameRoot must point to the folder containing Annihilated.exe.'
-}
-if (!(Test-Path -LiteralPath (Join-Path $game 'MelonLoader/Il2CppAssemblies/Assembly-CSharp.dll') -PathType Leaf)) {
-    throw 'Install MelonLoader 0.7.3 and launch the game once to generate the IL2CPP interop assemblies.'
-}
-
 $repo = Split-Path -Parent $PSScriptRoot
-$dist = Join-Path $repo 'dist'
+$dist = $DistDirectory
 
 $cup = 'CupMod/bin/Release/net6.0/AnnihilatedCup.dll'
 $retry = 'RoomRetryMod/src/bin/Release/net6.0/AnnihilatedRoomRetry.dll'
 $gallery = 'GalleryMod/bin/Release/net6.0/AnnihilatedGallery.dll'
 $attack = 'AttackModeSwitchMod/src/bin/Release/net6.0/AnnihilatedAttackModeSwitch.dll'
-
-$projects = @(
-    'CupMod/AnnihilatedCup.csproj'
-    'RoomRetryMod/src/AnnihilatedRoomRetry.csproj'
-    'GalleryMod/AnnihilatedGallery.csproj'
-    'AttackModeSwitchMod/src/AnnihilatedAttackModeSwitch.csproj'
-)
-foreach ($project in $projects) {
-    dotnet build (Join-Path $repo $project) --configuration Release --nologo "-p:GameRoot=$game" -p:ContinuousIntegrationBuild=true
-    if ($LASTEXITCODE -ne 0) { throw "Build failed: $project" }
+$saveSlot = 'SaveSlotUnlimiter/payload/SaveSlotUnlimiter.dll'
+if ((Get-FileHash -LiteralPath (Join-Path $repo $saveSlot)).Hash -cne '6A6227AC519E27CA1A07198FE0D6C769C3633BB8C92EB4DA3840BF4A0F87F257') {
+    throw 'SaveSlotUnlimiter must match the tested Build 26705080 DLL.'
 }
 
+if (!$SaveSlotOnly) {
+    if (!$GameRoot) { throw 'Specify -GameRoot for a full build.' }
+    $game = (Get-Item -LiteralPath $GameRoot).FullName
+    if (!(Test-Path -LiteralPath (Join-Path $game 'Annihilated.exe') -PathType Leaf)) {
+        throw 'GameRoot must point to the folder containing Annihilated.exe.'
+    }
+    if (!(Test-Path -LiteralPath (Join-Path $game 'MelonLoader/Il2CppAssemblies/Assembly-CSharp.dll') -PathType Leaf)) {
+        throw 'Install MelonLoader 0.7.3 and launch the game once to generate the IL2CPP interop assemblies.'
+    }
+    $projects = @(
+        'CupMod/AnnihilatedCup.csproj'
+        'RoomRetryMod/src/AnnihilatedRoomRetry.csproj'
+        'GalleryMod/AnnihilatedGallery.csproj'
+        'AttackModeSwitchMod/src/AnnihilatedAttackModeSwitch.csproj'
+    )
+    foreach ($project in $projects) {
+        dotnet build (Join-Path $repo $project) --configuration Release --nologo "-p:GameRoot=$game" -p:ContinuousIntegrationBuild=true
+        if ($LASTEXITCODE -ne 0) { throw "Build failed: $project" }
+    }
+}
+
+$saveSlotArchive = 'Annihilated-SaveSlotUnlimiter-v1.25-Build26705080.zip'
 $packages = [ordered]@{
     'Annihilated-Cup-v0.4.12.zip' = @{
         Id = 'cup'
@@ -66,14 +76,15 @@ $packages = [ordered]@{
             'INSTALL.txt' = 'AttackModeSwitchMod/使用说明.txt'
         }
     }
-    'Annihilated-SaveSlotUnlimiter-v1.25-Build26705080-Patch.zip' = @{
+    $saveSlotArchive = @{
         Id = 'save-slot'
         Files = [ordered]@{
-            'Patch-Slot125.ps1' = 'SaveSlotUnlimiter/Patch-Slot125.ps1'
+            'Mods/SaveSlotUnlimiter.dll' = $saveSlot
             'README.md' = 'SaveSlotUnlimiter/README.md'
         }
     }
 }
+if ($SaveSlotOnly) { $packages = [ordered]@{ $saveSlotArchive = $packages[$saveSlotArchive] } }
 
 New-Item -ItemType Directory -Path $dist -Force | Out-Null
 $checksums = foreach ($name in $packages.Keys) {
@@ -101,4 +112,8 @@ $checksums = foreach ($name in $packages.Keys) {
     "$((Get-FileHash -LiteralPath $target).Hash.ToLowerInvariant())  $name"
     Write-Host "Created $target"
 }
-$checksums | Set-Content -LiteralPath (Join-Path $dist 'SHA256SUMS.txt') -Encoding utf8
+if ($SaveSlotOnly) {
+    $checksums | Set-Content -LiteralPath (Join-Path $dist ([IO.Path]::ChangeExtension($saveSlotArchive, '.sha256'))) -Encoding utf8
+} else {
+    $checksums | Set-Content -LiteralPath (Join-Path $dist 'SHA256SUMS.txt') -Encoding utf8
+}
