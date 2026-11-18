@@ -45,22 +45,65 @@ function Find-GameDirectory {
     } finally { $picker.Dispose() }
 }
 
-function Get-DependencyArchive([string]$Name, [string]$Uri, [string]$Algorithm, [string]$Hash) {
+function Test-X64GameBinary([string]$Path) {
+    $reader = [IO.BinaryReader]::new([IO.File]::OpenRead($Path))
+    try {
+        if ($reader.BaseStream.Length -lt 64 -or $reader.ReadUInt16() -ne 0x5A4D) { return $false }
+        $reader.BaseStream.Position = 0x3C
+        $offset = $reader.ReadInt32()
+        if ($offset -lt 64 -or $offset -gt $reader.BaseStream.Length - 6) { return $false }
+        $reader.BaseStream.Position = $offset
+        return ($reader.ReadUInt32() -eq 0x4550 -and $reader.ReadUInt16() -eq 0x8664)
+    } finally { $reader.Dispose() }
+}
+
+function Assert-GameFiles([string]$Root) {
+    $metadata = 'Annihilated_Data/il2cpp_data/Metadata/global-metadata.dat'
+    $binaries = @('Annihilated.exe', 'UnityPlayer.dll', 'GameAssembly.dll')
+    foreach ($relative in ($binaries + $metadata)) {
+        $path = Join-Path $Root $relative
+        if (!(Test-Path -LiteralPath $path -PathType Leaf)) {
+            throw "游戏文件缺失 $relative。请用 Steam 验证游戏文件的完整性，再重新安装。"
+        }
+        if ($relative -eq $metadata) {
+            $reader = [IO.BinaryReader]::new([IO.File]::OpenRead($path))
+            try {
+                $valid = $reader.BaseStream.Length -ge 8 -and
+                    [BitConverter]::ToString($reader.ReadBytes(4)) -ceq 'AF-1B-B1-FA'
+            } finally { $reader.Dispose() }
+        } else {
+            $valid = Test-X64GameBinary $path
+        }
+        if (!$valid) {
+            throw "游戏文件格式无效 $relative。请用 Steam 验证游戏文件的完整性，再重新安装。"
+        }
+    }
+}
+
+function Copy-VerifiedDependency([string]$Source, [string]$Destination, [string]$Algorithm, [string]$Hash) {
+    $null = New-Item -ItemType Directory -Path (Split-Path -Parent $Destination) -Force
+    $pending = "$Destination.$([guid]::NewGuid().ToString('N')).tmp"
+    try {
+        Copy-Item -LiteralPath $Source -Destination $pending
+        if ((Get-FileHash -LiteralPath $pending -Algorithm $Algorithm).Hash -cne $Hash) {
+            throw "依赖文件校验失败 $Destination"
+        }
+        Move-Item -LiteralPath $pending -Destination $Destination -Force
+    } finally { [IO.File]::Delete($pending) }
+}
+
+function Get-VerifiedDependency([string]$Name, [string]$Uri, [string]$Algorithm, [string]$Hash) {
     $archive = Join-Path $DependencyCache $Name
     if ((Test-Path -LiteralPath $archive -PathType Leaf) -and
         (Get-FileHash -LiteralPath $archive -Algorithm $Algorithm).Hash -eq $Hash) {
         return $archive
     }
 
-    $null = New-Item -ItemType Directory -Path $DependencyCache -Force
     $pending = Join-Path $staging $Name
     Write-Host "正在下载 $Name"
     [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
     Invoke-WebRequest -UseBasicParsing -Uri $Uri -OutFile $pending -TimeoutSec 180
-    if ((Get-FileHash -LiteralPath $pending -Algorithm $Algorithm).Hash -ne $Hash) {
-        throw "下载文件校验失败 $Name"
-    }
-    Copy-Item -LiteralPath $pending -Destination $archive -Force
+    Copy-VerifiedDependency $pending $archive $Algorithm $Hash
     return $archive
 }
 
@@ -100,6 +143,8 @@ try {
         throw '请退出游戏后重试。'
     }
     Write-Host "游戏目录  $game"
+    Assert-GameFiles $game
+    Write-Host '游戏文件检查通过。'
 
     if ($package -in @('cup', 'save-slot')) {
         $buildHash = '13B13F97BBE50154B451753351656F99595AE0A542586097F27536F55C24F3C4'
@@ -134,7 +179,7 @@ try {
     Add-Type -AssemblyName System.IO.Compression.FileSystem
     $loaderStage = Join-Path $staging 'loader'
     if ($loaderNeeded) {
-        $archive = Get-DependencyArchive 'MelonLoader-0.7.3-x64.zip' 'https://github.com/LavaGang/MelonLoader/releases/download/v0.7.3/MelonLoader.x64.zip' 'SHA256' '5b2b2f3d1cd42b59ec886c5bdc2663edae87a0097a4f4a8f58c0965a99dda416'
+        $archive = Get-VerifiedDependency 'MelonLoader-0.7.3-x64.zip' 'https://github.com/LavaGang/MelonLoader/releases/download/v0.7.3/MelonLoader.x64.zip' 'SHA256' '5B2B2F3D1CD42B59EC886C5BDC2663EDAE87A0097A4F4A8F58C0965A99DDA416'
         [IO.Compression.ZipFile]::ExtractToDirectory($archive, $loaderStage)
     }
 
@@ -144,9 +189,32 @@ try {
         !(Test-Path -LiteralPath (Join-Path $runtime 'shared/Microsoft.NETCore.App/6.0.36/coreclr.dll') -PathType Leaf) -or
         !(Test-Path -LiteralPath (Join-Path $runtime 'dotnet.exe') -PathType Leaf)
     if ($runtimeNeeded) {
-        $archive = Get-DependencyArchive 'dotnet-runtime-6.0.36-win-x64.zip' 'https://builds.dotnet.microsoft.com/dotnet/Runtime/6.0.36/dotnet-runtime-6.0.36-win-x64.zip' 'SHA512' '935db5c6cee19f2c016e67168bfae7b491044735de76c673abb3b125dd325fd5e779d7efe12ba80178d46689ae70a25e558a3fa846417d44c5f4ca256e7f4bf2'
+        $archive = Get-VerifiedDependency 'dotnet-runtime-6.0.36-win-x64.zip' 'https://builds.dotnet.microsoft.com/dotnet/Runtime/6.0.36/dotnet-runtime-6.0.36-win-x64.zip' 'SHA512' '935DB5C6CEE19F2C016E67168BFAE7B491044735DE76C673ABB3B125DD325FD5E779D7EFE12BA80178D46689AE70A25E558A3FA846417D44C5F4CA256E7F4BF2'
         [IO.Compression.ZipFile]::ExtractToDirectory($archive, $runtimeStage)
     }
+
+    $cppBase = 'https://github.com/SamboyCoding/Cpp2IL/releases/download/2022.1.0-pre-release.21'
+    $cppDirectory = Join-Path $game 'MelonLoader/Dependencies/Il2CppAssemblyGenerator/Cpp2IL'
+    $cppFiles = @(
+        @{
+            Name = 'Cpp2IL-2022.1.0-pre-release.21-Windows.exe'
+            Target = 'Cpp2IL.exe'
+            Hash = '663FB432433B4371FD1EE0EBC321A8FFF2A9AAC5AC4230C843F9E03DDEE4E04C'
+        }
+        @{
+            Name = 'Cpp2IL.Plugin.StrippedCodeRegSupport.dll'
+            Target = 'Plugins/Cpp2IL.Plugin.StrippedCodeRegSupport.dll'
+            Hash = '2CC4F8C66541F18B4DAED5410149EE7859C3190454D30BDA5CCD0895D2989EE6'
+        }
+    )
+    foreach ($dependency in $cppFiles) {
+        $target = Join-Path $cppDirectory $dependency.Target
+        if ((Test-Path -LiteralPath $target -PathType Leaf) -and
+            (Get-FileHash -LiteralPath $target).Hash -ceq $dependency.Hash) { continue }
+        $source = Get-VerifiedDependency $dependency.Name "$cppBase/$($dependency.Name)" 'SHA256' $dependency.Hash
+        Copy-VerifiedDependency $source $target 'SHA256' $dependency.Hash
+    }
+    Write-Host 'Cpp2IL 与配套插件校验通过。'
 
     if ($loaderNeeded) { Copy-MissingTree (Join-Path $loaderStage 'MelonLoader') (Join-Path $game 'MelonLoader') }
     if ($runtimeNeeded) { Copy-MissingTree $runtimeStage $runtime }
