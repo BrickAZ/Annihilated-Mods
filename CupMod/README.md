@@ -56,4 +56,4 @@ Mod 将上次开跑的配置保存在 UserData/AnnihilatedCup/cup.json，下次�
 
 ## 源码和验证
 
-构建命令见[仓库首页](../README.md#从源码构建)。给 `--annihilated-cup` 追加 `--annihilated-cup-smoke` 或 `--annihilated-cup-boss-smoke`，可在游戏中验证开局、地图及模拟终点事件。追加 `--annihilated-cup-mage-smoke` 可使用种子 20261113 验证原版技能、铁剑和药水的初始化，再通过原版地图按钮进入哥布林战并读取初始战斗模式。自检成绩写入 verification 目录。各目标从序章到终点的完整实跑仍待验证。
+构建命令见[仓库首页](../README.zh-CN.md#从源码构建)。给 `--annihilated-cup` 追加 `--annihilated-cup-smoke` 或 `--annihilated-cup-boss-smoke`，可在游戏中验证开局、地图及模拟终点事件。追加 `--annihilated-cup-mage-smoke` 可使用种子 20261113 验证原版技能、铁剑和药水的初始化，再通过原版地图按钮进入哥布林战并读取初始战斗模式。自检成绩写入 verification 目录。各目标从序章到终点的完整实跑仍待验证。
