@@ -1,33 +1,44 @@
 namespace CupCompetition;
 
-internal sealed record Route(string Id, string Partner, string Name, string EndingType, bool Box = false, string Kind = "通关")
+internal sealed record Route(string Id, string Partner, string Name, string EnglishName, string EndingType, bool Box = false, string Kind = "通关")
 {
     public static readonly Route[] All =
     {
-        new("hero", "hero", "并肩走出迷宫", "hero"),
-        new("hero4Bad", "hero", "谁也不相信", "hero4Bad", Kind: "坏结局"),
-        new("dropout_hero", "hero", "与落选者联手", "dropout", Kind: "坏结局"),
-        new("mageMaryoku", "mage", "取回魔力并拉钩", "mageMaryoku"),
-        new("mageNotMaryokuSuki", "mage", "未取回魔力 · 喜欢", "mageNotMaryokuSuki"),
-        new("mageNotMaryokuIssyo", "mage", "未取回魔力 · 珍视", "mageNotMaryokuIssyo"),
-        new("mageNotMaryokuSpecialWin", "mage", "未取回魔力 · 特殊胜利", "mageNotMaryokuSpecialWin"),
-        new("mage5YakusokuSinaiBad", "mage", "取回魔力 · 没有拉钩", "mage5YakusokuSinaiBad", Kind: "坏结局"),
-        new("mage-exit", "mage", "陷阱后折返", "", Kind: "提前收束"),
-        new("warrior", "warrior", "偶像尾声", "warrior"),
-        new("warrior_hakoniwa", "warrior", "箱庭尾声", "warrior", true),
-        new("warriorKill", "warrior", "杀戮尾声", "warriorKill"),
-        new("warriorAfterGlitch", "warrior", "故障后的偶像尾声", "warriorAfterGlitch"),
-        new("warriorGlitchBad", "warrior", "接受战士 · 故障", "warriorGlitchBad", Kind: "回退结局"),
-        new("dropout_warrior", "warrior", "放弃救援，与落选者联手", "dropout", Kind: "坏结局"),
-        new("priestNod", "priest", "点头 · 慢生活", "priestNod"),
-        new("priestNodAfterLowSan", "priest", "点头 · 低理智回退版", "priestNodAfterLowSan"),
-        new("priestLowLoop", "priest", "摇头 · 低循环／魔王", "priestLowLoop"),
-        new("priestHighLoop", "priest", "摇头 · 高循环", "priestHighLoop"),
-        new("dropout_priest", "priest", "握住落选者的手", "dropout", Kind: "坏结局"),
-        new("priest4KilledBad", "priest", "看向僧侣 · 低理智", "priest4KilledBad", Kind: "回退结局"),
-        new("priest4NoReachBad", "priest", "袖手旁观", "priest4NoReachBad", Kind: "坏结局"),
-        new("ritual", "common", "献祭仪式", "", Kind: "提前收束"),
+        new("hero", "hero", "并肩走出迷宫", "Leave the Dungeon Together", "hero"),
+        new("hero4Bad", "hero", "谁也不相信", "Trust No One", "hero4Bad", Kind: "坏结局"),
+        new("dropout_hero", "hero", "与落选者联手", "Side with Dropout", "dropout", Kind: "坏结局"),
+        new("mageMaryoku", "mage", "取回魔力并拉钩", "Regain Magic and Pinky Promise", "mageMaryoku"),
+        new("mageNotMaryokuSuki", "mage", "未取回魔力 · 喜欢", "No Magic · I Like You", "mageNotMaryokuSuki"),
+        new("mageNotMaryokuIssyo", "mage", "未取回魔力 · 珍视", "No Magic · You Matter to Me", "mageNotMaryokuIssyo"),
+        new("mageNotMaryokuSpecialWin", "mage", "未取回魔力 · 特殊胜利", "No Magic · Special Victory", "mageNotMaryokuSpecialWin"),
+        new("mage5YakusokuSinaiBad", "mage", "取回魔力 · 没有拉钩", "Regain Magic · No Pinky Promise", "mage5YakusokuSinaiBad", Kind: "坏结局"),
+        new("mage-exit", "mage", "陷阱后折返", "Turn Back After the Trap", "", Kind: "提前收束"),
+        new("warrior", "warrior", "偶像尾声", "Idol Epilogue", "warrior"),
+        new("warrior_hakoniwa", "warrior", "箱庭尾声", "Miniature Garden Epilogue", "warrior", true),
+        new("warriorKill", "warrior", "杀戮尾声", "Slaughter Epilogue", "warriorKill"),
+        new("warriorAfterGlitch", "warrior", "故障后的偶像尾声", "Idol Epilogue After the Glitch", "warriorAfterGlitch"),
+        new("warriorGlitchBad", "warrior", "接受战士 · 故障", "Accept the Warrior · Glitch", "warriorGlitchBad", Kind: "回退结局"),
+        new("dropout_warrior", "warrior", "放弃救援，与落选者联手", "Abandon the Rescue and Side with Dropout", "dropout", Kind: "坏结局"),
+        new("priestNod", "priest", "点头 · 慢生活", "Nod · Slow Life", "priestNod"),
+        new("priestNodAfterLowSan", "priest", "点头 · 低理智回退版", "Nod · Low-Sanity Rollback", "priestNodAfterLowSan"),
+        new("priestLowLoop", "priest", "摇头 · 低循环／魔王", "Shake Head · Low Loop / Demon King", "priestLowLoop"),
+        new("priestHighLoop", "priest", "摇头 · 高循环", "Shake Head · High Loop", "priestHighLoop"),
+        new("dropout_priest", "priest", "握住落选者的手", "Take Dropout's Hand", "dropout", Kind: "坏结局"),
+        new("priest4KilledBad", "priest", "看向僧侣 · 低理智", "Look at the Priest · Low Sanity", "priest4KilledBad", Kind: "回退结局"),
+        new("priest4NoReachBad", "priest", "袖手旁观", "Stand By and Watch", "priest4NoReachBad", Kind: "坏结局"),
+        new("ritual", "common", "献祭仪式", "Sacrifice Ritual", "", Kind: "提前收束"),
     };
+
+    public string DisplayName(CupLanguage language) => language.Text(Name, EnglishName);
+    public string DisplayPartner(CupLanguage language) => language.Text(PartnerName, Partner switch
+    {
+        "hero" => "Hero", "mage" => "Mage", "warrior" => "Warrior", "priest" => "Priest", _ => "Prologue"
+    });
+
+    public string DisplayKind(CupLanguage language) => language.Text(Kind, Kind switch
+    {
+        "坏结局" => "Bad Ending", "回退结局" => "Rollback Ending", "提前收束" => "Early Finish", _ => "Clear"
+    });
 
     public string PartnerName => Partner switch { "hero" => "勇者", "mage" => "魔法师", "warrior" => "战士", "priest" => "僧侣", _ => "序章" };
 
@@ -108,6 +119,7 @@ internal sealed record CupSettings
     public string EventId { get; init; } = "Cup-001";
     public string RouteId { get; init; } = "hero";
     public string BossId { get; init; } = "";
+    public bool FastStory { get; init; } = true;
     public int Seed { get; init; } = 20261113;
     public string BattleMode { get; init; } = "probability";
     public int LimitMinutes { get; init; }
@@ -123,4 +135,13 @@ internal sealed record CupSettings
     public int? MaxWeapons { get; init; }
     public bool KickOnly { get; init; }
     public bool HarshTraining { get; init; }
+    public bool FixedWeaponCombination { get; init; }
+    public bool ExtraActionAfterSteal { get; init; }
+    public double StolenWeaponDamageMultiplier { get; init; } = 2;
+    public double EnemyHealthMultiplier { get; init; } = 1;
+    public double EnemyAttackMultiplier { get; init; } = 1;
+    public string DisabledCharacter { get; init; } = "";
+    public bool InheritDisabledAction { get; init; }
+
+    public CupSettings ForMatch() => string.IsNullOrEmpty(BossId) ? this : this with { RouteId = "" };
 }

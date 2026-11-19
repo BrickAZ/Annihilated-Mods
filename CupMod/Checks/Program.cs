@@ -3,6 +3,27 @@ static void Assert(bool value, string what)
 {
     if (!value) throw new Exception(what);
 }
+foreach (string locale in new[] { "zh-CN", "zh-TW", "zh_Hant", "zh" })
+    Assert(CupLanguage.ForLocale(locale).Text("跑刀", "Knife Run") == "跑刀", $"Chinese startup locale: {locale}");
+foreach (string? locale in new[] { "en", "ja", "fr", "", null })
+    Assert(CupLanguage.ForLocale(locale).Text("跑刀", "Knife Run") == "Knife Run", $"English fallback: {locale}");
+var invalidSetup = new CupSetup(new CupSettings { EventId = "" });
+Assert(!invalidSetup.TryGetSettings(out _, out string englishError, CupLanguage.ForLocale("ja")) &&
+    englishError.StartsWith("Enter a Cup ID", StringComparison.Ordinal), "Validation uses the same English fallback as the setup screen");
+var normalProfile = """
+    {"objectJsonMap":{"keys":["AudioSettings","Naninovel.LocalizationManager+Settings, Elringus.Naninovel.Runtime"],
+      "values":["{\"Volume\":0.5}","{\"SelectedLocale\":\"en\"}"]}}
+    """u8.ToArray();
+using (var profile = System.Text.Json.JsonDocument.Parse(CupLanguage.CopyLocaleSetting(normalProfile)!))
+{
+    var map = profile.RootElement.GetProperty("objectJsonMap");
+    using var setting = System.Text.Json.JsonDocument.Parse(map.GetProperty("values")[0].GetString()!);
+    Assert(map.GetProperty("keys").GetArrayLength() == 1 &&
+        setting.RootElement.GetProperty("SelectedLocale").GetString() == "en",
+        "Cup save isolation carries over only the native locale setting");
+}
+Assert(CupLanguage.CopyLocaleSetting("{\"objectJsonMap\":{\"keys\":[],\"values\":[]}}"u8.ToArray()) is null,
+    "A fresh profile leaves the game's startup language at its native default");
 var run = new CupRun();
 run.Reach(1);
 Assert(run.Progress == 0, "No progress before start");
@@ -116,13 +137,54 @@ Assert(BossGoal.WinAt("Battle", 13834, "warriorFinalDuel", 6)?.Id == "warriorFin
 setup.EventId = "Boss Cup";
 setup.BossMode = true;
 setup.SelectBoss("demonLord");
+Assert(!setup.TryGetSettings(out _, out _), "Boss setup asks for a compatible story branch");
+setup.SelectBossRoute("hero");
+Assert(!setup.TryGetSettings(out _, out _), "Demon King cannot use an unrelated hero route");
+setup.SelectBossRoute("priestLowLoop");
 Assert(setup.TryGetSettings(out var bossSettings, out _) &&
-    bossSettings!.BossId == "demonLord" && bossSettings.RouteId == "", "Boss race stores no ending or partner restriction");
-Assert(new CupSetup(bossSettings!).Boss?.Id == "demonLord", "Boss configuration survives reloading");
+    bossSettings!.BossId == "demonLord" && bossSettings.RouteId == "priestLowLoop", "Boss and story branch save independently");
+Assert(new CupSetup(bossSettings!).TryGetSettings(out var reloadedBoss, out _) && reloadedBoss == bossSettings,
+    "Boss configuration and its story branch survive reloading");
+var firstBossBranch = new CupSettings { BossId = "priest", RouteId = "hero" };
+var secondBossBranch = firstBossBranch with { RouteId = "mageMaryoku" };
+Assert(firstBossBranch.ForMatch() == secondBossBranch.ForMatch(),
+    "Different player-selected branches can compete in the same Boss race");
+Assert((firstBossBranch with { BossId = "" }).ForMatch() != (secondBossBranch with { BossId = "" }).ForMatch(),
+    "An ending race remains keyed by its selected ending");
+var legacySetup = System.Text.Json.JsonSerializer.Deserialize<CupSettings>("{}")!;
+Assert(legacySetup.FastStory, "Configurations saved before the switch keep automatic story playback");
+foreach (var settings in new[] { legacySetup, firstBossBranch })
+{
+    var manualSetup = new CupSetup(settings) { FastStory = false };
+    Assert(manualSetup.TryGetSettings(out var chosen, out _) && chosen is { FastStory: false } &&
+        chosen.BossId == settings.BossId && chosen.RouteId == settings.RouteId &&
+        chosen.ForMatch() != settings.ForMatch(), "Manual story playback is a saved rule in either goal mode");
+    var saved = System.Text.Json.JsonSerializer.Serialize(chosen);
+    Assert(new CupSetup(System.Text.Json.JsonSerializer.Deserialize<CupSettings>(saved)!).FastStory == false,
+        "Saved manual story playback stays off when reloaded");
+}
 var opening = new CupSetup(new CupSettings());
 Assert(opening.TryGetSettings(out var defaults, out _) && defaults is
     { StartingCurse: 0, StartingAllocationPoints: 0, OpeningDeath: false, RunKnife: false },
     "Old configurations keep the standard start");
+Assert(defaults is { FixedWeaponCombination: false, ExtraActionAfterSteal: false, StolenWeaponDamageMultiplier: 2,
+    EnemyHealthMultiplier: 1, EnemyAttackMultiplier: 1, DisabledCharacter: "", InheritDisabledAction: false },
+    "Old configurations default to native combat and a twofold optional vulnerability");
+var expanded = new CupSetup(new CupSettings
+{
+    FixedWeaponCombination = true, ExtraActionAfterSteal = true, StolenWeaponDamageMultiplier = 1, EnemyHealthMultiplier = 1.5,
+    EnemyAttackMultiplier = 0.75, DisabledCharacter = "player", InheritDisabledAction = true
+});
+Assert(expanded.TryGetSettings(out var expandedSettings, out _) && expandedSettings is
+    { FixedWeaponCombination: true, ExtraActionAfterSteal: true, StolenWeaponDamageMultiplier: 1, EnemyHealthMultiplier: 1.5,
+      EnemyAttackMultiplier: 0.75, DisabledCharacter: "player", InheritDisabledAction: true, RouteId: "hero" },
+    "Entertainment settings survive editing and do not alter the chosen story");
+expanded.EnemyAttackMultiplierText = "NaN";
+Assert(!expanded.TryGetSettings(out _, out _), "A non-finite combat multiplier is rejected");
+var previousStealRules = System.Text.Json.JsonSerializer.Deserialize<CupSettings>(
+    "{\"StolenWeaponVulnerability\":true,\"StolenWeaponDamageMultiplier\":3}")!;
+Assert(previousStealRules is { ExtraActionAfterSteal: false, StolenWeaponDamageMultiplier: 3 },
+    "The previous damage toggle does not enable the new action rule; the configured multiplier is retained");
 opening.StartingCurseText = "100";
 opening.StartingAllocationText = "6";
 opening.RunKnife = true;
@@ -186,8 +248,10 @@ Assert(new CupSetup(jumpSettings!).TryGetSettings(out var reloadedJump, out _) &
     "Jump and rules survive reloading");
 jump.BossMode = true;
 jump.SelectBoss("dealer");
+jump.SelectBossRoute("hero");
 Assert(!jump.TryGetSettings(out _, out _), "Cannot jump past the target boss");
 jump.SelectBoss("demonLord");
+jump.SelectBossRoute("priestLowLoop");
 jump.StartingFloorText = "6";
 jump.MaxWeaponsText = "";
 Assert(jump.TryGetSettings(out var extra, out _) && extra is { StartingFloor: 6, MaxWeapons: null }, "The Demon Lord supports its extra area and a blank cap");

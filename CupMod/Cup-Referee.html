@@ -19,16 +19,17 @@ input:not([type=checkbox]),select{width:100%;min-width:0;border:1px solid var(--
 .mast h1{margin:0;font-size:clamp(26px,4vw,38px);font-weight:800;letter-spacing:.035em;line-height:1.2}
 .mast p{margin:7px 0 0;color:var(--muted)}
 .cup{color:var(--gold);font-family:var(--mono);overflow-wrap:anywhere;text-align:right}
+.mast-actions{display:grid;justify-items:end;gap:7px;min-width:0;max-width:45%}
 .workspace{display:grid;grid-template-columns:minmax(290px,330px) minmax(0,1fr);gap:20px;align-items:start}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;min-width:0}
 .rules{padding:17px}.rules h2,.section h2{font-size:16px;margin:0}
 .rule-actions{display:flex;gap:7px;margin:11px 0}
 .rule-actions button{flex:1;padding:7px 5px;font-size:13px}
 .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 9px}
-label.field{display:grid;gap:4px;color:var(--muted);font-size:12px}
+label.field{display:grid;gap:4px;color:var(--muted);font-size:12px}label.field[hidden]{display:none}
 .span2{grid-column:1/-1}
 .checks{display:flex;flex-wrap:wrap;gap:5px 13px;margin:9px 0 0;font-size:12px;color:var(--text)}
-.checks label{display:flex;align-items:center;gap:4px}.checks input{accent-color:var(--gold)}
+.checks label{display:flex;align-items:center;gap:4px}.checks label[hidden]{display:none}.checks input{accent-color:var(--gold)}
 .rules details{margin:12px 0;border-top:1px solid var(--line);padding-top:8px}.rules summary{color:var(--muted);cursor:pointer;margin-bottom:8px}
 .primary{background:var(--gold);color:#191710;border-color:var(--gold)}.primary:hover:not(:disabled){background:#ffdf9d;color:#191710}
 .wide{width:100%;margin-top:12px}.hint{font-size:12px;color:var(--muted)}.rules .hint{margin:7px 0 0;overflow-wrap:anywhere}
@@ -38,7 +39,7 @@ label.field{display:grid;gap:4px;color:var(--muted);font-size:12px}
 .drop button{white-space:nowrap}
 .filters{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
 .filters button[aria-pressed=true]{color:var(--gold);border-color:#a18451;background:#332c1f}
-.filters span{font:12px var(--mono);margin-left:5px}
+.filters span[id]{font:12px var(--mono);margin-left:5px}
 .section{overflow:hidden}
 .section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 15px;border-bottom:1px solid var(--line)}
 .section-head input{max-width:228px}
@@ -65,59 +66,82 @@ td.mono,.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
 </head>
 <body>
 <main class="shell">
-  <header class="mast"><div><h1>杯赛裁判台</h1><p>批量核验成绩，按本局编号对照录像。</p></div><strong id="cup-label" class="cup">规则待确认</strong></header>
+  <header class="mast"><div><h1 data-en="Cup Referee Desk">杯赛裁判台</h1><p data-en="Verify results in batches and match recordings by run code.">批量核验成绩，按本局编号对照录像。</p></div><div class="mast-actions"><strong id="cup-label" class="cup">规则待确认</strong><button id="language-toggle" type="button" lang="en">English</button></div></header>
   <div class="workspace">
     <aside class="panel rules" aria-labelledby="rules-title">
-      <h2 id="rules-title">当届规则</h2>
+      <h2 id="rules-title" data-en="Tournament Rules">当届规则</h2>
       <div class="rule-actions">
-        <button id="read-rules" type="button" title="读取主办方 cup.json 或已确认的参考成绩">读取规则 JSON</button>
-        <button id="save-rules" type="button">保存规则 JSON</button>
+        <button id="read-rules" type="button" title="读取主办方 cup.json 或已确认的参考成绩" data-en-title="Load the organizer's cup.json or a verified reference result" data-en="Load Rules JSON">读取规则 JSON</button>
+        <button id="save-rules" type="button" data-en="Save Rules JSON">保存规则 JSON</button>
         <input type="file" id="rules-file" accept=".json,application/json" hidden>
       </div>
       <form id="rules-form">
         <div id="main-fields" class="form-grid"></div>
-        <details><summary>开局、娱乐规则与游戏版本</summary><div id="advanced-fields" class="form-grid"></div><div id="rule-checks" class="checks"></div></details>
-        <button class="primary wide" type="submit">应用当届规则</button>
+        <details><summary data-en="Starting Conditions, Optional Rules &amp; Version">开局、娱乐规则与游戏版本</summary><div id="advanced-fields" class="form-grid"></div><div id="rule-checks" class="checks"></div></details>
+        <button class="primary wide" type="submit" data-en="Apply Tournament Rules">应用当届规则</button>
       </form>
       <p class="hint" id="rule-message" role="status">也可以读取主办方的 cup.json，再确认应用。</p>
     </aside>
     <div class="desk">
-      <section class="panel drop" id="drop-zone" aria-label="导入成绩">
-        <div><strong>导入选手成绩</strong><p class="hint">可拖入多个 JSON，或一次选中多个文件。文件在本机读取。</p></div>
-        <button class="primary" id="pick-files">选择成绩 JSON</button><input id="result-files" type="file" accept=".json,application/json" multiple hidden>
+      <section class="panel drop" id="drop-zone" aria-label="导入成绩" data-en-aria-label="Import results">
+        <div><strong data-en="Import Player Results">导入选手成绩</strong><p class="hint" data-en="Drop or select multiple JSON files. Files are read locally.">可拖入多个 JSON，或一次选中多个文件。文件在本机读取。</p></div>
+        <button class="primary" id="pick-files" data-en="Select Result Files">选择成绩 JSON</button><input id="result-files" type="file" accept=".json,application/json" multiple hidden>
       </section>
       <div id="import-message" class="hint import-msg" role="status" hidden></div>
-      <nav class="filters" aria-label="筛选成绩">
-        <button type="button" data-filter="all" aria-pressed="true">全部<span id="count-all">0</span></button>
-        <button type="button" data-filter="flag" aria-pressed="false">有疑点<span id="count-flag">0</span></button>
-        <button type="button" data-filter="ok" aria-pressed="false">可排名<span id="count-ok">0</span></button>
+      <nav class="filters" aria-label="筛选成绩" data-en-aria-label="Filter results">
+        <button type="button" data-filter="all" aria-pressed="true"><span class="filter-label" data-en="All">全部</span><span id="count-all">0</span></button>
+        <button type="button" data-filter="flag" aria-pressed="false"><span class="filter-label" data-en="Flagged">有疑点</span><span id="count-flag">0</span></button>
+        <button type="button" data-filter="ok" aria-pressed="false"><span class="filter-label" data-en="Rankable">可排名</span><span id="count-ok">0</span></button>
       </nav>
       <section class="panel section">
-        <div class="section-head"><h2>成绩与核验</h2><input type="search" id="search" placeholder="查本局编号、选手或文件" aria-label="搜索成绩"></div>
+        <div class="section-head"><h2 data-en="Results and Verification">成绩与核验</h2><input type="search" id="search" placeholder="查本局编号、选手或文件" data-en-placeholder="Search code, player, or file" aria-label="搜索成绩" data-en-aria-label="Search results"></div>
         <div class="scroll">
-          <table><thead><tr><th>本局编号</th><th>选手 / 文件</th><th>核验</th><th>成绩</th><th>SL / 死亡</th><th>罚时</th></tr></thead><tbody id="runs-body"></tbody></table>
+          <table><thead><tr><th data-en="Run Code">本局编号</th><th data-en="Player / File">选手 / 文件</th><th data-en="Verification">核验</th><th data-en="Score">成绩</th><th data-en="Retries / Deaths">SL / 死亡</th><th data-en="Penalty">罚时</th></tr></thead><tbody id="runs-body"></tbody></table>
         </div>
-        <div class="foot"><span>点击本局编号查看疑点和事件时间轴。</span><button id="clear-runs" disabled>清空导入</button></div>
+        <div class="foot"><span data-en="Select a run code to see flags and the event timeline.">点击本局编号查看疑点和事件时间轴。</span><button id="clear-runs" disabled data-en="Clear Results">清空导入</button></div>
       </section>
-      <section id="run-detail" class="panel detail" aria-label="场次详情" hidden></section>
+      <section id="run-detail" class="panel detail" aria-label="场次详情" data-en-aria-label="Run details" hidden></section>
       <section class="panel section">
-        <div class="section-head"><h2>暂定排名</h2><button id="export-ranking" disabled>导出 CSV</button></div>
+        <div class="section-head"><h2 data-en="Provisional Rankings">暂定排名</h2><button id="export-ranking" disabled data-en="Export CSV">导出 CSV</button></div>
         <div class="scroll">
-          <table><thead><tr><th>名次</th><th>选手</th><th>本局编号</th><th>结果</th><th>最快用时 / 最远进度</th><th>罚时</th></tr></thead><tbody id="ranks-body"></tbody></table>
+          <table><thead><tr><th data-en="Rank">名次</th><th data-en="Player">选手</th><th data-en="Run Code">本局编号</th><th data-en="Outcome">结果</th><th data-en="Best Time / Furthest Progress">最快用时 / 最远进度</th><th data-en="Penalty">罚时</th></tr></thead><tbody id="ranks-body"></tbody></table>
         </div>
-        <div class="foot"><span>通关按用时，未通关按最远进度，同成绩并列。关闭页面前请导出排名。</span></div>
+        <div class="foot"><span data-en="Clears rank by time. Other runs rank by progress. Equal scores tie. Export the rankings before closing this page.">通关按用时，未通关按最远进度，同成绩并列。关闭页面前请导出排名。</span></div>
       </section>
     </div>
   </div>
 </main>
 <script id="audit-engine">
 "use strict";
-const statusNames = { clear:"通关", defeat:"战败", time_limit:"超时", wrong_ending:"偏离结局", quit_to_title:"退出至标题",
-  required_choice_locked:"分支条件不足", wrong_story_branch:"偏离分支", running:"进行中", quit:"关闭游戏", mod_error:"Mod 异常" };
+let language = "zh";
+const t = (zh, en) => language === "zh" ? zh : en;
+const statusNames = {zh: { clear:"通关", defeat:"战败", time_limit:"超时", wrong_ending:"偏离结局", quit_to_title:"退出至标题",
+  required_choice_locked:"分支条件不足", wrong_story_branch:"偏离分支", running:"进行中", quit:"关闭游戏", mod_error:"Mod 异常" }, en: {
+    "clear": "Cleared",
+    "defeat": "Defeated",
+    "time_limit": "Time Limit",
+    "wrong_ending": "Wrong Ending",
+    "quit_to_title": "Quit to Title",
+    "required_choice_locked": "Branch Locked",
+    "wrong_story_branch": "Wrong Branch",
+    "running": "In Progress",
+    "quit": "Game Closed",
+    "mod_error": "Mod Error"
+  }};
 const rankedStatuses = new Set(["clear","defeat","time_limit","wrong_ending","quit_to_title","required_choice_locked","wrong_story_branch"]);
-const eventsNames = { start:"本局启动", timer_start:"开始计时", opening_death:"开局免罚死亡", checkpoint:"进度检查点", sl_begin:"开始 SL",
-  sl_success:"SL 成功", sl_failed:"SL 失败", death:"正式死亡", finish:"停表" };
-const goalNames = {
+const eventsNames = {zh: { start:"本局启动", timer_start:"开始计时", opening_death:"开局免罚死亡", checkpoint:"进度检查点", sl_begin:"开始 SL",
+  sl_success:"SL 成功", sl_failed:"SL 失败", death:"正式死亡", finish:"停表" }, en: {
+    "start": "Run Started",
+    "timer_start": "Timer Started",
+    "opening_death": "Penalty-Free Opening Death",
+    "checkpoint": "Checkpoint",
+    "sl_begin": "Room Retry Started",
+    "sl_success": "Room Retry Succeeded",
+    "sl_failed": "Room Retry Failed",
+    "death": "Death",
+    "finish": "Timer Stopped"
+  }};
+const goalNames = {zh: {
   routes: {
     hero:"勇者 · 并肩走出迷宫", hero4Bad:"勇者 · 谁也不相信", dropout_hero:"勇者 · 与落选者联手",
     mageMaryoku:"魔法师 · 取回魔力并拉钩", mageNotMaryokuSuki:"魔法师 · 未取回魔力 · 喜欢",
@@ -133,182 +157,278 @@ const goalNames = {
     seaDragon:"第 3 层 · 海龙", dropout:"第 3 层 · 落选者", giant:"第 4 层 · 巨人", slime:"第 4 层 · 史莱姆",
     priest:"第 5 层 · 僧侣", warriorFinalDuel:"第 5 层 · 战士第一场决斗", warriorLv1Duel:"第 5 层 · 战士第二场决斗",
     demonLord:"额外区域 · 魔王" }
-};
-const labels = {
-  EventId:"杯赛编号", RouteId:"指定结局", BossId:"目标 Boss", Seed:"种子", BattleMode:"战斗方式",
+}, en: {
+    "routes": {
+      "hero": "Hero · Leave the Dungeon Together",
+      "hero4Bad": "Hero · Trust No One",
+      "dropout_hero": "Hero · Side with Dropout",
+      "mageMaryoku": "Mage · Regain Magic and Pinky Promise",
+      "mageNotMaryokuSuki": "Mage · No Magic · I Like You",
+      "mageNotMaryokuIssyo": "Mage · No Magic · You Matter to Me",
+      "mageNotMaryokuSpecialWin": "Mage · No Magic · Special Victory",
+      "mage5YakusokuSinaiBad": "Mage · Regain Magic · No Pinky Promise",
+      "mage-exit": "Mage · Turn Back After the Trap",
+      "warrior": "Warrior · Idol Epilogue",
+      "warrior_hakoniwa": "Warrior · Miniature Garden Epilogue",
+      "warriorKill": "Warrior · Slaughter Epilogue",
+      "warriorAfterGlitch": "Warrior · Idol Epilogue After the Glitch",
+      "warriorGlitchBad": "Warrior · Accept the Warrior · Glitch",
+      "dropout_warrior": "Warrior · Abandon the Rescue and Side with Dropout",
+      "priestNod": "Priest · Nod · Slow Life",
+      "priestNodAfterLowSan": "Priest · Nod · Low-Sanity Rollback",
+      "priestLowLoop": "Priest · Shake Head · Low Loop / Demon King",
+      "priestHighLoop": "Priest · Shake Head · High Loop",
+      "dropout_priest": "Priest · Take Dropout's Hand",
+      "priest4KilledBad": "Priest · Look at the Priest · Low Sanity",
+      "priest4NoReachBad": "Priest · Stand By and Watch",
+      "ritual": "Sacrifice Ritual"
+    },
+    "bosses": {
+      "outcast": "F1 · Outcast",
+      "dealer": "F2 · Dealer Pigeon",
+      "villainess": "F2 · Villainess",
+      "seaDragon": "F3 · Tide Reaver",
+      "dropout": "F3 · Dropout",
+      "giant": "F4 · Illusion Crane",
+      "slime": "F4 · Slime",
+      "priest": "F5 · Priest",
+      "warriorFinalDuel": "F5 · Warrior (First Duel)",
+      "warriorLv1Duel": "F5 · Warrior (Second Duel)",
+      "demonLord": "Extra Area · Demon King Graus"
+    }
+  }};
+const labels = {zh: {
+  EventId:"杯赛编号", RouteId:"剧情分支", BossId:"目标 Boss", FastStory:"快速过剧情", Seed:"种子", BattleMode:"战斗方式",
   LimitMinutes:"限时（分钟，0 不限）", MaxRoomRetries:"SL 上限", RoomRetryPenaltySeconds:"每次 SL 罚秒",
   MaxDeaths:"允许死亡", DeathPenaltySeconds:"每次死亡罚秒", StartingCurse:"开局诅咒", StartingAllocationPoints:"开局属性点",
   OpeningDeath:"开局免罚死亡", RunKnife:"跑刀", StartingFloor:"起始楼层", MaxWeapons:"武器上限（空白不限）",
-  KickOnly:"仅主角命毁夺取", HarshTraining:"严苛的训练几乎要了我的命"
-};
-const defaults = { EventId:"Cup-001", RouteId:"hero", BossId:"", Seed:20261113, BattleMode:"probability",
+  KickOnly:"仅主角命毁夺取", HarshTraining:"严苛的训练几乎要了我的命",
+  FixedWeaponCombination:"火堆固定合成武器", StolenWeaponVulnerability:"夺武器后增伤", ExtraActionAfterSteal:"夺取武器后多一个回合行动",
+  StolenWeaponDamageMultiplier:"怪物被夺取武器后下一回合受伤倍率", EnemyHealthMultiplier:"怪物血量倍率", EnemyAttackMultiplier:"怪物攻击倍率",
+  DisabledCharacter:"禁用角色", InheritDisabledAction:"接替被禁用角色的行动"
+}, en: {
+    "EventId": "Cup ID",
+    "RouteId": "Story Route",
+    "BossId": "Target Boss",
+    "FastStory": "Story Auto-Skip",
+    "Seed": "Seed",
+    "BattleMode": "Battle Mode",
+    "LimitMinutes": "Time Limit (min, 0 = unlimited)",
+    "MaxRoomRetries": "F9 Retry Limit",
+    "RoomRetryPenaltySeconds": "Penalty per Retry (s)",
+    "MaxDeaths": "Deaths Allowed",
+    "DeathPenaltySeconds": "Penalty per Death (s)",
+    "StartingCurse": "Starting Curse",
+    "StartingAllocationPoints": "Starting Stat Points",
+    "OpeningDeath": "Penalty-Free Opening Death",
+    "RunKnife": "Knife Run",
+    "StartingFloor": "Starting Floor",
+    "MaxWeapons": "Weapon Limit (blank = unlimited)",
+    "KickOnly": "Dreak-Only Weapon Loot",
+    "HarshTraining": "The training, the punishing missions nearly killed me.",
+    FixedWeaponCombination:"Guaranteed Bonfire Fusion", StolenWeaponVulnerability:"Stolen Weapon Vulnerability", ExtraActionAfterSteal:"Extra Action After Stealing a Weapon",
+    StolenWeaponDamageMultiplier:"Damage Taken Next Round After Weapon Steal", EnemyHealthMultiplier:"Enemy Health", EnemyAttackMultiplier:"Enemy Attack",
+    DisabledCharacter:"Banned Character", InheritDisabledAction:"Take the Banned Character's Action"
+  }};
+const bossFloors = {"outcast":1,"dealer":2,"villainess":2,"seaDragon":3,"dropout":3,"giant":4,"slime":4,"priest":5,"warriorFinalDuel":5,"warriorLv1Duel":5,"demonLord":6};
+const extendedDefaults = { FixedWeaponCombination:false, StolenWeaponDamageMultiplier:2,
+  EnemyHealthMultiplier:1, EnemyAttackMultiplier:1, DisabledCharacter:"", InheritDisabledAction:false };
+const multiplierFields = ["StolenWeaponDamageMultiplier","EnemyHealthMultiplier","EnemyAttackMultiplier"];
+const defaults = { EventId:"Cup-001", RouteId:"hero", BossId:"", FastStory:true, Seed:20261113, BattleMode:"probability",
   LimitMinutes:0, MaxRoomRetries:0, RoomRetryPenaltySeconds:0, MaxDeaths:0, DeathPenaltySeconds:0, StartingCurse:0,
-  StartingAllocationPoints:0, OpeningDeath:false, RunKnife:false, StartingFloor:1, MaxWeapons:null, KickOnly:false, HarshTraining:false };
+  StartingAllocationPoints:0, OpeningDeath:false, RunKnife:false, StartingFloor:1, MaxWeapons:null, KickOnly:false, HarshTraining:false, ExtraActionAfterSteal:false, ...extendedDefaults };
 const integer = (n, min=0, max=Number.MAX_SAFE_INTEGER) => Number.isSafeInteger(n) && n >= min && n <= max;
 const object = value => value !== null && typeof value === "object" && !Array.isArray(value);
 const own = (obj, key) => Object.hasOwn(obj, key);
 const legacyTraining = version => /^0\.4\.[0-8]$/.test(version || "");
+const legacyStealRules = version => /^0\.(4\.\d+|5\.[0-3])$/.test(version || "");
+const settingLabel = (key, version) => key === "StolenWeaponDamageMultiplier" && legacyStealRules(version)
+  ? t("夺武器后受伤倍率", "Damage Taken After Steal") : labels[language][key];
+function defaultsForVersion(version) {
+  if (!legacyStealRules(version)) return defaults;
+  const {ExtraActionAfterSteal, ...legacy} = defaults;
+  return {...legacy, StolenWeaponVulnerability:false};
+}
 function normalizeSettings(settings, version) {
+  if (object(settings) && !version) {
+    const {StolenWeaponVulnerability, ...config} = settings;
+    settings = {...extendedDefaults, ExtraActionAfterSteal:false, ...config};
+  }
+  if (object(settings) && /^0\.4\./.test(version || ""))
+    settings = {...extendedDefaults, StolenWeaponVulnerability:false, ...settings};
+  if (object(settings) && !own(settings,"FastStory") && (!version || /^0\.(4\.\d+|5\.[01])$/.test(version)))
+    settings = {...settings, FastStory: !/^0\.4\./.test(version || "")};
   if (object(settings) && !own(settings,"HarshTraining") && legacyTraining(version))
     return {...settings, HarshTraining:false};
   return settings;
 }
 const named = (names, key) => typeof key === "string" && own(names,key) ? names[key] : "";
+const characterOptions = () => [["",t("不禁用","None")],["player",t("士兵","Soldier")],["hero",t("勇者","Hero")],
+  ["warrior",t("战士","Warrior")],["mage",t("魔法师","Mage")],["priest",t("僧侣","Priest")]];
 const goal = settings => settings.BossId || settings.RouteId;
-const showValue = (key,value) => value === undefined ? "缺失" : value === null ? "不限" :
-  object(value) || Array.isArray(value) ? "无效值" :
-  typeof value === "boolean" ? (value ? "开启" : "关闭") :
-  key === "RouteId" ? named(goalNames.routes,value) || value || "—" :
-  key === "BossId" ? named(goalNames.bosses,value) || value || "—" :
-  key === "BattleMode" ? named({timing:"时机",probability:"概率"},value) || value : String(value);
+const sameRuleValue = (key,left,right) => left[key] === right[key] ||
+  key === "RouteId" && !!left.BossId && left.BossId === right.BossId;
+const showValue = (key,value) => value === undefined ? t("缺失", "Missing") : value === null ? t("不限", "Unlimited") :
+  object(value) || Array.isArray(value) ? t("无效值", "Invalid value") :
+  typeof value === "boolean" ? (value ? t("开启", "On") : t("关闭", "Off")) :
+  key === "RouteId" ? named(goalNames[language].routes,value) || value || "—" :
+  key === "BossId" ? named(goalNames[language].bosses,value) || value || "—" :
+  key === "DisabledCharacter" ? named(Object.fromEntries(characterOptions()),value) || value :
+  key === "BattleMode" ? named({timing:t("时机", "Timing"),probability:t("概率", "Probability")},value) || value : String(value);
 
-function settingsProblems(settings) {
-  if (!object(settings)) return ["缺少有效的 Settings"];
+function settingsProblems(settings, version) {
+  if (!object(settings)) return [t("缺少有效的 Settings", "Missing or invalid Settings")];
   const issues = [];
-  for (const [key, fallback] of Object.entries(defaults)) {
+  for (const [key, fallback] of Object.entries(defaultsForVersion(version))) {
     const value = settings[key];
     let valid = typeof fallback === typeof value;
-    if (typeof fallback === "number" || key === "MaxWeapons") {
+    if (multiplierFields.includes(key)) {
+      valid = Number.isFinite(value) && value > 0;
+    } else if (typeof fallback === "number" || key === "MaxWeapons") {
       const min = key === "Seed" ? -2147483648 : key === "StartingFloor" ? 1 : 0;
       const max = key === "StartingFloor" ? 6 : key === "LimitMinutes" ? 1440 : 2147483647;
       valid = (key === "MaxWeapons" && value === null) || integer(value, min, max);
     }
-    if (!own(settings, key) || !valid) issues.push(`配置字段无效或缺失：${labels[key]}`);
+    if (!own(settings, key) || !valid) issues.push(t(`配置字段无效或缺失：${settingLabel(key,version)}`, `Invalid or missing setting: ${settingLabel(key,version)}`));
   }
   if (typeof settings.EventId === "string" && (!settings.EventId.trim() || settings.EventId.length > 64 || /[\u0000-\u001f\u007f]/.test(settings.EventId)))
-    issues.push("杯赛编号须为 1–64 个可显示字符");
-  const boss = named(goalNames.bosses,settings.BossId), route = named(goalNames.routes,settings.RouteId);
-  if (!(settings.RouteId === "" && boss) && !(settings.BossId === "" && route)) issues.push("结局与 Boss 须指定其中一个有效目标");
+    issues.push(t("杯赛编号须为 1–64 个可显示字符", "Cup ID must be 1–64 printable characters"));
+  const boss = typeof settings.BossId === "string" && own(bossFloors,settings.BossId);
+  const route = !!named(goalNames.zh.routes,settings.RouteId);
+  if (!(boss && (settings.RouteId === "" || route && settings.RouteId !== "ritual")) && !(settings.BossId === "" && route))
+    issues.push(t("目标或剧情分支无效", "Invalid goal or story route"));
+  if (!characterOptions().some(([value])=>value === settings.DisabledCharacter))
+    issues.push(t("禁用角色无效", "Invalid banned character"));
   if (settings.RouteId === "ritual" && (settings.StartingCurse || settings.StartingAllocationPoints || settings.OpeningDeath))
-    issues.push("献祭仪式使用默认开局诅咒、属性点与死亡设置");
+    issues.push(t("献祭仪式使用默认开局诅咒、属性点与死亡设置", "Sacrifice Ritual requires default Curse, stat points, and opening death"));
   if (boss || route) {
-    const limit = boss ? (boss.startsWith("额外区域") ? 6 : Number(boss[2])) :
-      ["ritual","mage-exit"].includes(settings.RouteId) ? 1 :
+    const routeLimit = ["ritual","mage-exit"].includes(settings.RouteId) ? 1 :
       ["hero4Bad","dropout_hero","dropout_warrior","dropout_priest","priestNodAfterLowSan","priest4KilledBad"].includes(settings.RouteId) ? 3 :
       ["priest4NoReachBad","mageNotMaryokuSpecialWin"].includes(settings.RouteId) ? 4 :
-      settings.RouteId === "priestLowLoop" ? 6 : 5;
-    if (integer(settings.StartingFloor) && settings.StartingFloor > limit) issues.push(`当前目标最晚从第 ${limit} 层开始`);
+      settings.RouteId === "priestLowLoop" || settings.RouteId === "" ? 6 : 5;
+    const limit = boss ? Math.min(bossFloors[settings.BossId],routeLimit) : routeLimit;
+    if (integer(settings.StartingFloor) && settings.StartingFloor > limit) issues.push(t(`当前目标最晚从第 ${limit} 层开始`, `This goal can start no later than Floor ${limit}`));
   }
-  if (!["timing","probability"].includes(settings.BattleMode)) issues.push("战斗方式无效");
-  if (integer(settings.StartingAllocationPoints,1) && settings.OpeningDeath !== true) issues.push("配置了开局属性点却未开启开局死亡");
+  if (!["timing","probability"].includes(settings.BattleMode)) issues.push(t("战斗方式无效", "Invalid battle mode"));
+  if (integer(settings.StartingAllocationPoints,1) && settings.OpeningDeath !== true) issues.push(t("配置了开局属性点却未开启开局死亡", "Starting stat points require opening death"));
   return issues;
 }
 
 function auditRun(run, rules) {
   const issues = new Set();
   const flag = message => issues.add(message);
-  if (!object(run)) return ["文件内容须为一局成绩 JSON"];
+  if (!object(run)) return [t("文件内容须为一局成绩 JSON", "The file must contain a single result JSON")];
   const settings = normalizeSettings(run.Settings,run.Mod);
-  if (run.Schema !== 1) flag("不支持的成绩格式，应为 Schema 1");
+  if (run.Schema !== 1) flag(t("不支持的成绩格式，应为 Schema 1", "Unsupported result format. Expected Schema 1"));
   if (typeof run.RunId !== "string" || !/^\d{8}-\d{6}-[a-f0-9]{8}$/i.test(run.RunId) ||
       typeof run.RunCode !== "string" || run.RunCode !== run.RunId?.slice?.(-8)?.toUpperCase())
-    flag("本局编号缺失，或与完整 RunId 对不上");
-  if (typeof run.MatchHash !== "string" || !/^[a-f\d]{64}$/i.test(run.MatchHash)) flag("比赛配置指纹缺失或格式无效");
-  if (typeof run.Mod !== "string" || !/^\d+\.\d+\.\d+$/.test(run.Mod) || !integer(run.GameBuild,1)) flag("Mod 版本或游戏构建无效");
+    flag(t("本局编号缺失，或与完整 RunId 对不上", "The run code is missing or does not match the full RunId"));
+  if (typeof run.MatchHash !== "string" || !/^[a-f\d]{64}$/i.test(run.MatchHash)) flag(t("比赛配置指纹缺失或格式无效", "The match fingerprint is missing or invalid"));
+  if (typeof run.Mod !== "string" || !/^\d+\.\d+\.\d+$/.test(run.Mod) || !integer(run.GameBuild,1)) flag(t("Mod 版本或游戏构建无效", "Invalid mod version or game build"));
   if (rules) {
-    if (run.Mod !== rules.Mod) flag(`Mod 版本不符，要求 ${rules.Mod}`);
-    if (run.GameBuild !== rules.GameBuild) flag(`游戏构建不符，要求 ${rules.GameBuild}`);
-    if (rules.MatchHash && run.MatchHash !== rules.MatchHash) flag("比赛配置指纹与主办方参考成绩不一致");
+    if (run.Mod !== rules.Mod) flag(t(`Mod 版本不符，要求 ${rules.Mod}`, `Mod version mismatch. Expected ${rules.Mod}`));
+    if (run.GameBuild !== rules.GameBuild) flag(t(`游戏构建不符，要求 ${rules.GameBuild}`, `Game build mismatch. Expected ${rules.GameBuild}`));
+    if (rules.MatchHash && run.MatchHash !== rules.MatchHash) flag(t("比赛配置指纹与主办方参考成绩不一致", "The match fingerprint differs from the organizer's reference result"));
     if (object(settings)) {
-      for (const key of Object.keys(defaults)) {
-        if (settings[key] !== rules.Settings[key])
-          flag(`${labels[key]}不符，应为 ${showValue(key,rules.Settings[key])}，文件为 ${showValue(key,settings[key])}`);
+      for (const key of Object.keys(defaultsForVersion(rules.Mod))) {
+        if (!sameRuleValue(key,settings,rules.Settings))
+          flag(t(`${settingLabel(key,rules.Mod)}不符，应为 ${showValue(key,rules.Settings[key])}，文件为 ${showValue(key,settings[key])}`, `${settingLabel(key,rules.Mod)} mismatch: expected ${showValue(key,rules.Settings[key])}, got ${showValue(key,settings[key])}`));
       }
-      if (Object.keys(settings).some(key => !own(defaults,key))) flag("选手配置含额外字段，请确认版本");
+      if (Object.keys(settings).some(key => !own(defaultsForVersion(run.Mod),key))) flag(t("选手配置含额外字段，请确认版本", "The player's settings contain extra fields. Check the mod version"));
     }
   }
-  const settingsIssues = settingsProblems(settings);
+  const settingsIssues = settingsProblems(settings,run.Mod);
   for (const issue of settingsIssues) flag(issue);
-  if (!rankedStatuses.has(run.Status)) flag(`当前结果不可排名：${named(statusNames,run.Status) || "未知状态"}`);
+  if (!rankedStatuses.has(run.Status)) flag(t(`当前结果不可排名：${named(statusNames[language],run.Status) || t("未知状态", "Unknown status")}`, `This outcome cannot be ranked: ${named(statusNames[language],run.Status) || t("未知状态", "Unknown status")}`));
   for (const key of ["ElapsedMilliseconds","RoomRetriesUsed","Deaths","RoomRetryPenaltyMilliseconds",
                      "DeathPenaltyMilliseconds","PenaltyTotalMilliseconds","Progress"]) {
-    if (!integer(run[key])) flag(`成绩字段无效或缺失：${key}`);
+    if (!integer(run[key])) flag(t(`成绩字段无效或缺失：${key}`, `Invalid or missing result field: ${key}`));
   }
-  if (typeof run.ProgressName !== "string" || !run.ProgressName.trim()) flag("缺少最远进度说明");
+  if (typeof run.ProgressName !== "string" || !run.ProgressName.trim()) flag(t("缺少最远进度说明", "Missing furthest progress"));
   if (!integer(run.ElapsedMilliseconds) || !integer(run.PenaltyTotalMilliseconds)) return [...issues];
-  if (run.ElapsedMilliseconds < run.PenaltyTotalMilliseconds) flag("总用时小于累计罚时");
+  if (run.ElapsedMilliseconds < run.PenaltyTotalMilliseconds) flag(t("总用时小于累计罚时", "Total time is less than the accumulated penalties"));
   if (!integer(run.RoomRetryPenaltyMilliseconds) || !integer(run.DeathPenaltyMilliseconds)) return [...issues];
-  if (run.RoomRetryPenaltyMilliseconds + run.DeathPenaltyMilliseconds !== run.PenaltyTotalMilliseconds) flag("两类罚时之和与累计罚时不符");
-  if (run.Status !== "clear" && run.CompletedGoal !== null) flag("未通关场次却记录了已完成目标");
+  if (run.RoomRetryPenaltyMilliseconds + run.DeathPenaltyMilliseconds !== run.PenaltyTotalMilliseconds) flag(t("两类罚时之和与累计罚时不符", "Retry and death penalties do not add up to the total"));
+  if (run.Status !== "clear" && run.CompletedGoal !== null) flag(t("未通关场次却记录了已完成目标", "A run without a clear recorded a completed goal"));
   if (settingsIssues.length) return [...issues];
   if (!integer(run.RoomRetriesUsed) || !integer(run.Deaths)) return [...issues];
 
   // Inspect against the submitted rules as well as comparing them against the tournament rules above.
   const s = settings;
-  if (run.Status === "clear" && run.CompletedGoal !== goal(s)) flag("通关目标与本局配置不符");
-  if (run.RoomRetriesUsed > s.MaxRoomRetries) flag("SL 次数超出额度");
+  if (run.Status === "clear" && run.CompletedGoal !== goal(s)) flag(t("通关目标与本局配置不符", "The completed goal does not match the run settings"));
+  if (run.RoomRetriesUsed > s.MaxRoomRetries) flag(t("SL 次数超出额度", "Room retry limit exceeded"));
   if (run.Status === "defeat" ? run.Deaths !== s.MaxDeaths + 1 : run.Deaths > s.MaxDeaths)
-    flag("正式死亡次数与死亡上限或终止状态不符");
+    flag(t("正式死亡次数与死亡上限或终止状态不符", "Death count does not match the death limit or final outcome"));
   const slCharge = s.RoomRetryPenaltySeconds * 1000;
   const deathCharge = s.DeathPenaltySeconds * 1000;
-  if (run.RoomRetriesUsed * slCharge !== run.RoomRetryPenaltyMilliseconds) flag("SL 罚时与次数 × 每次罚秒不符");
-  if (run.Deaths * deathCharge !== run.DeathPenaltyMilliseconds) flag("死亡罚时与次数 × 每次罚秒不符");
+  if (run.RoomRetriesUsed * slCharge !== run.RoomRetryPenaltyMilliseconds) flag(t("SL 罚时与次数 × 每次罚秒不符", "Retry penalties do not match the retry count × penalty per retry"));
+  if (run.Deaths * deathCharge !== run.DeathPenaltyMilliseconds) flag(t("死亡罚时与次数 × 每次罚秒不符", "Death penalties do not match the death count × penalty per death"));
   if (run.Status === "time_limit" && (!s.LimitMinutes || run.ElapsedMilliseconds < s.LimitMinutes * 60000))
-    flag("超时状态与当届限时或比赛用时不符");
+    flag(t("超时状态与当届限时或比赛用时不符", "The time-limit outcome does not match the configured limit or elapsed time"));
 
   if (!Array.isArray(run.Events) || run.Events.length < 2) {
-    flag("缺少事件时间轴，需要重新提交带事件的成绩");
+    flag(t("缺少事件时间轴，需要重新提交带事件的成绩", "Missing event timeline. Resubmit a result with events"));
     return [...issues];
   }
   let pending = false, sl = 0, deaths = 0, opening = 0, timers = 0, lastWall = -1, lastActive = -1;
   const checkpoints = [];
   for (const [i,e] of run.Events.entries()) {
-    if (!object(e)) { flag(`事件 #${i+1} 格式无效`); continue; }
-    const at = message => flag(`事件 #${i+1}：${message}`);
-    if (e.Sequence !== i+1) at("事件序号不连续");
+    if (!object(e)) { flag(t(`事件 #${i+1} 格式无效`, `Invalid format for event #${i+1}`)); continue; }
+    const at = message => flag(t(`事件 #${i+1}：${message}`, `Event #${i+1}: ${message}`));
+    if (e.Sequence !== i+1) at(t("事件序号不连续", "Event sequence numbers are out of order"));
     let charge = 0;
     switch(e.Kind) {
-      case "start": if (i !== 0) at("本局启动出现在中途"); break;
-      case "timer_start": if (++timers > 1) at("重复开始计时"); break;
-      case "opening_death": if (++opening > 1 || !s.OpeningDeath || e.Result !== "exempt") at("开局免罚死亡与规则不符"); break;
+      case "start": if (i !== 0) at(t("本局启动出现在中途", "The start event appeared mid-run")); break;
+      case "timer_start": if (++timers > 1) at(t("重复开始计时", "The timer started more than once")); break;
+      case "opening_death": if (++opening > 1 || !s.OpeningDeath || e.Result !== "exempt") at(t("开局免罚死亡与规则不符", "The penalty-free opening death does not match the rules")); break;
       case "checkpoint": checkpoints.push(e); break;
       case "sl_begin":
-        if (pending || sl >= s.MaxRoomRetries || !timers) at("SL 开始时状态或额度异常");
+        if (pending || sl >= s.MaxRoomRetries || !timers) at(t("SL 开始时状态或额度异常", "Invalid state or quota when the room retry began"));
         pending = true;
         break;
       case "sl_success":
       case "sl_failed":
-        if (!pending) at("找不到对应的 SL 开始事件");
+        if (!pending) at(t("找不到对应的 SL 开始事件", "No matching room retry start event"));
         pending = false;
         if (e.Kind === "sl_success") { sl++; charge = slCharge; }
         break;
       case "death":
         deaths++;
         charge = deathCharge;
-        if (e.Result !== (deaths > s.MaxDeaths ? "over_limit" : "within_limit")) at("死亡是否超限的标记不符");
-        if (deaths > s.MaxDeaths && (run.Status !== "defeat" || i !== run.Events.length - 2)) at("死亡超限后应立即停表为战败");
+        if (e.Result !== (deaths > s.MaxDeaths ? "over_limit" : "within_limit")) at(t("死亡是否超限的标记不符", "The death limit flag is incorrect"));
+        if (deaths > s.MaxDeaths && (run.Status !== "defeat" || i !== run.Events.length - 2)) at(t("死亡超限后应立即停表为战败", "The run must end in defeat immediately after exceeding the death limit"));
         break;
       case "finish":
         if (i !== run.Events.length-1 || e.Result !== run.Status || e.ElapsedMilliseconds !== run.ElapsedMilliseconds)
-          at("停表事件的顺序、用时或终止状态不符");
-        if (run.Status === "clear" && e.Detail !== run.CompletedGoal) at("停表目标与通关目标不符");
+          at(t("停表事件的顺序、用时或终止状态不符", "The finish event has the wrong order, time, or outcome"));
+        if (run.Status === "clear" && e.Detail !== run.CompletedGoal) at(t("停表目标与通关目标不符", "The finish event does not match the completed goal"));
         break;
-      default: at("无法识别的事件类型");
+      default: at(t("无法识别的事件类型", "Unknown event type"));
     }
-    if (i === 0 && e.Kind !== "start") at("缺少本局启动事件");
+    if (i === 0 && e.Kind !== "start") at(t("缺少本局启动事件", "Missing run start event"));
     if (e.PenaltyAddedMilliseconds !== charge || e.PenaltyTotalMilliseconds !== sl*slCharge+deaths*deathCharge)
-      at("单次罚时或累计罚时不符");
-    if (e.RoomRetriesUsed !== sl || e.Deaths !== deaths) at("累计 SL 或死亡次数不符");
+      at(t("单次罚时或累计罚时不符", "The added or cumulative penalty is incorrect"));
+    if (e.RoomRetriesUsed !== sl || e.Deaths !== deaths) at(t("累计 SL 或死亡次数不符", "The accumulated retry or death count is incorrect"));
     const active = integer(e.ElapsedMilliseconds) && integer(e.PenaltyTotalMilliseconds) ?
       e.ElapsedMilliseconds - e.PenaltyTotalMilliseconds : NaN;
     if (!integer(e.WallMilliseconds) || !integer(e.ElapsedMilliseconds) || !integer(active) || e.WallMilliseconds < lastWall || active < lastActive)
-      at("实际时间或扣除罚时后的比赛时间异常");
+      at(t("实际时间或扣除罚时后的比赛时间异常", "Invalid wall time or elapsed time before penalties"));
     if (integer(e.WallMilliseconds)) lastWall = e.WallMilliseconds;
     if (integer(active)) lastActive = active;
   }
-  if (run.Events.at(-1)?.Kind !== "finish") flag("缺少最终停表事件");
-  if (sl !== run.RoomRetriesUsed || deaths !== run.Deaths) flag("事件明细与最终 SL 或死亡次数不符");
-  if (timers !== 1 && ["clear","defeat","time_limit"].includes(run.Status)) flag("缺少开始计时的记录");
-  if (run.Status === "clear" && s.OpeningDeath && opening !== 1) flag("通关场次缺少配置要求的开局免罚死亡");
-  if (!Array.isArray(run.Splits) || checkpoints.length !== run.Splits.length) flag("检查点事件与进度列表数量不符");
+  if (run.Events.at(-1)?.Kind !== "finish") flag(t("缺少最终停表事件", "Missing final stop event"));
+  if (sl !== run.RoomRetriesUsed || deaths !== run.Deaths) flag(t("事件明细与最终 SL 或死亡次数不符", "The events do not match the final retry or death count"));
+  if (timers !== 1 && ["clear","defeat","time_limit"].includes(run.Status)) flag(t("缺少开始计时的记录", "Missing timer start event"));
+  if (run.Status === "clear" && s.OpeningDeath && opening !== 1) flag(t("通关场次缺少配置要求的开局免罚死亡", "The clear is missing the required penalty-free opening death"));
+  if (!Array.isArray(run.Splits) || checkpoints.length !== run.Splits.length) flag(t("检查点事件与进度列表数量不符", "The checkpoint count does not match the progress list"));
   else {
     let previous = 0;
     for (const [i,split] of run.Splits.entries()) {
       if (!object(split) || !integer(split.Rank,previous+1) || split.Name !== checkpoints[i].Detail ||
-          split.Milliseconds !== checkpoints[i].ElapsedMilliseconds) flag(`第 ${i+1} 个进度检查点不符`);
+          split.Milliseconds !== checkpoints[i].ElapsedMilliseconds) flag(t(`第 ${i+1} 个进度检查点不符`, `Checkpoint ${i+1} does not match the event timeline`));
       if (integer(split?.Rank)) previous = split.Rank;
     }
-    if (previous !== run.Progress) flag("最后检查点与最远进度不符");
+    if (previous !== run.Progress) flag(t("最后检查点与最远进度不符", "The final checkpoint does not match the furthest progress"));
   }
   return [...issues];
 }
@@ -353,17 +473,29 @@ const node = (tag, text, cls) => {
   return el;
 };
 const fields = {};
+const fieldLabels = {};
 let rules = null, importedReference = null, filter = "all", selected = null, rankings = [];
 let files = [];
-const versions = {Mod:"0.4.12",GameBuild:26705080};
+let lastImport = null;
+let ruleMessage = () => t("也可以读取主办方的 cup.json，再确认应用。", "You can also load the organizer's cup.json before applying the rules.");
+const versions = {Mod:"0.5.4",GameBuild:26705080};
 
-function addField(parent,key,label,options) {
+function fieldLabel(key) {
+  return settingLabel(key,fields.Mod?.value.trim()) || ({
+    Mode:t("比赛模式", "Mode"), Goal:t("当届目标", "Goal"),
+    Mod:t("Mod 版本", "Mod Version"), GameBuild:t("游戏构建", "Game Build")
+  })[key];
+}
+function addField(parent,key,options) {
   const wrapper = node("label",undefined,"field");
   if (key === "Goal") wrapper.classList.add("span2");
-  wrapper.append(node("span",label));
+  fieldLabels[key] = node("span",fieldLabel(key));
+  wrapper.append(fieldLabels[key]);
   const input = node(options ? "select" : "input");
   if (options) setOptions(input,options);
-  else if (typeof (defaults[key] ?? versions[key]) === "number" || key === "MaxWeapons") { input.type="number"; input.step="1"; }
+  else if (typeof (defaults[key] ?? versions[key]) === "number" || key === "MaxWeapons") {
+    input.type="number"; input.step=multiplierFields.includes(key)?"any":"1";
+  }
   else { input.type="text"; input.maxLength=64; }
   input.id = "field-"+key;
   wrapper.append(input);
@@ -375,32 +507,52 @@ function setOptions(select,options) {
     const option = node("option",label); option.value=value; return option;
   }));
 }
-for (const key of ["EventId","Seed"]) addField("main-fields",key,labels[key]);
-addField("main-fields","Mode","比赛模式",[["routes","指定结局"],["bosses","指定 Boss"]]);
-addField("main-fields","BattleMode",labels.BattleMode,[["probability","概率"],["timing","时机"]]);
-addField("main-fields","Goal","当届目标",Object.entries(goalNames.routes));
+const modes = () => [["routes",t("指定结局", "Target Ending")],["bosses",t("指定 Boss", "Target Boss")]];
+const battleModes = () => [["probability",t("概率", "Probability")],["timing",t("时机", "Timing")]];
+for (const key of ["EventId","Seed"]) addField("main-fields",key);
+addField("main-fields","Mode",modes());
+addField("main-fields","BattleMode",battleModes());
+addField("main-fields","Goal",Object.entries(goalNames[language].routes));
+const storyRoutes = () => [["",t("旧版自由选线","Legacy Free Route")],...Object.entries(goalNames[language].routes).filter(([id])=>id!=="ritual")];
+addField("main-fields","RouteId",storyRoutes());
 for (const key of ["StartingFloor","LimitMinutes","MaxRoomRetries","RoomRetryPenaltySeconds","MaxDeaths","DeathPenaltySeconds"])
-  addField("main-fields",key,labels[key]);
+  addField("main-fields",key);
 for (const key of ["StartingCurse","StartingAllocationPoints","MaxWeapons","GameBuild","Mod"])
-  addField("advanced-fields",key,labels[key] || (key==="Mod"?"Mod 版本":"游戏构建"));
-for (const key of ["OpeningDeath","RunKnife","KickOnly","HarshTraining"]) {
+  addField("advanced-fields",key);
+for (const key of multiplierFields) addField("advanced-fields",key);
+addField("advanced-fields","DisabledCharacter",characterOptions());
+for (const key of ["FastStory","OpeningDeath","RunKnife","KickOnly","HarshTraining","FixedWeaponCombination","ExtraActionAfterSteal","StolenWeaponVulnerability","InheritDisabledAction"]) {
   const label = node("label"), input = node("input");
-  input.type="checkbox";
-  label.append(input,document.createTextNode(labels[key]));
+  input.type="checkbox"; input.id="field-"+key;
+  fieldLabels[key] = node("span",fieldLabel(key));
+  label.append(input,fieldLabels[key]);
   $("rule-checks").append(label); fields[key]=input;
 }
-fields.Mode.addEventListener("change",()=>setOptions(fields.Goal,Object.entries(goalNames[fields.Mode.value])));
+function updateGoalFields() {
+  setOptions(fields.Goal,Object.entries(goalNames[language][fields.Mode.value]));
+  fields.RouteId.parentElement.hidden = fields.Mode.value !== "bosses";
+}
+fields.Mode.addEventListener("change",updateGoalFields);
+function updateStealFields() {
+  const version = fields.Mod.value.trim();
+  const legacy = legacyStealRules(version);
+  fields.ExtraActionAfterSteal.parentElement.hidden = legacy;
+  fields.StolenWeaponVulnerability.parentElement.hidden = !legacy;
+  fieldLabels.StolenWeaponDamageMultiplier.textContent = settingLabel("StolenWeaponDamageMultiplier",version);
+}
+fields.Mod.addEventListener("input",updateStealFields);
 function fillForm(baseline) {
   const s = baseline.Settings;
   fields.Mode.value = s.BossId ? "bosses" : "routes";
-  setOptions(fields.Goal,Object.entries(goalNames[fields.Mode.value]));
+  updateGoalFields();
   fields.Goal.value = goal(s);
   for (const [key,input] of Object.entries(fields)) {
     if (key === "Mode" || key === "Goal") continue;
-    const value = own(defaults,key) ? s[key] : baseline[key];
+    const value = own(defaultsForVersion(baseline.Mod),key) ? s[key] : baseline[key];
     if (input.type === "checkbox") input.checked=value;
     else input.value=value ?? "";
   }
+  updateStealFields();
 }
 function readForm() {
   const values = {};
@@ -411,57 +563,86 @@ function readForm() {
       input.value.trim();
   }
   const {Mod,GameBuild,...settings} = values;
-  settings.RouteId = fields.Mode.value === "routes" ? fields.Goal.value : "";
+  delete settings[legacyStealRules(Mod) ? "ExtraActionAfterSteal" : "StolenWeaponVulnerability"];
+  if (fields.Mode.value === "routes") settings.RouteId = fields.Goal.value;
   settings.BossId = fields.Mode.value === "bosses" ? fields.Goal.value : "";
   const sameReference = importedReference && Mod === importedReference.Mod && GameBuild === importedReference.GameBuild &&
-    Object.keys(defaults).every(key=>settings[key]===importedReference.Settings[key]);
+    Object.keys(defaultsForVersion(Mod)).every(key=>sameRuleValue(key,settings,importedReference.Settings));
   return {Settings:settings, Mod, GameBuild, ...(sameReference && importedReference.MatchHash ? {MatchHash:importedReference.MatchHash} : {})};
 }
 fillForm({...versions,Settings:defaults});
+function showRuleMessage(format) {
+  ruleMessage = format;
+  $("rule-message").textContent = ruleMessage();
+}
+function ruleProblems(next) {
+  const issues = settingsProblems(next.Settings,next.Mod);
+  if (!/^\d+\.\d+\.\d+$/.test(next.Mod) || !integer(next.GameBuild,1,2147483647))
+    issues.push(t("检查 Mod 版本和游戏构建", "Check the mod version and game build"));
+  return issues;
+}
 $("rules-form").noValidate = true;
 $("rules-form").addEventListener("submit",event=>{
   event.preventDefault();
   const next = readForm();
-  const issues = settingsProblems(next.Settings);
-  if (!/^\d+\.\d+\.\d+$/.test(next.Mod) || !integer(next.GameBuild,1,2147483647)) issues.push("检查 Mod 版本和游戏构建");
-  if (issues.length) { $("rule-message").textContent=issues.join("。"); return; }
+  if (ruleProblems(next).length) {
+    showRuleMessage(()=>ruleProblems(next).join(t("。", ". ")));
+    return;
+  }
   rules=next;
   $("cup-label").textContent=rules.Settings.EventId;
-  $("rule-message").textContent= rules.MatchHash ? "规则已应用，将比对主办方参考成绩的配置指纹。" : "规则已应用，将逐项核对选手配置。";
+  showRuleMessage(()=>next.MatchHash
+    ? t("规则已应用，将比对主办方参考成绩的配置指纹。", "Rules applied. The match fingerprint will be checked against the organizer's reference result.")
+    : t("规则已应用，将逐项核对选手配置。", "Rules applied. Each player setting will be verified."));
   render();
 });
-$("rules-form").addEventListener("input",()=>{ $("rule-message").textContent="有未应用的修改。核验仍使用上一次已应用的规则。"; });
+$("rules-form").addEventListener("input",()=>showRuleMessage(
+  ()=>t("有未应用的修改。核验仍使用上一次已应用的规则。", "There are unapplied changes. Verification uses the last applied rules.")));
 
 function download(name,text,mime) {
   const url = URL.createObjectURL(new Blob([text],{type:mime}));
   const a = node("a"); a.href=url; a.download=name; a.click();
   setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
-function fileKey(text) { return text.replace(/[^\p{L}\p{N}_-]+/gu,"_").slice(0,65) || "杯赛"; }
+function fileKey(text) { return text.replace(/[^\p{L}\p{N}_-]+/gu,"_").slice(0,65) || t("杯赛", "Cup"); }
 $("save-rules").onclick=()=>{
-  if (!rules) { $("rule-message").textContent="先应用当届规则，再保存规则 JSON。"; return; }
-  download(fileKey(rules.Settings.EventId)+"-裁判规则.json", JSON.stringify(rules,null,2),"application/json");
+  if (!rules) {
+    showRuleMessage(()=>t("先应用当届规则，再保存规则 JSON。", "Apply the tournament rules before saving the rules JSON."));
+    return;
+  }
+  download(fileKey(rules.Settings.EventId)+t("-裁判规则.json", "-referee-rules.json"), JSON.stringify(rules,null,2),"application/json");
 };
 $("read-rules").onclick=()=>$("rules-file").click();
+function readFailure(format) {
+  showRuleMessage(()=>t("读取规则失败", "Could not load rules") + " · " + format());
+}
 $("rules-file").onchange=async event=>{
   const file = event.target.files[0];
   event.target.value="";
   if (!file) return;
   try {
     const data = JSON.parse(await file.text());
-    if (!object(data)) throw new Error("请输入主办方配置或参考成绩 JSON");
+    if (!object(data)) {
+      readFailure(()=>t("请输入主办方配置或参考成绩 JSON", "Choose the organizer's rules JSON or a reference result."));
+      return;
+    }
     const source = data.Settings ?? data;
-    const settings = !data.Settings && !own(source,"HarshTraining") ?
-      {...source,HarshTraining:false} : normalizeSettings(source,data.Mod);
-    const issues = settingsProblems(settings);
-    if (issues.length) throw new Error(issues[0]);
+    const settings = normalizeSettings(!data.Settings && !own(source,"HarshTraining") ?
+      {...source,HarshTraining:false} : source,data.Mod);
+    if (settingsProblems(settings,data.Mod).length) {
+      readFailure(()=>settingsProblems(settings,data.Mod)[0]);
+      return;
+    }
     importedReference = {
       Settings:settings, Mod:data.Mod ?? fields.Mod.value, GameBuild:data.GameBuild ?? fields.GameBuild.valueAsNumber
     };
     if (typeof data.MatchHash === "string" && /^[\da-f]{64}$/i.test(data.MatchHash)) importedReference.MatchHash=data.MatchHash;
     fillForm(importedReference);
-    $("rule-message").textContent="已载入 " + file.name + "。确认后点击「应用当届规则」。";
-  } catch(error) { $("rule-message").textContent="读取规则失败 · "+error.message; }
+    showRuleMessage(()=>t(`已载入 ${file.name}。确认后点击「应用当届规则」。`,
+      `Loaded ${file.name}. Review the settings, then select Apply Tournament Rules.`));
+  } catch(error) {
+    readFailure(()=>error instanceof SyntaxError ? t("JSON 格式无效", "Invalid JSON") : t("无法读取文件", "Could not read file"));
+  }
 };
 
 function payloadKey(value) {
@@ -475,24 +656,34 @@ async function importFiles(list) {
   const read = await Promise.all(batch.map(async file=>{
     try {
       const run=JSON.parse(await file.text());
-      if (!object(run) || (!own(run,"RunId") && !own(run,"Status"))) throw new Error("文件不像一局成绩");
+      if (!object(run) || (!own(run,"RunId") && !own(run,"Status")))
+        return {filename:file.name, error:()=>t("文件不像一局成绩", "The file does not look like a result")};
       return {run, filename:file.name, name:"", key:payloadKey(run)};
-    } catch(error) { return {error:file.name+" · "+error.message}; }
+    } catch(error) {
+      return {filename:file.name, error:()=>error instanceof SyntaxError ? t("JSON 格式无效", "Invalid JSON") : t("无法读取文件", "Could not read file")};
+    }
   }));
   let loaded=0, duplicates=0;
   const errors=[];
   for (const entry of read) {
-    if (entry.error) { errors.push(entry.error); continue; }
+    if (entry.error) { errors.push(entry); continue; }
     if (files.some(file=>file.key===entry.key)) { duplicates++; continue; }
     files.push(entry); loaded++;
   }
-  const message = $("import-message");
-  message.hidden=false;
-  message.replaceChildren(node("span",`已导入 ${loaded} 个 · 跳过相同文件 ${duplicates} 个 · 读取失败 ${errors.length} 个`));
-  if (errors.length) {
-    const list = node("ul"); for (const error of errors) list.append(node("li",error)); message.append(list);
-  }
+  lastImport = {loaded,duplicates,errors};
   render();
+}
+function renderImportMessage() {
+  const message = $("import-message");
+  message.hidden = !lastImport;
+  if (!lastImport) return;
+  const {loaded,duplicates,errors} = lastImport;
+  message.replaceChildren(node("span",t(`已导入 ${loaded} 个 · 跳过相同文件 ${duplicates} 个 · 读取失败 ${errors.length} 个`, `Imported ${loaded} · Skipped ${duplicates} duplicates · Failed ${errors.length}`)));
+  if (errors.length) {
+    const list = node("ul");
+    for (const entry of errors) list.append(node("li",entry.filename+" · "+entry.error()));
+    message.append(list);
+  }
 }
 $("pick-files").onclick=()=>$("result-files").click();
 $("result-files").onchange=event=>{ importFiles(event.target.files); event.target.value=""; };
@@ -504,9 +695,9 @@ window.addEventListener("dragover",event=>event.preventDefault());
 window.addEventListener("drop",event=>event.preventDefault());
 $("search").oninput=render;
 $("clear-runs").onclick=()=>{
-  if (!window.confirm("清空本页已导入的成绩及填写的选手名？")) return;
+  if (!window.confirm(t("清空本页已导入的成绩及填写的选手名？", "Clear the imported results and player names?"))) return;
   files=[]; selected=null;
-  $("import-message").hidden=true;
+  lastImport=null;
   render();
 };
 for (const button of document.querySelectorAll("[data-filter]")) button.onclick=()=>{
@@ -519,11 +710,34 @@ function emptyRow(body,text,columns) {
   const tr=node("tr"), td=node("td",text,"empty"); td.colSpan=columns; tr.append(td); body.append(tr);
 }
 function cell(row,text,cls) { const td=node("td",text,cls); row.append(td); return td; }
-function identity(entry) { return typeof entry.run.RunCode==="string" ? entry.run.RunCode : "编号缺失"; }
+function identity(entry) { return typeof entry.run.RunCode==="string" ? entry.run.RunCode : t("编号缺失", "Missing Run Code"); }
 function toName(entry) { return entry.name || entry.filename.replace(/\.json$/i,""); }
-function progress(run) { return typeof run.ProgressName==="string" ? run.ProgressName : "—"; }
-function resultName(run) { return named(statusNames,run.Status) || "未知"; }
-function penalty(ms) { return integer(ms) ? "+"+Number(ms/1000)+" 秒" : "—"; }
+const progressNames = [
+  ["序章","Prologue"], ["开局分配","Opening Allocation"], ["选择同伴","Choose a Companion"], ["献祭仪式","Sacrifice Ritual"],
+  ["终战 · 第一场决斗胜利","Final Battle · First Duel Won"], ["终战 · 第二场决斗胜利","Final Battle · Second Duel Won"],
+  ["僧侣终战胜利","Priest Final Battle Won"], ["魔王终战胜利","Demon King Final Battle Won"],
+  ["勇者终击成功","Hero's Finishing Blow Landed"], ["魔法师终战胜利","Mage Final Battle Won"],
+  ["已进入目标 Boss 战","Target Boss Battle Entered"]
+];
+const progressPatterns = [
+  [/^第 (\d+) 层 · 第 (\d+) 区$|^Floor (\d+) · Section (\d+)$/, (f,s)=>t(`第 ${f} 层 · 第 ${s} 区`, `Floor ${f} · Section ${s}`)],
+  [/^第 (\d+) 层$|^Floor (\d+)$/, f=>t(`第 ${f} 层`, `Floor ${f}`)],
+  [/^已击败第 (\d+) 层首领$|^Floor (\d+) Boss Defeated$/, f=>t(`已击败第 ${f} 层首领`, `Floor ${f} Boss Defeated`)],
+  [/^终战 · 完成第 (\d+) 阶段$|^Final Battle · Phase (\d+) Complete$/, p=>t(`终战 · 完成第 ${p} 阶段`, `Final Battle · Phase ${p} Complete`)],
+  [/^目标 Boss · 完成第 (\d+) 阶段$|^Target Boss · Phase (\d+) Complete$/, p=>t(`目标 Boss · 完成第 ${p} 阶段`, `Target Boss · Phase ${p} Complete`)]
+];
+function localizedProgress(text) {
+  const name = progressNames.find(([zh,en])=>text===zh || text===en);
+  if (name) return t(...name);
+  for (const [pattern, format] of progressPatterns) {
+    const match = pattern.exec(text);
+    if (match) return format(...match.slice(1).filter(value=>value!==undefined));
+  }
+  return text;
+}
+function progress(run) { return typeof run.ProgressName==="string" ? localizedProgress(run.ProgressName) : "—"; }
+function resultName(run) { return named(statusNames[language],run.Status) || t("未知", "Unknown"); }
+function penalty(ms) { return integer(ms) ? "+"+Number(ms/1000)+t(" 秒", " s") : "—"; }
 function shortTime(run) { return run.Status==="clear" ? clock(run.ElapsedMilliseconds) : progress(run); }
 function candidate(entry) { return !!rules && !entry.issues.length; }
 function inspectFiles() {
@@ -532,12 +746,13 @@ function inspectFiles() {
   for (const {run} of files) { count(byId,run.RunId); count(byCode,run.RunCode); }
   for (const entry of files) {
     entry.issues=auditRun(entry.run,rules);
-    if (byId.get(entry.run.RunId)>1) entry.issues.push("同一个完整 RunId 出现多份内容不同的成绩");
+    if (byId.get(entry.run.RunId)>1) entry.issues.push(t("同一个完整 RunId 出现多份内容不同的成绩", "The same full RunId has conflicting results"));
     if (byCode.get(entry.run.RunCode)>1 && byId.get(entry.run.RunId)===1)
-      entry.issues.push("八位本局编号与另一场次重复，请用完整 RunId 对照");
+      entry.issues.push(t("八位本局编号与另一场次重复，请用完整 RunId 对照", "Two runs share an eight-character run code. Use the full RunId to distinguish them"));
   }
 }
 function render() {
+  renderImportMessage();
   inspectFiles();
   const flagged=files.filter(e=>e.issues.length).length;
   $("count-all").textContent=files.length;
@@ -549,7 +764,7 @@ function render() {
   const query=$("search").value.trim().toLowerCase();
   const visible=files.filter(e=>(filter==="all" || (filter==="flag" ? e.issues.length : candidate(e))) &&
     [e.filename,e.name,e.run.RunId,e.run.RunCode].some(value=>typeof value==="string" && value.toLowerCase().includes(query)));
-  if (!visible.length) emptyRow(tbody,files.length ? "这个筛选下没有场次。" : "导入选手导出的成绩 JSON 后，场次会出现在这里。",6);
+  if (!visible.length) emptyRow(tbody,files.length ? t("这个筛选下没有场次。", "No runs match the current filter.") : t("导入选手导出的成绩 JSON 后，场次会出现在这里。", "Import exported player results to see them here."),6);
   for (const entry of visible) {
     const run=entry.run, row=node("tr");
     if (selected===entry) row.classList.add("selected");
@@ -557,7 +772,7 @@ function render() {
     code.onclick=()=>{ selected=entry; render(); $("run-detail").scrollIntoView({block:"nearest"}); };
     cell(row).append(code);
     const name=cell(row,entry.name || "—"); const file=node("span",entry.filename,"filename"); file.title=entry.filename; name.append(file);
-    cell(row).append(node("span",entry.issues.length ? `有疑点 ${entry.issues.length}` : rules ? "核验通过" : "待应用规则",
+    cell(row).append(node("span",entry.issues.length ? t(`有疑点 ${entry.issues.length}`, `Flagged (${entry.issues.length})`) : rules ? t("核验通过", "Verified") : t("待应用规则", "Awaiting Rules"),
       "badge "+(entry.issues.length?"flag":rules?"ok":"")));
     const score=cell(row,shortTime(run),run.Status==="clear"?"mono":undefined);
     score.append(node("span",resultName(run),"filename"));
@@ -565,7 +780,7 @@ function render() {
     cell(row,penalty(run.PenaltyTotalMilliseconds)); tbody.append(row);
   }
   const ranks=$("ranks-body"); ranks.replaceChildren();
-  if (!rankings.length) emptyRow(ranks,rules ? "已导入的场次中暂无可排名成绩。" : "应用当届规则后生成排名。",6);
+  if (!rankings.length) emptyRow(ranks,rules ? t("已导入的场次中暂无可排名成绩。", "No imported results are eligible for ranking.") : t("应用当届规则后生成排名。", "Apply the tournament rules to generate rankings."),6);
   for (const {entry,rank} of rankings) {
     const run=entry.run,row=node("tr");
     cell(row,String(rank),"mono"); cell(row,toName(entry)); cell(row,identity(entry),"mono");
@@ -580,30 +795,36 @@ function renderDetail() {
   if (!selected) return;
   const entry=selected, run=entry.run;
   const title=node("div",undefined,"detail-top");
-  title.append(node("h3","本局 "+identity(entry)),node("span",entry.filename,"hint"));
+  title.append(node("h3",t("本局 ", "Run ")+identity(entry)),node("span",entry.filename,"hint"));
   const label=node("label",undefined,"field name"), name=node("input");
-  name.value=entry.name; name.placeholder="填写比赛名单上的名字";
+  name.value=entry.name; name.placeholder=t("填写比赛名单上的名字", "Name on tournament roster");
   name.onchange=()=>{ entry.name=name.value.trim(); render(); };
-  label.append(node("span","选手名"),name);
-  const remove=node("button","移除此成绩");
+  label.append(node("span",t("选手名", "Player Name")),name);
+  const remove=node("button",t("移除此成绩", "Remove Result"));
   remove.onclick=()=>{ files=files.filter(file=>file!==entry); selected=null; render(); };
   title.append(label,remove); panel.append(title);
   const s=run.Settings;
-  const detail = object(s) ? `${showValue(s.BossId?"BossId":"RouteId",goal(s))} · 种子 ${showValue("Seed",s.Seed)} · 起始第 ${showValue("StartingFloor",s.StartingFloor)} 层` : "配置无效";
+  const detail = object(s) ? t(`${showValue(s.BossId?"BossId":"RouteId",goal(s))} · 种子 ${showValue("Seed",s.Seed)} · 起始第 ${showValue("StartingFloor",s.StartingFloor)} 层`, `${showValue(s.BossId?"BossId":"RouteId",goal(s))} · Seed ${showValue("Seed",s.Seed)} · Starting Floor ${showValue("StartingFloor",s.StartingFloor)}`) : t("配置无效", "Invalid settings");
   panel.append(node("p",detail,"hint"));
   if (entry.issues.length) {
     const list=node("ul"); for(const issue of entry.issues) list.append(node("li",issue)); panel.append(list);
-  } else panel.append(node("p",rules?"自动核验通过，等待录像复核。":"文件检查通过，等待应用当届规则。","hint"));
+  } else panel.append(node("p",rules?t("自动核验通过，等待录像复核。", "Automatic verification passed. Review the recording."):t("文件检查通过，等待应用当届规则。", "The file passed its initial checks. Apply the tournament rules to verify it."),"hint"));
   if (!Array.isArray(run.Events)) return;
-  const disclosure=node("details"); disclosure.open=true; disclosure.append(node("summary","事件时间轴"));
+  const disclosure=node("details"); disclosure.open=true; disclosure.append(node("summary",t("事件时间轴", "Event Timeline")));
   const scroll=node("div",undefined,"scroll"), table=node("table"), header=node("thead"), hr=node("tr"), body=node("tbody");
-  for(const text of ["事件","开局后实际时间","比赛用时","本次罚时","累计罚时","SL / 死亡"]) hr.append(node("th",text));
+  for(const text of [t("事件", "Event"),t("开局后实际时间", "Wall Time"),t("比赛用时", "Run Time"),t("本次罚时", "Added Penalty"),t("累计罚时", "Total Penalty"),t("SL / 死亡", "Retries / Deaths")]) hr.append(node("th",text));
   header.append(hr);
   for(const e of run.Events) {
     if (!object(e)) continue;
     const row=node("tr");
-    const state=named({within_limit:"额度内",over_limit:"超限",exempt:"免罚"},e.Result) || named(statusNames,e.Result);
-    cell(row,[named(eventsNames,e.Kind)||"未知事件",state,typeof e.Detail==="string"?e.Detail:""].filter(Boolean).join(" · "));
+    const state=named({within_limit:t("额度内", "Within Limit"),over_limit:t("超限", "Over Limit"),exempt:t("免罚", "Exempt")},e.Result) || named(statusNames[language],e.Result);
+    let eventDetail = typeof e.Detail==="string" ? e.Detail : "";
+    if (e.Kind==="finish" && e.Result==="clear") {
+      eventDetail = named(goalNames[language].bosses,eventDetail) || named(goalNames[language].routes,eventDetail) || eventDetail;
+    } else if (["checkpoint","timer_start","finish"].includes(e.Kind)) {
+      eventDetail = localizedProgress(eventDetail);
+    }
+    cell(row,[named(eventsNames[language],e.Kind)||t("未知事件", "Unknown Event"),state,eventDetail].filter(Boolean).join(" · "));
     cell(row,clock(e.WallMilliseconds),"mono"); cell(row,clock(e.ElapsedMilliseconds),"mono");
     cell(row,penalty(e.PenaltyAddedMilliseconds)); cell(row,penalty(e.PenaltyTotalMilliseconds));
     cell(row,`${integer(e.RoomRetriesUsed)?e.RoomRetriesUsed:"—"} / ${integer(e.Deaths)?e.Deaths:"—"}`,"mono"); body.append(row);
@@ -613,15 +834,47 @@ function renderDetail() {
 
 $("export-ranking").onclick=()=>{
   if (!rankings.length) return;
-  const rows=[["杯赛编号","名次","选手","本局编号","完整 RunId","结果","用时","最远进度","SL 次数","正式死亡","累计罚时（秒）","源文件"]];
+  const rows=[[t("杯赛编号", "Cup ID"),t("名次", "Rank"),t("选手", "Player"),t("本局编号", "Run Code"),t("完整 RunId", "Full RunId"),t("结果", "Outcome"),t("用时", "Elapsed Time"),t("最远进度", "Furthest Progress"),t("SL 次数", "Room Retries"),t("正式死亡", "Deaths"),t("累计罚时（秒）", "Total Penalty (s)"),t("源文件", "Source File")]];
   for(const {entry,rank} of rankings) {
     const run=entry.run;
     rows.push([rules.Settings.EventId,rank,toName(entry),run.RunCode,run.RunId,resultName(run),
-      clock(run.ElapsedMilliseconds),run.ProgressName,run.RoomRetriesUsed,run.Deaths,run.PenaltyTotalMilliseconds/1000,entry.filename]);
+      clock(run.ElapsedMilliseconds),progress(run),run.RoomRetriesUsed,run.Deaths,run.PenaltyTotalMilliseconds/1000,entry.filename]);
   }
-  download(fileKey(rules.Settings.EventId)+"-暂定排名.csv",toCsv(rows),"text/csv;charset=utf-8");
+  download(fileKey(rules.Settings.EventId)+t("-暂定排名.csv", "-provisional-rankings.csv"),toCsv(rows),"text/csv;charset=utf-8");
 };
-render();
+const staticCopy = [...document.querySelectorAll("[data-en]")].map(el=>[el,el.textContent,el.dataset.en]);
+const translatedAttributes = ["title","placeholder","aria-label"].flatMap(attribute=>
+  [...document.querySelectorAll(`[data-en-${attribute}]`)].map(el=>
+    [el,attribute,el.getAttribute(attribute),el.getAttribute(`data-en-${attribute}`)]));
+const toggle = $("language-toggle");
+const localeKey = "annihilated-cup-referee-language";
+function setLanguage(next) {
+  language = next;
+  document.documentElement.lang = t("zh-CN","en");
+  document.title = t("杯赛裁判台","Cup Referee Desk");
+  for (const [el,zh,en] of staticCopy) el.textContent = t(zh,en);
+  for (const [el,attr,zh,en] of translatedAttributes) el.setAttribute(attr,t(zh,en));
+  toggle.textContent = t("English","简体中文");
+  toggle.lang = t("en","zh-CN");
+  for (const [key,el] of Object.entries(fieldLabels)) el.textContent = fieldLabel(key);
+  for (const [key,options] of [["Mode",modes()],["BattleMode",battleModes()],["RouteId",storyRoutes()],["DisabledCharacter",characterOptions()],
+    ["Goal",Object.entries(goalNames[language][fields.Mode.value])]]) {
+    const value = fields[key].value;
+    setOptions(fields[key],options);
+    fields[key].value = value;
+  }
+  $("cup-label").textContent = rules ? rules.Settings.EventId : t("规则待确认","Rules Pending");
+  $("rule-message").textContent = ruleMessage();
+  render();
+}
+let preferredLanguage;
+try { preferredLanguage = localStorage.getItem(localeKey); } catch { /* Some browsers restrict storage for local files. */ }
+toggle.onclick=()=>{
+  setLanguage(t("en","zh"));
+  try { localStorage.setItem(localeKey,language); } catch { /* Switching also works for this session. */ }
+};
+setLanguage(preferredLanguage==="zh" || preferredLanguage==="en" ? preferredLanguage :
+  /^zh(?:-|_|$)/i.test(navigator.language) ? "zh" : "en");
 </script>
 </body>
 </html>

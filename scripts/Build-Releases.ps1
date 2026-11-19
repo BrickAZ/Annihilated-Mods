@@ -43,14 +43,18 @@ if (!$SaveSlotOnly) {
 
 $saveSlotArchive = 'Annihilated-SaveSlotUnlimiter-v1.25-Build26705080.zip'
 $packages = [ordered]@{
-    'Annihilated-Cup-v0.4.12.zip' = @{
+    'Annihilated-Cup-v0.5.4.zip' = @{
         Id = 'cup'
         Files = [ordered]@{
             'Mods/AnnihilatedCup.dll' = $cup
             'Mods/AnnihilatedRoomRetry.dll' = $retry
             'Launch-Cup.cmd' = 'CupMod/Launch-Cup.cmd'
             'Cup-Referee.html' = 'CupMod/Cup-Referee.html'
+            'Install.cmd' = 'scripts/Install-Mod.cmd'
             'INSTALL.md' = 'CupMod/INSTALL.md'
+            'INSTALL.en.md' = 'CupMod/INSTALL.en.md'
+            'README.md' = 'CupMod/README.md'
+            'GUIDE.en.md' = 'CupMod/GUIDE.en.md'
             'REFEREE.md' = 'CupMod/REFEREE.md'
             'examples/example-ritual.json' = 'CupMod/examples/example-ritual.json'
         }

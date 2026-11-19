@@ -185,7 +185,10 @@ public sealed partial class CupMod
             AddWeaponCurse("curse", value);
             AddWeaponCurse("curseCount", value);
         }
-        weaponCurseNotice = $"{item.GetItemName()}碎成诅咒 +{value}";
+        string name = Il2CppI2.Loc.LocalizationManager.GetTranslation($"Item/{item.resourceName}",
+            overrideLanguage: T("Chinese (Simplified)", "English"));
+        if (string.IsNullOrEmpty(name)) name = item.resourceName;
+        weaponCurseNotice = T($"{name}碎成诅咒 +{value}", $"{name} turned into Curse +{value}");
         weaponCurseNoticeUntil = Time.realtimeSinceStartupAsDouble + 3.5;
         LoggerInstance.Msg($"Cup weapon converted | {item.resourceName} | curse=+{value}");
     }

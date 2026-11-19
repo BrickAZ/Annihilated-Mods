@@ -11,14 +11,14 @@ using Il2CppNaninovel.UI;
 using MelonLoader;
 using UnityEngine;
 
-[assembly: MelonInfo(typeof(CupCompetition.CupMod), "Annihilated Cup", CupCompetition.CupMod.Version, "Brick")]
+[assembly: MelonInfo(typeof(CupCompetition.CupMod), "Annihilated Cup", CupCompetition.CupMod.Version, "Anton")]
 [assembly: MelonGame("DeathKumiai", "Annihilated")]
 
 namespace CupCompetition;
 
 public sealed partial class CupMod : MelonMod
 {
-    public const string Version = "0.4.12";
+    public const string Version = "0.5.4";
     internal const int GameBuild = 26705080;
     internal const string BuildHash = "13B13F97BBE50154B451753351656F99595AE0A542586097F27536F55C24F3C4";
     internal const string CatalogHash = "c867cf04b05171a82710f970f4122af7";
@@ -31,7 +31,8 @@ public sealed partial class CupMod : MelonMod
     private Route? Target { get; set; }
     private BossGoal? Boss { get; set; }
     private string GoalId => Boss?.Id ?? Target?.Id ?? "";
-    private string GoalName => Boss?.Name ?? $"{Target?.PartnerName} · {Target?.Name}";
+    private string GoalName => Boss?.DisplayName(language) ?? (Target == null ? "" :
+        $"{Target.DisplayPartner(language)} · {Target.DisplayName(language)}");
     internal string ModeValue => Settings.BattleMode == "probability" ? "1" : "0";
     internal string Read(string key) => vars?.GetVariableValue(key) ?? "";
     internal int Number(string key) => int.TryParse(Read(key), NumberStyles.Integer, CultureInfo.InvariantCulture, out int n) ? n : 0;
@@ -44,7 +45,9 @@ public sealed partial class CupMod : MelonMod
     private string matchHash = "";
     private string runId = "";
     private string error = "";
-    private string progressName = "序章";
+    private CupLanguage language = CupLanguage.ForLocale(null);
+    private string progressName = "";
+    private string T(string chinese, string english) => language.Text(chinese, english);
     private string profileFolder = "";
     private bool isolated;
     private bool startRedirected;
@@ -84,6 +87,7 @@ public sealed partial class CupMod : MelonMod
     private bool hooksInstalled;
     private double launchRequestedAt = -1;
     private string setupNotice = "";
+    private bool setupReadFailed;
     private CupSettings? queuedSettings;
     private static readonly MethodInfo NewGameClick = AccessTools.Method(typeof(TitleNewGameButton), "OnButtonClick");
     private UniTask? smokeMapTask;
@@ -139,15 +143,15 @@ public sealed partial class CupMod : MelonMod
             weaponOpeningSmoke = Environment.GetCommandLineArgs().Contains("--annihilated-cup-weapon-opening-smoke", StringComparer.Ordinal);
             jumpSmokeFloor = Enumerable.Range(2, 5).FirstOrDefault(floor =>
                 Environment.GetCommandLineArgs().Contains($"--annihilated-cup-floor-{floor}-smoke", StringComparer.Ordinal));
-            mageSmoke = limitsSmoke || openingRulesSmoke || knifeSmoke || trainingSmoke || weaponRulesSmoke || weaponOpeningSmoke || jumpSmokeFloor is >= 2 and <= 5 ||
+            mageSmoke = SoloSmoke || limitsSmoke || openingRulesSmoke || knifeSmoke || trainingSmoke || weaponRulesSmoke || weaponOpeningSmoke || jumpSmokeFloor is >= 2 and <= 5 ||
                 Environment.GetCommandLineArgs().Contains("--annihilated-cup-mage-smoke", StringComparer.Ordinal);
-            smoke = bossSmoke || ritualSmoke || mageSmoke || jumpSmokeFloor == 6 || Environment.GetCommandLineArgs().Contains("--annihilated-cup-smoke", StringComparer.Ordinal);
+            smoke = StorySmokeRequested || EntertainmentSmoke || bossSmoke || ritualSmoke || mageSmoke || jumpSmokeFloor == 6 || Environment.GetCommandLineArgs().Contains("--annihilated-cup-smoke", StringComparer.Ordinal);
             string game = AppContext.BaseDirectory;
             using var assembly = File.OpenRead(Path.Combine(game, "GameAssembly.dll"));
             using var sha = SHA256.Create();
             if (Convert.ToHexString(sha.ComputeHash(assembly)) != BuildHash ||
                 File.ReadAllText(Path.Combine(game, "Annihilated_Data", "StreamingAssets", "aa", "catalog.hash")).Trim() != CatalogHash)
-                throw new InvalidDataException($"游戏版本不匹配。需要 Steam Build {GameBuild}。");
+                throw new InvalidDataException(T($"游戏版本不匹配。需要 Steam Build {GameBuild}。", $"Unsupported game version. Steam Build {GameBuild} is required."));
             setup = new CupSetup(smoke ? new CupSettings { EventId = "Smoke" } : ReadLastSetup(config));
             if (smoke)
             {
@@ -160,7 +164,11 @@ public sealed partial class CupMod : MelonMod
                 }
                 if (ritualSmoke) setup.SelectPartner("common");
                 setup.BossMode = bossSmoke;
-                if (bossSmoke) setup.SelectBoss("priest");
+                if (bossSmoke)
+                {
+                    setup.SelectBoss("priest");
+                    setup.SelectBossRoute("hero");
+                }
                 if (jumpSmokeFloor == 6)
                 {
                     setup.SelectPartner("priest");
@@ -180,7 +188,16 @@ public sealed partial class CupMod : MelonMod
                 setup.RunKnife = knifeSmoke;
                 setup.HarshTraining = trainingSmoke;
                 if (trainingSmoke)
+                {
                     setup.KickOnly = Environment.GetCommandLineArgs().Contains("--annihilated-cup-training-curse-smoke", StringComparer.Ordinal);
+                    if (StealActionSmoke)
+                    {
+                        setup.ExtraActionAfterSteal = !Environment.GetCommandLineArgs().Contains(
+                            "--annihilated-cup-steal-action-off", StringComparer.Ordinal);
+                        setup.StolenWeaponDamageMultiplierText = "1";
+                        setup.EnemyHealthMultiplierText = "5";
+                    }
+                }
                 if (openingRulesSmoke)
                 {
                     setup.StartingAllocationText = "6";
@@ -193,6 +210,39 @@ public sealed partial class CupMod : MelonMod
                     setup.RoomRetryPenaltyText = "7";
                     setup.DeathsText = "1";
                     setup.DeathPenaltyText = "17";
+                }
+                if (SoloSmoke)
+                {
+                    setup.DisabledCharacter = SoloSmokeDisabledCharacter;
+                    setup.InheritDisabledAction = SoloSmokeInherits;
+                    if (SoloUiWarriorSmoke)
+                    {
+                        setup.SelectPartner("warrior");
+                        setup.SelectEnding("warrior");
+                        setup.StartingFloorText = "4";
+                        setup.SeedText = "191478032";
+                        setup.StartingCurseText = "800";
+                        setup.HarshTraining = true;
+                    }
+                    if (AttackForecastSmoke)
+                        setup.EnemyAttackMultiplierText = HasSoloSmokeArgument("--annihilated-cup-attack-forecast-block") ? "1.5" : "2";
+                    if (SoloSmokeDefeat)
+                    {
+                        setup.DeathsText = "1";
+                        setup.DeathPenaltyText = "7";
+                    }
+                }
+                if (StorySmokeRequested)
+                {
+                    setup.FastStory = !ManualStorySmoke;
+                    setup.SelectPartner("mage");
+                    setup.SelectEnding("mageMaryoku");
+                    setup.BossMode = Environment.GetCommandLineArgs().Contains("--annihilated-cup-story-boss", StringComparer.Ordinal);
+                    if (setup.BossMode)
+                    {
+                        setup.SelectBoss("priest");
+                        setup.SelectBossRoute("mageMaryoku");
+                    }
                 }
             }
             runId = DateTime.UtcNow.ToString("yyyyMMdd-HHmmss", CultureInfo.InvariantCulture) + "-" + Guid.NewGuid().ToString("N")[..8];
@@ -227,7 +277,7 @@ public sealed partial class CupMod : MelonMod
         }
         catch (JsonException)
         {
-            setupNotice = "上次设置无法读取，已载入默认选项。";
+            setupReadFailed = true;
             return new CupSettings();
         }
     }
@@ -238,7 +288,7 @@ public sealed partial class CupMod : MelonMod
             .FirstOrDefault(candidate => candidate != null && candidate.gameObject.activeInHierarchy);
         if (button == null)
         {
-            setupNotice = "标题界面还在载入，请稍后再试。";
+            setupNotice = T("标题界面还在载入，请稍后再试。", "The title screen is still loading. Try again shortly.");
             return;
         }
 
@@ -253,7 +303,7 @@ public sealed partial class CupMod : MelonMod
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
             {
                 LoggerInstance.Warning(ex.Message);
-                setupNotice = "保存配置失败，请检查游戏目录的写入权限。";
+                setupNotice = T("保存配置失败，请检查游戏目录的写入权限。", "Could not save the setup. Check write permissions for the game folder.");
                 return;
             }
         }
@@ -266,9 +316,9 @@ public sealed partial class CupMod : MelonMod
             InstallHooks();
             hooksInstalled = true;
         }
-        player!.SkipMode = PlayerSkipMode.Everything;
+        if (settings.FastStory) player!.SkipMode = PlayerSkipMode.Everything;
         matchHash = Convert.ToHexString(SHA256.HashData(JsonSerializer.SerializeToUtf8Bytes(
-            new { Game = BuildHash, Catalog = CatalogHash, Mod = Version, Settings })));
+            new { Game = BuildHash, Catalog = CatalogHash, Mod = Version, Settings = Settings.ForMatch() })));
         setupNotice = "";
         launchRequestedAt = Time.realtimeSinceStartupAsDouble;
         RestoreTitleInteraction();
@@ -311,12 +361,27 @@ public sealed partial class CupMod : MelonMod
         Hook(typeof(CustomGameSettingsFreeCursorOperationModeDropdown), "OnValueChanged", nameof(BlockModeChange));
         InstallCursePoolHooks();
         InstallWeaponRulesHook();
+        InstallSoloHooks();
+        if (Settings.EnemyAttackMultiplier != 1) InstallEnemyAttackPreviewHooks();
         if (Settings.HarshTraining) InstallTrainingEligibilityHooks();
     }
 
     internal static void IsolateSaves(StateConfiguration config)
     {
         if (Active is not { } cup) return;
+        // Seed the new profile before the native state manager reads its settings.
+        // The normal game's settings and saves are read-only here.
+        try
+        {
+            string data = Path.Combine(Application.persistentDataPath, "NaninovelData");
+            string previous = Path.Combine(data, config.SaveFolderName, "Settings.json");
+            if (File.Exists(previous) && CupLanguage.CopyLocaleSetting(File.ReadAllBytes(previous)) is { } settings)
+                WriteResult(Path.Combine(data, cup.profileFolder, "Settings.json"), settings);
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException)
+        {
+            cup.LoggerInstance.Warning($"Could not copy the game's startup locale: {ex.Message}");
+        }
         config.SaveFolderName = cup.profileFolder;
         config.EnableStateRollback = false;
         cup.isolated = true;
@@ -349,8 +414,8 @@ public sealed partial class CupMod : MelonMod
 
     public static bool TryBeginRoomRetry()
     {
-        if (Active is not { } cup || !CanCaptureRoomRetry() || cup.Number("playerHealth") <= 0 ||
-            cup.Flag("playerDeath") || !cup.Run.TryBeginRoomRetry(cup.Settings.MaxRoomRetries)) return false;
+        if (Active is not { } cup || !CanCaptureRoomRetry() || !cup.SoloParticipantAliveForRetry() ||
+            !cup.Run.TryBeginRoomRetry(cup.Settings.MaxRoomRetries)) return false;
         cup.pauseReason = CupPauseReason.RoomRetry;
         cup.Run.SetPaused(true);
         cup.audit!.Record(cup.Run, "sl_begin");
@@ -365,6 +430,7 @@ public sealed partial class CupMod : MelonMod
             bool used = cup.Run.CompleteRoomRetry(success, cup.Settings.RoomRetryPenaltySeconds);
             if (used)
             {
+                cup.ResetSoloAfterRetry();
                 cup.stealAddPending = cup.stealAddActive = false;
                 cup.drushSource = cup.drushReplacement = IntPtr.Zero;
                 cup.audit!.Record(cup.Run, "sl_success", penaltySeconds: cup.Settings.RoomRetryPenaltySeconds);
@@ -413,7 +479,7 @@ public sealed partial class CupMod : MelonMod
     {
         var spot = command.PlaybackSpot;
         bool isOpening = !cup.explorationStarted && spot.ScriptName == "Opening" && spot.LineIndex is 255 or 256;
-        bool autoConfirm = !cup.explorationStarted && cup.Target is { Partner: not "common" } &&
+        bool autoConfirm = cup.Settings.FastStory && !cup.explorationStarted && cup.Target is { Partner: not "common" } &&
             spot.ScriptName == "Opening3" && IsStartingConfirmation(spot.LineIndex);
         if (isOpening || autoConfirm) return false;
         if (cup.Target is not { } target) return true;
@@ -434,6 +500,16 @@ public sealed partial class CupMod : MelonMod
         if (type == nameof(SteamAchievement))
         {
             __result = false;
+            return false;
+        }
+        if (cup.SkipSoloCommand(__instance))
+        {
+            __result = false;
+            return false;
+        }
+        if (cup.ForceSoloCommand(__instance))
+        {
+            __result = true;
             return false;
         }
         if (type is nameof(AddChoice) or nameof(AddChoiceWithReplace) or nameof(AddChoiceWithChoiceIf))
@@ -464,15 +540,20 @@ public sealed partial class CupMod : MelonMod
                 return false;
             }
         }
+        if (cup.SkipStoryCommand(__instance))
+        {
+            __result = false;
+            return false;
+        }
         if (cup.explorationStarted || cup.Target?.Id == "ritual") return true;
         bool skip = spot.ScriptName switch
         {
-            "Opening" => type is nameof(PrintText) or nameof(Wait) or nameof(ImpulseDisplay)
-                || spot.LineIndex is 249 or 250 or 257 or >= 293 and <= 310,
-            "Opening2" => type is nameof(PrintText) or nameof(Wait) or nameof(ImpulseDisplay),
-            "Opening3" => type is nameof(PrintText) or nameof(Wait) or nameof(ImpulseDisplay)
+            // The Cup has a fixed player setup and starts without the tutorial battle.
+            "Opening" when spot.LineIndex is 249 or 250 or 257 or >= 293 and <= 310 => true,
+            "Opening" or "Opening2" when cup.Settings.FastStory => type is nameof(PrintText) or nameof(Wait) or nameof(ImpulseDisplay),
+            "Opening3" when cup.Settings.FastStory => type is nameof(PrintText) or nameof(Wait) or nameof(ImpulseDisplay)
                 || (cup.Target is { Partner: not "common" } && type == nameof(Stop) && IsStartingConfirmation(spot.LineIndex)),
-            "Func" => spot.LineIndex is 1370 or 1372 or 1373,
+            "Func" when cup.Settings.FastStory => spot.LineIndex is 1370 or 1372 or 1373,
             _ => false
         };
         if (!skip) return true;
@@ -487,7 +568,13 @@ public sealed partial class CupMod : MelonMod
         {
             if (player == null && Engine.Initialized)
             {
-                if (!isolated) throw new InvalidOperationException("杯赛存档隔离未生效，无法开赛。");
+                string locale = Engine.GetService<ILocalizationManager>().SelectedLocale;
+                language = CupLanguage.ForLocale(locale);
+                progressName = T("序章", "Prologue");
+                if (setupReadFailed)
+                    setupNotice = T("上次设置无法读取，已载入默认选项。", "Could not read the previous setup. Default settings were loaded.");
+                LoggerInstance.Msg($"Cup startup locale | game={locale} | interface={(language.English ? "en" : "zh-CN")}");
+                if (!isolated) throw new InvalidOperationException(T("杯赛存档隔离未生效，无法开赛。", "Cup save isolation failed. The Cup could not start."));
                 vars = Engine.GetService<ICustomVariableManager>().Cast<CustomVariableManager>();
                 player = Engine.GetService<IScriptPlayer>().Cast<CustomScriptPlayer>();
                 listener = (Il2CppSystem.Action<Command>)OnCommand;
@@ -500,11 +587,11 @@ public sealed partial class CupMod : MelonMod
                 uiManager = ui.Cast<UIManager>();
                 titleMenu = ui.GetUI<ITitleUI>()?.TryCast<TitleMenu>()
                     ?? Resources.FindObjectsOfTypeAll<TitleMenu>().FirstOrDefault(menu => menu != null && menu.gameObject.activeInHierarchy);
-                if (titleMenu == null) throw new InvalidOperationException("找不到游戏标题菜单。");
+                if (titleMenu == null) throw new InvalidOperationException(T("找不到游戏标题菜单。", "The game title menu was not found."));
                 saveMenu = ui.GetUI<ISaveLoadUI>()?.TryCast<SaveLoadMenu>();
-                if (saveMenu == null) throw new InvalidOperationException("找不到游戏存档界面。");
+                if (saveMenu == null) throw new InvalidOperationException(T("找不到游戏存档界面。", "The game save menu was not found."));
                 inputPanel = ui.GetUI<IVariableInputUI>()?.TryCast<VariableInputPanel>();
-                if (inputPanel == null) throw new InvalidOperationException("找不到游戏文字输入界面。");
+                if (inputPanel == null) throw new InvalidOperationException(T("找不到游戏文字输入界面。", "The game text input screen was not found."));
                 LoggerInstance.Msg("Cup services initialized. Waiting for the native title menu.");
             }
             if (player != null && titleMenu != null && launchRequestedAt < 0 && Run.Result == null && titleMenu.Visible)
@@ -529,10 +616,10 @@ public sealed partial class CupMod : MelonMod
                     StartCup(chosen);
                 }
             }
-            else if (launchRequestedAt >= 0 && !clockStarted && Run.Result == null &&
+            else if (launchRequestedAt >= 0 && (!Run.Running || Settings.FastStory && !clockStarted) && Run.Result == null &&
                      Time.realtimeSinceStartupAsDouble - launchRequestedAt > 30)
             {
-                throw new InvalidOperationException("游戏未能进入新一局，请重新启动杯赛。");
+                throw new InvalidOperationException(T("游戏未能进入新一局，请重新启动杯赛。", "The new run did not start. Relaunch the Cup."));
             }
 
             UpdateTimerPause();
@@ -554,7 +641,7 @@ public sealed partial class CupMod : MelonMod
                 MelonCoroutines.Start(VerifySavePauseForSmoke());
             }
             if (smoke && smokeStarted && Run.Running &&
-                Time.realtimeSinceStartupAsDouble - launchRequestedAt >= (curseUiSmoke ? 110 : trainingSmoke && jumpSmokeFloor == 4 ? 57 : 45)) Finish("smoke_timeout");
+                Time.realtimeSinceStartupAsDouble - launchRequestedAt >= (ManualStorySmoke ? 210 : StorySmokeRequested || SoloSmoke || EntertainmentSmoke || curseUiSmoke || StealActionSmoke ? 110 : trainingSmoke && jumpSmokeFloor == 4 ? 57 : 45)) Finish("smoke_timeout");
             if (TimeLimitReached())
                 Finish("time_limit");
         }
@@ -579,15 +666,16 @@ public sealed partial class CupMod : MelonMod
                 DungeonAiProductQualityRandom.Reset(CupRandom.Seed(Settings.Seed, "opening"));
                 LoggerInstance.Msg($"Cup run started | {runId} | {script}:{line}");
                 Persist("running");
+                if (StorySmokeRequested && ManualStorySmoke) MelonCoroutines.Start(VerifyManualStoryOpeningForSmoke());
             }
             scriptEvents++;
             if ((!explorationStarted && script == "Dungeon" && line is 335 or 336) ||
-                (!clockStarted && script == "Opening3" && line is >= 1986 and <= 1989))
+                (Settings.FastStory && !clockStarted && script == "Opening3" && line is >= 1986 and <= 1989))
             {
                 // Let the first screen enter its input loop while the native choice UI finishes loading.
                 command.Wait = false;
             }
-            if (!explorationStarted && Target?.Id != "ritual")
+            if (Settings.FastStory && !explorationStarted && Target?.Id != "ritual")
             {
                 if (script == "Opening2" && line == 377)
                     command.Cast<Goto>().Path = new NamedString("Opening3", "PartnerChoice");
@@ -603,6 +691,7 @@ public sealed partial class CupMod : MelonMod
                 }
                 ShortenOpeningAnimation(command, script, line);
             }
+            HandleStoryCommand(command, script, line);
             string commandType = command.GetIl2CppType().Name;
             string? waitMode = commandType == nameof(Wait) ? (string?)command.Cast<Wait>().WaitMode : null;
             cutsceneCommand = IsLockedPresentation(command, commandType, waitMode) ? command.Pointer : IntPtr.Zero;
@@ -615,21 +704,27 @@ public sealed partial class CupMod : MelonMod
             if (script == "Dungeon" && line == 151) ApplyStartingFloor(command.Cast<Gosub>());
             ApplyOpeningRules(script, line);
             ObserveCurseMenu(script, line);
+            HandleSoloCommand(command, script, line);
+            HandleEntertainmentCommand(command, script, line);
             if (WeaponRulesActive) ObserveWeaponRules(script, line);
             if (Settings.RunKnife) HandleKnifeCommand(command, script, line);
             if (Settings.HarshTraining) HandleTrainingCommand(command, script, line);
-            bool nativeStart = Boss != null ? (script, line) == ("Opening3", 1990) :
+            bool nativeStart = Boss != null && Target == null ? (script, line) == ("Opening3", 1990) :
                 Target?.Id == "ritual" ? (script, line) == ("Opening3", 1441) :
                 !explorationStarted && (script, line) == ("Dungeon", 338);
             if (!clockStarted && (nativeStart || openingDeathMenuReady))
             {
                 clockStarted = true;
-                progressName = openingDeathInProgress ? "开局分配" :
-                    Boss != null ? "选择同伴" : Target?.Id == "ritual" ? "献祭仪式" : $"第 {Settings.StartingFloor} 层";
+                progressName = openingDeathInProgress ? T("开局分配", "Opening Allocation") :
+                    Boss != null && Target == null ? T("选择同伴", "Choose a Companion") : Target?.Id == "ritual" ? T("献祭仪式", "Sacrifice Ritual") : T($"第 {Settings.StartingFloor} 层", $"Floor {Settings.StartingFloor}");
                 audit!.Record(Run, "timer_start", detail: progressName);
                 LoggerInstance.Msg($"Cup timer start | {script}:{line} | partner={Read("partnerCharacter")}");
             }
-            if (smoke && nativeStart) MelonCoroutines.Start(VerifyStartForSmoke());
+            if (smoke && nativeStart)
+            {
+                if (StorySmokeRequested) MelonCoroutines.Start(VerifyStoryForSmoke());
+                else MelonCoroutines.Start(VerifyStartForSmoke());
+            }
             if (Run.Paused || cutsceneCommand != IntPtr.Zero || dialogueCommand != IntPtr.Zero) UpdateTimerPause();
 
             if (script == "Dungeon" && line == 338)
@@ -674,18 +769,33 @@ public sealed partial class CupMod : MelonMod
             if (script == "Title" && line == 20) { Finish("quit_to_title"); return; }
             if (Route.EarlyEndingAt(script, line) is { } earlyEnding)
             {
-                Finish(earlyEnding == Target?.Id ? "clear" : "wrong_ending");
+                Finish(Boss == null && earlyEnding == Target?.Id ? "clear" : "wrong_ending");
                 return;
             }
             if (script == "Ending" && line == 33)
             {
                 if (Flag("xSwitchEndingSkipHistory")) return;
                 string ending = Read("endingType");
-                if (Target?.IsEnding(ending, Read("partnerCharacter"), Flag("xSwitchWarriorHakoniwaEnd")) == true)
+                if (Boss == null && Target?.IsEnding(ending, Read("partnerCharacter"), Flag("xSwitchWarriorHakoniwaEnd")) == true)
                     Finish("clear");
                 else if (!Flag("xSwitchEndingResumeStory") ||
-                         (Boss == null && Target?.ContinuesAfter(ending) != true))
+                         (Target != null && !Target.ContinuesAfter(ending)))
                     Finish("wrong_ending");
+                return;
+            }
+
+            if (Target != null && (script == "Scenario_Hero3" && line == 2038 && !HeroChoiceAvailable() ||
+                script == "Scenario_Priest3" && line == 1167 && !PriestChoiceAvailable()))
+            {
+                Finish("required_choice_locked");
+                return;
+            }
+
+            if (script == "Dungeon" && UsesMageDetour &&
+                Number("dungeonId") == 9 && Number("sectionId") == 2 &&
+                (line == 486 || line == 1439))
+            {
+                Finish("wrong_story_branch");
                 return;
             }
 
@@ -700,22 +810,6 @@ public sealed partial class CupMod : MelonMod
                     ObserveBossProgress(boss, script, line);
                 return;
             }
-
-            if (script == "Scenario_Hero3" && line == 2038 && !HeroChoiceAvailable() ||
-                script == "Scenario_Priest3" && line == 1167 && !PriestChoiceAvailable())
-            {
-                Finish("required_choice_locked");
-                return;
-            }
-
-            if (script == "Dungeon" && UsesMageDetour &&
-                Number("dungeonId") == 9 && Number("sectionId") == 2 &&
-                (line == 486 || line == 1439))
-            {
-                Finish("wrong_story_branch");
-                return;
-            }
-
 
             ObserveProgress(script, line);
         }
@@ -779,7 +873,7 @@ public sealed partial class CupMod : MelonMod
         vars.SetVariableValue("xSwitchShowAttackModeChangeChoiceSelected", "1");
         vars.SetVariableValue("xSwitchIsTutorial", "0");
         vars.SetVariableValue("xSwitchDungeonTutorial", "0");
-        if (Target?.Id == "ritual")
+        if (Settings.FastStory && Target?.Id == "ritual")
             command.Path = new NamedString("Opening3", "priestChoiceGisikiYes");
         else
             command.Path = new NamedString("Opening", "MeChoice1");
@@ -818,6 +912,7 @@ public sealed partial class CupMod : MelonMod
         try
         {
             var spot = command.PlaybackSpot;
+            if (Run.Running) FinishEntertainmentCommand(command, spot.ScriptName, spot.LineIndex);
             if (Run.Running && Settings.HarshTraining && spot.ScriptName == "Action" && spot.LineIndex == 1315)
             {
                 AllowTrainingStealAfterHit();
@@ -876,9 +971,26 @@ public sealed partial class CupMod : MelonMod
     private System.Collections.IEnumerator CaptureSetupForSmoke()
     {
         yield return new WaitForEndOfFrame();
+        SaveSmokeScreenshot(SmokeScreenshot);
+        if (setupPanel != null)
+        {
+            setupPanel.ShowEntertainmentRules = true;
+            setupPanel.ShowCombatRules = StealActionSmoke;
+            yield return new WaitForEndOfFrame();
+            SaveSmokeScreenshot(Path.ChangeExtension(SmokeScreenshot, null) + "-rules.png");
+            setupPanel.ShowEntertainmentRules = false;
+            setupPanel.ShowCombatRules = false;
+        }
+        smokeStarted = true;
+        if (setup!.TryGetSettings(out var chosen, out string validation, language))
+            queuedSettings = bossSmoke ? chosen! with { RouteId = "" } : chosen;
+        else Fail(new InvalidOperationException(validation));
+    }
+
+    private void SaveSmokeScreenshot(string path)
+    {
         try
         {
-            string path = SmokeScreenshot;
             Directory.CreateDirectory(Path.GetDirectoryName(path)!);
             var capture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
             try
@@ -891,9 +1003,6 @@ public sealed partial class CupMod : MelonMod
             finally { UnityEngine.Object.Destroy(capture); }
         }
         catch (Exception ex) { LoggerInstance.Warning($"Setup screenshot unavailable: {ex.Message}"); }
-        smokeStarted = true;
-        if (setup!.TryGetSettings(out var chosen, out string validation)) queuedSettings = chosen;
-        else Fail(new InvalidOperationException(validation));
     }
 
     private void VerifyMapsForSmoke()
@@ -941,7 +1050,7 @@ public sealed partial class CupMod : MelonMod
                 if (spot.ScriptName != "Opening3" || spot.LineIndex < 1441) continue;
             }
             else if (spot.ScriptName != "Dungeon" || spot.LineIndex != 338 ||
-                     Read("partnerCharacter") != (jumpSmokeFloor == 6 ? "priest" : mageSmoke ? "mage" : "warrior"))
+                     Read("partnerCharacter") != (jumpSmokeFloor == 6 ? "priest" : mageSmoke && !SoloUiWarriorSmoke ? "mage" : "warrior"))
                 continue;
 
             LoggerInstance.Msg($"Cup smoke: native start ready | {spot.ScriptName}:{spot.LineIndex}");
@@ -950,7 +1059,9 @@ public sealed partial class CupMod : MelonMod
             else if (trainingSmoke && jumpSmokeFloor == 4) MelonCoroutines.Start(VerifyGiantTrainingForSmoke());
             else if (jumpSmokeFloor > 0) MelonCoroutines.Start(VerifyJumpForSmoke());
             else if (weaponOpeningSmoke) VerifyWeaponOpeningForSmoke();
+            else if (SoloUiWarriorSmoke) MelonCoroutines.Start(VerifyWarriorSoloUiForSmoke());
             else if (mageSmoke) MelonCoroutines.Start(VerifyMageOpeningForSmoke());
+            else if (EntertainmentSmoke) MelonCoroutines.Start(VerifyEntertainmentForSmoke());
             else MelonCoroutines.Start(VerifyMapSkipForSmoke());
             yield break;
         }
@@ -984,6 +1095,11 @@ public sealed partial class CupMod : MelonMod
                 string enemy = Read("enemy1ResourceName");
                 if (!enemy.Contains("goblin", StringComparison.OrdinalIgnoreCase)) continue;
                 LoggerInstance.Msg($"Mage opening verified: entered {enemy} battle; mode={Read(ModeVariable)}; break control={Read("showBattleModeChanger")}.");
+                if (SoloSmoke)
+                {
+                    MelonCoroutines.Start(VerifySoloForSmoke());
+                    yield break;
+                }
                 if (limitsSmoke)
                 {
                     MelonCoroutines.Start(VerifyLimitsForSmoke());
@@ -1476,25 +1592,25 @@ public sealed partial class CupMod : MelonMod
             ("Scenario_Hero4", 1442) or ("Scenario_Mage4", 1330) or ("Scenario_Warrior4", 1362) or ("Scenario_Priest4", 2245) => 4,
             _ => 0
         };
-        if (boss > 0) Split(boss * 100, $"已击败第 {boss} 层首领");
+        if (boss > 0) Split(boss * 100, T($"已击败第 {boss} 层首领", $"Floor {boss} Boss Defeated"));
         if (script == "Battle" && line == 6555 && Number("dungeonId") >= 5 &&
             Number("xPriestFinalPhase") is >= 1 and <= 3)
         {
             int phase = Number("xPriestFinalPhase");
             if (Target.Id is not ("priestNod" or "priestNodAfterLowSan" or "mageNotMaryokuSpecialWin") &&
                 !(Target.Id.StartsWith("mageNotMaryoku", StringComparison.Ordinal) && Flag("xSwitchRunAllowed")))
-                Split(420 + phase, $"终战 · 完成第 {phase} 阶段");
+                Split(420 + phase, T($"终战 · 完成第 {phase} 阶段", $"Final Battle · Phase {phase} Complete"));
         }
         if (script == "Scenario_Warrior5" && line is 1310 or 1550)
-            Split(line == 1310 ? 431 : 432, line == 1310 ? "终战 · 第一场决斗胜利" : "终战 · 第二场决斗胜利");
+            Split(line == 1310 ? 431 : 432, line == 1310 ? T("终战 · 第一场决斗胜利", "Final Battle · First Duel Won") : T("终战 · 第二场决斗胜利", "Final Battle · Second Duel Won"));
         if (script == "Scenario_Priest5" && line == 301)
-            Split(435, "僧侣终战胜利");
+            Split(435, T("僧侣终战胜利", "Priest Final Battle Won"));
         if (script == "Scenario_Priest5" && line == 411)
-            Split(520, "魔王终战胜利");
+            Split(520, T("魔王终战胜利", "Demon King Final Battle Won"));
         if (script == "Scenario_Hero5" && line == 1803)
-            Split(431, "勇者终击成功");
+            Split(431, T("勇者终击成功", "Hero's Finishing Blow Landed"));
         if (script == "Scenario_Mage5" && line is 629 or 2535 or 2969)
-            Split(431, "魔法师终战胜利");
+            Split(431, T("魔法师终战胜利", "Mage Final Battle Won"));
     }
 
     private void ObserveBossProgress(BossGoal boss, string script, int line)
@@ -1510,12 +1626,12 @@ public sealed partial class CupMod : MelonMod
         if (BossGoal.ForBattle(ReadBattleTarget(), Number("dungeonId")) != boss) return;
         int rank = (boss.Floor - 1) * 100 + 90;
         if (line == 4)
-            Split(rank, "已进入目标 Boss 战");
+            Split(rank, T("已进入目标 Boss 战", "Target Boss Battle Entered"));
         else
         {
             int phase = Number(line == 6555 ? "xPriestFinalPhase" : "xGlausFinalPhase");
             if (phase is >= 1 and <= 3 && (boss.Id != "priest" || !Flag("xSwitchRunAllowed")))
-                Split(rank + phase, $"目标 Boss · 完成第 {phase} 阶段");
+                Split(rank + phase, T($"目标 Boss · 完成第 {phase} 阶段", $"Target Boss · Phase {phase} Complete"));
         }
     }
 
@@ -1530,7 +1646,7 @@ public sealed partial class CupMod : MelonMod
         int dungeon = Number("dungeonId"), section = Number("sectionId");
         int floor = dungeon == 10 ? 6 : Math.Min(dungeon, 5);
         if (floor > 0 && floor <= maxFloor && section > 0)
-            Split((floor - 1) * 100 + section, $"第 {floor} 层 · 第 {section} 区");
+            Split((floor - 1) * 100 + section, T($"第 {floor} 层 · 第 {section} 区", $"Floor {floor} · Section {section}"));
     }
 
     private void Split(int rank, string label)
@@ -1549,6 +1665,7 @@ public sealed partial class CupMod : MelonMod
     private void Finish(string result)
     {
         if (!Run.Running) return;
+        RestoreSoloBattle();
         Run.Finish(result);
         audit!.Record(Run, "finish", result, detail: result == "clear" ? GoalId : progressName);
         DungeonAiProductQualityRandom.Disable();
@@ -1601,7 +1718,7 @@ public sealed partial class CupMod : MelonMod
             {
                 if (launchRequestedAt >= 0)
                 {
-                    GUI.Box(LeftCenteredRect(260, 44), "Loading Cup...");
+                    GUI.Box(LeftCenteredRect(260, 44), T("正在加载杯赛…", "Loading Cup…"));
                     return;
                 }
                 if (setup != null && titleMenu != null && titleMenu.Visible)
@@ -1609,7 +1726,7 @@ public sealed partial class CupMod : MelonMod
                     if (setupPanel == null)
                     {
                         LoggerInstance.Msg("Cup setup: creating controls.");
-                        setupPanel = new CupSetupPanel();
+                        setupPanel = new CupSetupPanel(language);
                         LoggerInstance.Msg("Cup setup: controls created.");
                     }
                     setupPanel.Draw(setup, setupNotice, chosen => queuedSettings = chosen, () => Application.Quit());
@@ -1630,37 +1747,37 @@ public sealed partial class CupMod : MelonMod
                 font = Font.CreateDynamicFontFromOSFont("Microsoft YaHei", 18)
             };
             hudStyle.normal.textColor = Color.white;
-            float width = Math.Min(Screen.width - 24, 540);
+            float width = GetHudRect().width;
             if (error.Length > 0)
             {
                 if (finalResult == null)
                 {
-                    GUI.Box(LeftCenteredRect(width, 74), "Cup error\n" + error);
+                    GUI.Box(LeftCenteredRect(width, 74), T("杯赛异常\n", "Cup Error\n") + error);
                     return;
                 }
             }
             string status = Run.Result switch
             {
-                "clear" => Boss != null ? "已击败目标 Boss" : "已达成目标结局", "defeat" => "死亡超出额度", "time_limit" => "时间到",
-                "required_choice_locked" => "未达分支条件", "wrong_story_branch" or "wrong_ending" => Boss != null ? "剧情结束 · 未击败目标" : "偏离目标结局",
-                "quit_to_title" => "已退出", "mod_error" => "Mod 异常 · 已停表",
+                "clear" => Boss != null ? T("已击败目标 Boss", "Target Boss Defeated") : T("已达成目标结局", "Target Ending Reached"), "defeat" => T("死亡超出额度", "Death Limit Exceeded"), "time_limit" => T("时间到", "Time Up"),
+                "required_choice_locked" => T("未达分支条件", "Branch Requirements Unmet"), "wrong_story_branch" or "wrong_ending" => Boss != null ? T("剧情结束 · 未击败目标", "Story Ended · Boss Undefeated") : T("偏离目标结局", "Wrong Ending"),
+                "quit_to_title" => T("已退出", "Run Exited"), "mod_error" => T("Mod 异常 · 已停表", "Mod Error · Timer Stopped"),
                 null when Run.Paused => pauseReason switch
                 {
-                    CupPauseReason.Save => "存档暂停", CupPauseReason.Input => "输入暂停",
-                    CupPauseReason.Skip => "快进暂停", CupPauseReason.Preparing => "准备开赛",
-                    CupPauseReason.RoomRetry => "SL 读档暂停", _ => "演出暂停"
+                    CupPauseReason.Save => T("存档暂停", "Paused: Save Menu"), CupPauseReason.Input => T("输入暂停", "Paused: Text Input"),
+                    CupPauseReason.Skip => T("快进暂停", "Paused: Fast-Forward"), CupPauseReason.Preparing => T("准备开赛", "Preparing Run"),
+                    CupPauseReason.RoomRetry => T("SL 读档暂停", "Paused: Room Retry"), _ => T("演出暂停", "Paused: Cutscene")
                 },
                 null when Run.Running => progressName,
-                null => "从标题选择新游戏", _ => Run.Result ?? ""
+                null => T("从标题选择新游戏", "Choose New Game from the Title Screen"), _ => Run.Result ?? ""
             };
-            if (Run.Running && !Run.Paused && Time.realtimeSinceStartupAsDouble < routeNoticeUntil) status = "该格通往其他结局，请走剧情岔路";
+            if (Run.Running && !Run.Paused && Time.realtimeSinceStartupAsDouble < routeNoticeUntil) status = T("该格通往其他结局，请走剧情岔路", "This tile leads to another ending. Follow the story branch.");
             string clock = $"{(int)Run.Elapsed.TotalHours:00}:{Run.Elapsed.Minutes:00}:{Run.Elapsed.Seconds:00}.{Run.Elapsed.Milliseconds / 100}";
             var hud = GetHudRect();
             GUI.Box(hud, "");
             GUI.Label(hud,
-                $"  {Settings.EventId}   {clock}   {status}\n  {GoalName}   {(ModeValue == "1" ? "概率" : "时机")}\n" +
-                $"  SL {Run.RoomRetries}/{Settings.MaxRoomRetries}   死亡 {Run.Deaths}/{Settings.MaxDeaths}   罚时 +{Run.Penalty.TotalSeconds:0}s\n" +
-                $"  本局编号 {audit?.RunCode}", hudStyle);
+                $"  {Settings.EventId}   {clock}   {status}\n  {GoalName}   {(ModeValue == "1" ? T("概率", "Probability") : T("时机", "Timing"))}\n" +
+                T($"  SL {Run.RoomRetries}/{Settings.MaxRoomRetries}   死亡 {Run.Deaths}/{Settings.MaxDeaths}   罚时 +{Run.Penalty.TotalSeconds:0}s\n  本局编号 {audit?.RunCode}",
+                  $"  Retries {Run.RoomRetries}/{Settings.MaxRoomRetries}   Deaths {Run.Deaths}/{Settings.MaxDeaths}   Penalty +{Run.Penalty.TotalSeconds:0}s\n  Run Code {audit?.RunCode}"), hudStyle);
             if (finalResult != null) DrawResultExport(hud);
             if (Run.Running && Time.realtimeSinceStartupAsDouble < weaponCurseNoticeUntil)
             {
@@ -1672,7 +1789,7 @@ public sealed partial class CupMod : MelonMod
         catch (Exception ex) { Fail(ex); }
     }
 
-    private Rect GetHudRect() => LeftCenteredRect(540, Math.Max(112, hudStyle!.fontSize * 5));
+    private Rect GetHudRect() => LeftCenteredRect(language.English ? 650 : 540, Math.Max(112, hudStyle!.fontSize * 5));
 
     private static Rect LeftCenteredRect(float width, float height) =>
         new(12, Math.Max(0, (Screen.height - height) / 2), Math.Min(Screen.width - 24, width), height);

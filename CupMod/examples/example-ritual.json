@@ -1,6 +1,6 @@
 {
   "Schema": 1,
-  "Mod": "0.4.12",
+  "Mod": "0.5.4",
   "GameBuild": 26705080,
   "RunId": "20000101-120000-abcdef12",
   "RunCode": "ABCDEF12",
@@ -33,7 +33,15 @@
     "StartingFloor": 1,
     "MaxWeapons": null,
     "KickOnly": false,
-    "HarshTraining": false
+    "HarshTraining": false,
+    "FastStory": true,
+    "FixedWeaponCombination": false,
+    "ExtraActionAfterSteal": false,
+    "StolenWeaponDamageMultiplier": 2,
+    "EnemyHealthMultiplier": 1,
+    "EnemyAttackMultiplier": 1,
+    "DisabledCharacter": "",
+    "InheritDisabledAction": false
   },
   "Splits": [],
   "Events": [

@@ -88,9 +88,9 @@ $cache = (Get-Item -LiteralPath $DependencyCache).FullName
 $entries = @('一键安装.cmd', 'Install-Mod.ps1', 'Install-Package.txt')
 $packages = @(
     @{
-        Id = 'Cup'; Archive = 'Annihilated-Cup-v0.4.12.zip'
+        Id = 'Cup'; Archive = 'Annihilated-Cup-v0.5.4.zip'
         Payload = @('Launch-Cup.cmd', 'Mods/AnnihilatedCup.dll', 'Mods/AnnihilatedRoomRetry.dll')
-        Extra = @('Cup-Referee.html', 'INSTALL.md', 'REFEREE.md', 'examples/example-ritual.json')
+        Extra = @('Cup-Referee.html', 'Install.cmd', 'INSTALL.md', 'INSTALL.en.md', 'README.md', 'GUIDE.en.md', 'REFEREE.md', 'examples/example-ritual.json')
     }
     @{
         Id = 'Gallery'; Archive = 'Annihilated-Gallery-v1.2.1.zip'

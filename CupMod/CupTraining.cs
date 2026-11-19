@@ -127,6 +127,12 @@ public sealed partial class CupMod
         if (script != "Battle") return;
         switch (line)
         {
+            case 4 when trainingSmoke && StealActionSmoke && Read("addEnemyResourceNames") == "goblin":
+                // Dreak can kill the disarmed goblin. Leave a second opponent for the extra action.
+                vars!.SetVariableValue("addEnemyResourceNames", "goblin,goblin");
+                vars.SetVariableValue("addEnemyPositions", "0.25,0.75");
+                vars.SetVariableValue("enemyNumber", "2");
+                break;
             case 1820:
                 companionHasStealSkill = false;
                 break;
@@ -168,7 +174,7 @@ public sealed partial class CupMod
     private System.Collections.IEnumerator VerifyTrainingForSmoke(string stolenWeapon = "club", int enemySlot = 1)
     {
         var keyboard = InputSystem.AddDevice<Keyboard>();
-        bool clicked = false, hit = false;
+        bool clicked = false, hit = false, stoleWeapon = false, bonusSelected = false, bonusHit = false, releaseBonusKey = false;
         string target = "enemy" + enemySlot;
         bool partnerTest = Environment.GetCommandLineArgs().Contains("--annihilated-cup-training-partner-smoke", StringComparer.Ordinal);
         bool nativeCardTest = Environment.GetCommandLineArgs().Contains("--annihilated-cup-training-native-card-smoke", StringComparer.Ordinal);
@@ -179,12 +185,17 @@ public sealed partial class CupMod
         double curseBefore = 0, curseCountBefore = 0;
         double commandReady = -1, stealBarReady = -1;
         var advance = Engine.GetService<IInputManager>().GetSampler(InputConfiguration.ContinueName);
-        double deadline = Time.realtimeSinceStartupAsDouble + (enemySlot == 1 ? 21 : 34);
+        double deadline = Time.realtimeSinceStartupAsDouble + (StealActionSmoke ? 42 : enemySlot == 1 ? 21 : 34);
         try
         {
             while (Run.Running && Time.realtimeSinceStartupAsDouble < deadline)
             {
                 yield return null;
+                if (releaseBonusKey)
+                {
+                    InputSystem.QueueStateEvent(keyboard, new UnityEngine.InputSystem.LowLevel.KeyboardState());
+                    releaseBonusKey = false;
+                }
                 var bar = UnityEngine.Object.FindObjectsByType<AttackBar>(FindObjectsSortMode.None)
                     .FirstOrDefault(candidate => candidate.isActiveAndEnabled && candidate.IsTimingInputActive);
                 if (basicAttackTest && clicked && bar != null && Number("selectCommand") == -1 &&
@@ -212,7 +223,7 @@ public sealed partial class CupMod
                     hit = true;
                     continue;
                 }
-                if (clicked && hit && (!partnerTest || firstPosition == "back") && Number(target + "StolenWeaponCount") > 0 &&
+                if (!stoleWeapon && clicked && hit && (!partnerTest || firstPosition == "back") && Number(target + "StolenWeaponCount") > 0 &&
                     (convert ? Number("itemAddedIndex") < 0 && ReadCurse("curse") == curseBefore + 8 &&
                         ReadCurse("curseCount") == curseCountBefore + 8 &&
                         !Enumerable.Range(1, 12).Any(slot => ItemCustomFunctions.GetItemResourceNameBySlotNumber(slot) == stolenWeapon) :
@@ -221,10 +232,50 @@ public sealed partial class CupMod
                 {
                     LoggerInstance.Msg($"Cup training smoke passed | actor={firstActor} | position={firstPosition} | " +
                         (convert ? $"{stolenWeapon} converted into 8 curse without inventory gain" : $"native weapon steal succeeded | item={stolenWeapon}"));
-                    Finish("smoke_training_pass");
-                    yield break;
+                    if (!StealActionSmoke)
+                    {
+                        Finish("smoke_training_pass");
+                        yield break;
+                    }
+                    stoleWeapon = true;
                 }
                 var choices = UnityEngine.Object.FindObjectsByType<ChoiceHandlerButton>(FindObjectsSortMode.None);
+                if (bonusSelected && !bonusHit && bar != null && Number("selectCommand") == -1)
+                {
+                    var section = bar.colorSections.ToArray().FirstOrDefault(c => c.TargetId == "enemy2" && c.SectionEnd > c.SectionStart);
+                    if (section != null && Time.realtimeSinceStartupAsDouble - stealBarReady >= 0.4)
+                    {
+                        float center = bar.GetAbsolutePosition((section.SectionStart + section.SectionEnd) / 2);
+                        bar.SetGuidedCursorConstraint(center, center);
+                        bar.SetPrimaryCursorPositionX(center);
+                        InputSystem.QueueStateEvent(keyboard, new UnityEngine.InputSystem.LowLevel.KeyboardState(Key.Enter));
+                        bonusHit = releaseBonusKey = true;
+                    }
+                }
+                if (stoleWeapon && (player!.PlaybackSpot.ScriptName, player.PlaybackSpot.LineIndex) == ("Battle", 2137) &&
+                    choices.FirstOrDefault(choice => choice.ChoiceState?.Summary == Read("defaultActionNumber") && ActiveButton(choice) != null) is { } nextCard)
+                {
+                    if (bonusSelected && (!bonusHit || Read("turnCharacter") == firstActor)) continue;
+                    bool startBonus = Settings.ExtraActionAfterSteal && !bonusSelected;
+                    string nextActor = startBonus ? firstActor : "partner";
+                    int nextSlot = startBonus ? 1 : 2;
+                    if (Read("turnCharacter") != nextActor || Number("actionCount") != nextSlot || Number("turnCount") != 1 ||
+                        Number(firstActor + PendingStealActions) != 0 || Number(firstActor + "StateActionPlus") != 0)
+                        break;
+                    if (startBonus)
+                    {
+                        LoggerInstance.Msg($"Cup steal action smoke: bonus opened for {firstActor} | round={Read("turnCount")} | slot={Read("actionCount")}");
+                        InputSystem.QueueStateEvent(keyboard, new UnityEngine.InputSystem.LowLevel.KeyboardState());
+                        bonusSelected = true;
+                        stealBarReady = Time.realtimeSinceStartupAsDouble;
+                        ActiveButton(nextCard)!.onClick.Invoke();
+                        continue;
+                    }
+                    LoggerInstance.Msg($"Cup steal action smoke passed | switch={Settings.ExtraActionAfterSteal} | multiplier={Settings.StolenWeaponDamageMultiplier} | " +
+                        $"stealer={firstActor} | next actor={Read("turnCharacter")} | round={Read("turnCount")} | slot={Read("actionCount")}");
+                    Finish("smoke_steal_action_pass");
+                    yield break;
+                }
                 if (!clicked && player!.PlaybackSpot.ScriptName == "Battle" && player.PlaybackSpot.LineIndex == 2137)
                 {
                     var basic = choices.FirstOrDefault(choice => choice.ChoiceState?.Summary == Read("defaultActionNumber") &&
@@ -290,4 +341,7 @@ public sealed partial class CupMod
         finally { InputSystem.RemoveDevice(keyboard); }
         Fail(new InvalidOperationException($"Training smoke failed | clicked={clicked} hit={hit} | {player?.PlaybackSpot.ScriptName}:{player?.PlaybackSpot.LineIndex} | selected={Read("selectCommand")} steal={Read(target + "StolenWeaponCount")} item={Read("itemAddedIndex")} curse={Read("curse")}/{Read("curseCount")} before={curseBefore}/{curseCountBefore}"));
     }
+
+    private static bool StealActionSmoke => Environment.GetCommandLineArgs().Contains(
+        "--annihilated-cup-steal-action-smoke", StringComparer.Ordinal);
 }

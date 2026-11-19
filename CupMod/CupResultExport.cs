@@ -9,7 +9,8 @@ public sealed partial class CupMod
     private byte[]? finalResult;
     private GUIStyle? exportButtonStyle;
     private string exportNotice = "";
-    private static Rect ExportButtonRect(Rect hud) => new(hud.x, hud.yMax + 4, Math.Min(hud.width, 180), 34);
+    private bool exportSucceeded;
+    private static Rect ExportButtonRect(Rect hud) => new(hud.x, hud.yMax + 4, Math.Min(hud.width, 205), 34);
 
     private static void WriteResult(string path, byte[] data)
     {
@@ -22,7 +23,7 @@ public sealed partial class CupMod
     private string ExportResult()
     {
         string directory = smoke ? Path.Combine(root, "verification", "exports") : Path.Combine(root, "exports");
-        string path = Path.Combine(directory, $"杯赛成绩-{runId.ToUpperInvariant()}.json");
+        string path = Path.Combine(directory, $"{T("杯赛成绩", "Cup-Result")}-{runId.ToUpperInvariant()}.json");
         WriteResult(path, finalResult!);
         LoggerInstance.Msg($"Cup result exported | {path}");
         return path;
@@ -41,16 +42,18 @@ public sealed partial class CupMod
             exportButtonStyle.active.background = GUI.skin.button.active.background;
             exportButtonStyle.normal.textColor = exportButtonStyle.hover.textColor = exportButtonStyle.active.textColor = Color.white;
         }
-        if (GUI.Button(ExportButtonRect(hud), "导出比赛成绩", exportButtonStyle))
+        if (GUI.Button(ExportButtonRect(hud), T("导出比赛成绩", "Export Cup Result"), exportButtonStyle))
         {
             try
             {
                 ExportResult();
-                exportNotice = $"已导出 {audit!.RunCode} · UserData/AnnihilatedCup/exports";
+                exportSucceeded = true;
+                exportNotice = T($"已导出 {audit!.RunCode}", $"Exported {audit!.RunCode}") + " · UserData/AnnihilatedCup/exports";
             }
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
             {
-                exportNotice = "导出失败，请检查游戏目录写入权限后重试。";
+                exportSucceeded = false;
+                exportNotice = T("导出失败，请检查游戏目录写入权限后重试。", "Export failed. Check write permissions for the game folder and try again.");
                 LoggerInstance.Warning($"Cup result export failed: {ex.Message}");
             }
         }
@@ -78,7 +81,7 @@ public sealed partial class CupMod
         Event.QueueEvent(new Event { type = EventType.MouseUp, button = 0, mousePosition = button.center });
         deadline = Time.realtimeSinceStartupAsDouble + 3;
         while (exportNotice.Length == 0 && Time.realtimeSinceStartupAsDouble < deadline) yield return null;
-        if (!exportNotice.StartsWith($"已导出 {audit!.RunCode}", StringComparison.Ordinal))
+        if (!exportSucceeded)
         {
             Fail(new InvalidOperationException("The in-game export button did not acknowledge its click."));
             yield break;

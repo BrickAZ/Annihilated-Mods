@@ -180,7 +180,8 @@ public sealed partial class CupMod
         }
         if (index < 0) return;
         if (knifeScriptAsset == null)
-            knifeScriptAsset = Script.FromScriptText(KnifeScriptName, KnifeScript, (string?)null);
+            knifeScriptAsset = Script.FromScriptText(KnifeScriptName,
+                KnifeScript.Replace("外れた！", T("打空了！", "Miss!"), StringComparison.Ordinal), (string?)null);
         RegisterCupScript(KnifeScriptName, knifeScriptAsset);
         knifeContext = KnifeContextKeys.ToDictionary(key => key, Read);
         vars!.SetVariableValue("cupKnifeSlot", stolenSlot.ToString(CultureInfo.InvariantCulture));

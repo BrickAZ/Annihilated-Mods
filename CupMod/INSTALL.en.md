@@ -1,16 +1,16 @@
-# Annihilated Cup v0.4.13 installation guide
+# Annihilated Cup v0.5.4 installation guide
 
 English | [简体中文](INSTALL.md)
 
 For Windows x64 and Steam Build `26705080`, with MelonLoader 0.7.3. The game folder contains `Annihilated.exe`. To find it, right-click the game in your Steam library and choose **Manage → Browse local files**.
 
-[Download Annihilated-Cup-v0.4.13.zip](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.4/Annihilated-Cup-v0.4.13.zip) · [SHA-256 checksum](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.4/Annihilated-Cup-v0.4.13.sha256)
+[Download Annihilated-Cup-v0.5.4.zip](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.5/Annihilated-Cup-v0.5.4.zip) · [SHA-256 checksum](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.5/Annihilated-Cup-v0.5.4.sha256)
 
 ## Install
 
 1. Close the game and extract the entire ZIP. Double-click `Install.cmd` or `一键安装.cmd`. Both open the same installer. If it can't find the game, select the game folder or drag that folder onto the CMD file.
 2. The installer checks your game files and installs the Cup mod, Room Retry v1.0.1 for F9 retries, and `Launch-Cup.cmd`. It downloads and verifies MelonLoader 0.7.3 and portable .NET 6.0.36 when needed. If Cpp2IL or its plugin is missing or fails verification, the installer downloads a fresh copy from the official source.
-3. If the installer reports missing or invalid game files, verify the game's file integrity in Steam and run the installer again. If Cpp2IL fails to download or the startup log reports `Failed to Execute Cpp2IL`, use the offline repair package. [Offline repair steps](../README.md#repair-cpp2il-offline)
+3. If the installer reports missing or invalid game files, verify the game's file integrity in Steam and run the installer again. If Cpp2IL fails to download or the startup log reports `Failed to Execute Cpp2IL`, use the offline repair package. [Offline repair steps](https://github.com/BrickAZ/Annihilated-Mods#repair-cpp2il-offline)
 
 ## Launch the Cup
 

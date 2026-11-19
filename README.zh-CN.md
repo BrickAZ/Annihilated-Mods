@@ -8,7 +8,7 @@
 
 ## 下载与安装
 
-目前的安装包来自 **v1.0.4**。五个游戏内 Mod 均已在 Windows x64、Steam Build `26705080` 和 MelonLoader 0.7.3 下测试。[下载表](#下载)
+目前的安装包来自 **v1.0.5**。五个游戏内 Mod 均已在 Windows x64、Steam Build `26705080` 和 MelonLoader 0.7.3 下测试。[下载表](#下载)
 
 1. 退出游戏，完整解压所需的 Mod ZIP，双击 `一键安装.cmd`。如果没有自动找到游戏，请选择含 `Annihilated.exe` 的目录，或把该目录拖到 CMD 文件上。可以在 Steam 库中右键点击游戏，选择「管理 → 浏览本地文件」。
 2. 安装器会检查游戏文件，并校验 Cpp2IL 及其配套插件。它会下载缺失的 MelonLoader 0.7.3、便携版 .NET 6，以及缺失或校验失败的 Cpp2IL 文件。如果提示游戏文件缺失或格式异常，请在 Steam 验证游戏文件的完整性。
@@ -29,7 +29,7 @@ Cpp2IL 下载失败、文件损坏，或启动日志出现 `Failed to Execute Cp
 
 裁判完整解压杯赛 ZIP 后，用浏览器打开 `Cup-Referee.html` 即可离线核验。右上角可切换简体中文和英文。载入当届规则后，可以批量导入成绩、查看规则差异和罚秒、核对事件时间轴，并导出暂定排名 CSV。想先试一遍，可用包内的 `examples/example-ritual.json` 应用规则，再把同一个示例文件作为成绩导入。
 
-杯赛 v0.4.13 面向 Steam Build `26705080`。它读取常规游戏上次保存的语言设置，中文设置下显示中文，其他语言设置下显示英文。同一场比赛可混用中英文界面，选手需要统一游戏构建、杯赛版本和规则。比赛规则和裁判流程详见 ZIP 内的 `README.md`、`GUIDE.en.md` 和 `REFEREE.md`。使用 Build `26646212` 的玩家可下载杯赛 v0.4.11。[v0.4.13 安装与卸载](CupMod/INSTALL.md) · [旧版发布](https://github.com/BrickAZ/Annihilated-Mods/releases/tag/v1.0.1)
+杯赛 v0.5.4 面向 Steam Build `26705080`。它读取常规游戏上次保存的语言设置，中文设置下显示中文，其他语言设置下显示英文。同一场比赛可混用中英文界面，选手需要统一游戏构建、杯赛版本和规则。比赛规则和裁判流程详见 ZIP 内的 `README.md`、`GUIDE.en.md` 和 `REFEREE.md`。使用 Build `26646212` 的玩家可下载杯赛 v0.4.11。[v0.5.4 安装与卸载](CupMod/INSTALL.md) · [旧版发布](https://github.com/BrickAZ/Annihilated-Mods/releases/tag/v1.0.1)
 
 ## 其他 Mod
 
@@ -68,13 +68,13 @@ dotnet run --project ./RoomRetryMod/tests/RoomRetry.Tests.csproj
 
 ## 下载
 
-| 安装包 | [v1.0.4 Release](https://github.com/BrickAZ/Annihilated-Mods/releases/tag/v1.0.4) |
+| 安装包 | [v1.0.5 Release](https://github.com/BrickAZ/Annihilated-Mods/releases/tag/v1.0.5) |
 | --- | --- |
-| 杯赛 | [v0.4.13 ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.4/Annihilated-Cup-v0.4.13.zip) | |
-| 剧情回放与 CG 画廊 | [v1.2.1 ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.4/Annihilated-Gallery-v1.2.1.zip) | |
-| F9 重打当前房间 | [v1.0.1 ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.4/Annihilated-RoomRetry-v1.0.1.zip) | |
-| 战斗攻击方式切换 | [v1.1.0 ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.4/Annihilated-AttackModeSwitch-v1.1.0.zip) | |
-| 存档扩容 | [v1.25 ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.4/Annihilated-SaveSlotUnlimiter-v1.25-Build26705080.zip) | |
-| 离线前置修复 | [Windows x64 ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.4/Annihilated-Offline-Repair-ML0.7.3-Windows-x64.zip) | |
+| 杯赛 | [v0.5.4 ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.5/Annihilated-Cup-v0.5.4.zip) | |
+| 剧情回放与 CG 画廊 | [v1.2.1 ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.5/Annihilated-Gallery-v1.2.1.zip) | |
+| F9 重打当前房间 | [v1.0.1 ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.5/Annihilated-RoomRetry-v1.0.1.zip) | |
+| 战斗攻击方式切换 | [v1.1.0 ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.5/Annihilated-AttackModeSwitch-v1.1.0.zip) | |
+| 存档扩容 | [v1.25 ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.5/Annihilated-SaveSlotUnlimiter-v1.25-Build26705080.zip) | |
+| 离线前置修复 | [Windows x64 ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.5/Annihilated-Offline-Repair-ML0.7.3-Windows-x64.zip) | |
 
-[Mod 安装包 SHA-256](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.4/SHA256SUMS.txt) · [离线修复包校验值](https://github.com/BrickAZ/Annihilated-Mods/releases/tag/v1.0.4#下载-downloads)
+[Mod 安装包 SHA-256](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.5/SHA256SUMS.txt) · [离线修复包校验值](https://github.com/BrickAZ/Annihilated-Mods/releases/tag/v1.0.5#下载-downloads)

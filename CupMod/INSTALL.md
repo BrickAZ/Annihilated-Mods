@@ -1,16 +1,16 @@
-# 杯赛 Mod v0.4.13 安装说明
+# 杯赛 Mod v0.5.4 安装说明
 
 [English](INSTALL.en.md) | 简体中文
 
 适用于 Windows x64 和 Steam Build `26705080`，使用 MelonLoader 0.7.3。游戏目录是含 `Annihilated.exe` 的文件夹，可在 Steam 库中右键点击游戏，选择「管理 → 浏览本地文件」。
 
-[下载 Annihilated-Cup-v0.4.13.zip](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.4/Annihilated-Cup-v0.4.13.zip) · [SHA-256 校验值](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.4/Annihilated-Cup-v0.4.13.sha256)
+[下载 Annihilated-Cup-v0.5.4.zip](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.5/Annihilated-Cup-v0.5.4.zip) · [SHA-256 校验值](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.5/Annihilated-Cup-v0.5.4.sha256)
 
 ## 安装
 
 1. 退出游戏，完整解压 ZIP，双击 `一键安装.cmd` 或 `Install.cmd`。两个文件运行同一个安装器。如果安装器未找到游戏，请选择游戏目录，或把该目录拖到 CMD 文件上。
 2. 安装器会检查游戏文件，安装杯赛 Mod、F9 房间重试 v1.0.1 和 `Launch-Cup.cmd`。缺少 MelonLoader 0.7.3 或便携版 .NET 6.0.36 时会自动下载并校验。Cpp2IL 和配套插件缺失或校验失败时也会从官方来源重新下载。
-3. 如果提示游戏文件缺失或格式异常，请在 Steam 验证游戏文件的完整性，再运行安装器。遇到 Cpp2IL 下载失败，或启动日志出现 `Failed to Execute Cpp2IL`，可使用离线修复包。[离线修复步骤](../README.zh-CN.md#离线前置修复)
+3. 如果提示游戏文件缺失或格式异常，请在 Steam 验证游戏文件的完整性，再运行安装器。遇到 Cpp2IL 下载失败，或启动日志出现 `Failed to Execute Cpp2IL`，可使用离线修复包。[离线修复步骤](https://github.com/BrickAZ/Annihilated-Mods/blob/main/README.zh-CN.md#离线前置修复)
 
 ## 启动杯赛
 
