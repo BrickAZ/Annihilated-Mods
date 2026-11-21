@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>12.0</LangVersion>
+    <GameRoot Condition="'$(GameRoot)' == ''">$(MSBuildThisFileDirectory)../../..</GameRoot>
+    <Interop>$(GameRoot)/MelonLoader/Il2CppAssemblies</Interop>
+    <Loader>$(GameRoot)/MelonLoader/net6</Loader>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="$(Loader)/MelonLoader.dll;$(Loader)/0Harmony.dll;$(Loader)/Il2CppInterop.Runtime.dll;$(Interop)/Il2Cppmscorlib.dll;$(Interop)/UnityEngine.CoreModule.dll;$(Interop)/UnityEngine.AssetBundleModule.dll;$(Interop)/UnityEngine.ImageConversionModule.dll;$(Interop)/Unity.ResourceManager.dll" Private="false" />
+    <EmbeddedResource Include="ItemIcons.txt" LogicalName="ItemIcons.txt" />
+  </ItemGroup>
+</Project>

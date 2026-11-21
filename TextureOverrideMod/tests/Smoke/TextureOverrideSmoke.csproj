@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GameRoot>$(MSBuildThisFileDirectory)../../../..</GameRoot>
+    <Interop>$(GameRoot)/MelonLoader/Il2CppAssemblies</Interop>
+    <Loader>$(GameRoot)/MelonLoader/net6</Loader>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../src/CompilerAttributes.cs" Link="CompilerAttributes.cs" />
+    <Reference Include="$(Loader)/MelonLoader.dll;$(Loader)/Il2CppInterop.Runtime.dll;$(Interop)/Il2Cppmscorlib.dll;$(Interop)/Assembly-CSharp.dll;$(Interop)/Il2CppElringus.Naninovel.Runtime.dll;$(Interop)/UnityEngine.CoreModule.dll;$(Interop)/Unity.Addressables.dll;$(Interop)/Unity.ResourceManager.dll;$(Interop)/UnityEngine.UI.dll;$(Interop)/UnityEngine.UIModule.dll" Private="false" />
+  </ItemGroup>
+</Project>

@@ -66,6 +66,12 @@ dotnet run --project ./RoomRetryMod/tests/RoomRetry.Tests.csproj
 
 Brick made the Cup mod, gallery, F9 Room Retry, Attack Mode Switch, and referee tool. dsh created SaveSlotUnlimiter and gave Brick permission to distribute the adapted DLL. Death Kumiai developed Annihilated and Flashlight Games published it. The gallery and replays use indexes to load assets from your copy of the game. Builds and in-game mods rely on interop assemblies generated from the local installation. [Annihilated on Steam](https://store.steampowered.com/app/2638080/Annihilated/) · [MelonLoader](https://github.com/LavaGang/MelonLoader)
 
+## PNG Texture Override and Texture Editor
+
+Replace enemy battle sprites and supported item icons. The Windows editor can import PNGs, edit sprite sheets frame by frame, and restore the original texture. The Nailong skin replaces the dragon and the Dragon Eye icon and comes with a lightweight online installer.
+
+[Downloads](https://github.com/BrickAZ/Annihilated-Mods/releases/tag/texture-override-v0.1.0) · [Source and instructions](TextureOverrideMod/README.md)
+
 ## Downloads
 
 | Package | [v1.0.5 Release](https://github.com/BrickAZ/Annihilated-Mods/releases/tag/v1.0.5) |

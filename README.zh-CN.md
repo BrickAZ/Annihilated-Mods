@@ -66,6 +66,12 @@ dotnet run --project ./RoomRetryMod/tests/RoomRetry.Tests.csproj
 
 杯赛、画廊、F9 房间重试、战斗攻击方式切换和裁判台由 Brick 制作。SaveSlotUnlimiter 由 dsh 制作，Brick 负责适配和打包，适配 DLL 经 dsh 许可分发。原作由 Death Kumiai 开发、Flashlight Games 发行。画廊与回放按索引从本机游戏读取素材，构建和运行依赖本机游戏生成的互操作程序集。[Steam 游戏页](https://store.steampowered.com/app/2638080/Annihilated/) · [MelonLoader](https://github.com/LavaGang/MelonLoader)
 
+## PNG 换皮 Mod 与贴图编辑器
+
+用 PNG 更换怪物的战斗立绘和受支持的物品图标。Windows 编辑器支持预览、逐帧替换和恢复原图。想直接体验奶龙立绘和龙之眼图标，可以下载轻量联网一键包。
+
+[下载换皮工具与奶龙换皮](https://github.com/BrickAZ/Annihilated-Mods/releases/tag/texture-override-v0.1.0) · [源码与说明](TextureOverrideMod/README.md)
+
 ## 下载
 
 | 安装包 | [v1.0.5 Release](https://github.com/BrickAZ/Annihilated-Mods/releases/tag/v1.0.5) |
