@@ -33,6 +33,7 @@ Cpp2IL 下载失败、文件损坏，或启动日志出现 `Failed to Execute Cp
 
 ## 其他 Mod
 
+- **怪物意图显示**。在怪物头顶显示单次伤害和攻击次数，合并符合条件的连击。改招或伤害变化后会更新提示。[下载 v0.1.0 测试版](https://github.com/BrickAZ/Annihilated-Mods/releases/tag/enemy-intent-v0.1.0) · [使用说明](EnemyIntentMod/README.zh-CN.md)
 - **剧情回放与 CG 画廊**。从标题界面回看 38 个剧情条目，或浏览 591 张 CG 原图。打开回放前可选择主角外观，回放使用独立存档。[使用说明](GalleryMod/使用说明.md)
 - **F9 重打当前房间**。进入新战斗时记录检查点，按 F9 回到这一场的开头。杯赛内的重打额度和罚秒由当届规则决定。[使用说明](RoomRetryMod/使用说明.md)
 - **战斗攻击方式切换**。在普通战斗中打开原版设置，可以切换 QTE 和概率判定。新方式从下一次攻击开始生效。[使用说明](AttackModeSwitchMod/使用说明.txt)

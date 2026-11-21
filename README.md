@@ -33,6 +33,7 @@ Cup v0.5.4 targets Steam Build `26705080`. It displays Chinese when the base gam
 
 ## Other mods
 
+- **Enemy Intent Display**. Show damage per hit and attack count above enemies. Similar consecutive hits are grouped, and the display refreshes when the next action changes. [Download the v0.1.0 test build](https://github.com/BrickAZ/Annihilated-Mods/releases/tag/enemy-intent-v0.1.0) · [Guide](EnemyIntentMod/README.md)
 - **Story Replay & CG Gallery**. Revisit 38 story entries or browse 591 original CGs from the title screen. Choose either protagonist appearance before opening a replay. Replays use separate saves. [Guide in Chinese](GalleryMod/使用说明.md)
 - **F9 Room Retry**. The mod creates a checkpoint at the start of a new battle. Press F9 to return to the start of that fight. In the Cup, the event rules set the retry limit and time penalty. [Guide in Chinese](RoomRetryMod/使用说明.md)
 - **Attack Mode Switch**. Open the game's settings during a regular battle to choose QTE or probability-based attacks. The choice applies from the next attack. [Guide in Chinese](AttackModeSwitchMod/使用说明.txt)

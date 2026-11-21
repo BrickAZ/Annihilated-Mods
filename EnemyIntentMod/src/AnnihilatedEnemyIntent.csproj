@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>AnnihilatedEnemyIntent</AssemblyName>
+    <GameRoot Condition="'$(GameRoot)' == ''">$(MSBuildThisFileDirectory)../../..</GameRoot>
+    <InteropDir>$(GameRoot)/MelonLoader/Il2CppAssemblies</InteropDir>
+    <LoaderDir>$(GameRoot)/MelonLoader/net6</LoaderDir>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="$(LoaderDir)/MelonLoader.dll;$(LoaderDir)/0Harmony.dll;$(LoaderDir)/Il2CppInterop.Runtime.dll" Private="false" />
+    <Reference Include="$(InteropDir)/Il2Cppmscorlib.dll;$(InteropDir)/Assembly-CSharp.dll;$(InteropDir)/UnityEngine.CoreModule.dll" Private="false" />
+  </ItemGroup>
+</Project>
