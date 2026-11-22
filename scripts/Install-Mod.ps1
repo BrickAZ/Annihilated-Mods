@@ -127,13 +127,18 @@ function Get-VerifiedDependency([string]$Name, [string]$Uri, [string]$Algorithm,
     return $archive
 }
 
-function Copy-MissingTree([string]$Source, [string]$Destination) {
+function Copy-MissingTree([string]$Source, [string]$Destination, [string[]]$Skip = @()) {
     foreach ($file in Get-ChildItem -LiteralPath $Source -File -Recurse -Force) {
-        $relative = $file.FullName.Substring($Source.Length + 1)
+        $relative = $file.FullName.Substring($Source.Length + 1).Replace([IO.Path]::DirectorySeparatorChar, '/')
+        if ($relative -in $Skip) { continue }
         $target = Join-Path $Destination $relative
         if (Test-Path -LiteralPath $target -PathType Leaf) { continue }
         $null = New-Item -ItemType Directory -Path (Split-Path -Parent $target) -Force
-        Copy-Item -LiteralPath $file.FullName -Destination $target
+        $pending = "$target.$([guid]::NewGuid().ToString('N')).tmp"
+        try {
+            Copy-Item -LiteralPath $file.FullName -Destination $pending
+            [IO.File]::Move($pending, $target)
+        } finally { [IO.File]::Delete($pending) }
     }
 }
 
@@ -204,10 +209,31 @@ try {
 
     $runtime = Join-Path $game 'MelonLoader/Dependencies/dotnet'
     $runtimeStage = Join-Path $staging 'dotnet'
-    $runtimeNeeded = !(Test-Path -LiteralPath (Join-Path $runtime 'host/fxr/6.0.36/hostfxr.dll') -PathType Leaf) -or
-        !(Test-Path -LiteralPath (Join-Path $runtime 'shared/Microsoft.NETCore.App/6.0.36/coreclr.dll') -PathType Leaf) -or
-        !(Test-Path -LiteralPath (Join-Path $runtime 'dotnet.exe') -PathType Leaf)
-    if ($runtimeNeeded) {
+    # SHA-256 hashes from the verified .NET 6.0.36 win-x64 runtime archive.
+    $runtimeFiles = @{
+        'dotnet.exe' = 'D4401F5FBDEA869BB7211B00594746EF6962B7DD2BFCEB749889B920070C3F9F'
+        'host/fxr/6.0.36/hostfxr.dll' = '82AB369E059533EB7952855B7CC55916AB6B91FB36B2922F269037B1974BE627'
+        'shared/Microsoft.NETCore.App/6.0.36/coreclr.dll' = 'FE0AE2120E2B298E1C40F8FDA3845AA44D3DA6AFE3037AF4F982B0DD63E4356E'
+        'shared/Microsoft.NETCore.App/6.0.36/hostpolicy.dll' = '266D2AE85FFF170EB2795B495B019264D5A0E1CBD7F3F1C6A9CFE0317928399F'
+        'shared/Microsoft.NETCore.App/6.0.36/System.Private.CoreLib.dll' = '3CE6F27555E6CE2DC1D314012A5798A1A62B4527813C085548F7D937F83DA74A'
+    }
+    $runtimeToRepair = @(foreach ($relative in $runtimeFiles.Keys) {
+        $target = Join-Path $runtime $relative
+        if (Test-Path -LiteralPath $target -PathType Container) {
+            throw "便携版 .NET 的文件路径被目录占用：$relative。请移走该目录后重试。"
+        }
+        $exists = Test-Path -LiteralPath $target -PathType Leaf
+        $healthy = $exists -and (Get-FileHash -LiteralPath $target).Hash -eq $runtimeFiles[$relative]
+        if ($relative -eq 'dotnet.exe' -and $exists -and !$healthy -and (Test-X64GameBinary $target) -and
+            (Get-Item -LiteralPath $target).VersionInfo.OriginalFilename -eq '.NET Host') {
+            # The shared host can come from another official x64 runtime in this directory.
+            $signature = Get-AuthenticodeSignature -LiteralPath $target
+            $healthy = $signature.Status -eq 'Valid' -and
+                $signature.SignerCertificate.Subject -match '(?:^|,\s*)O=Microsoft Corporation(?:,|$)'
+        }
+        if (!$healthy) { $relative }
+    })
+    if ($runtimeToRepair.Count) {
         $archive = Get-VerifiedDependency 'dotnet-runtime-6.0.36-win-x64.zip' 'https://builds.dotnet.microsoft.com/dotnet/Runtime/6.0.36/dotnet-runtime-6.0.36-win-x64.zip' 'SHA512' '935DB5C6CEE19F2C016E67168BFAE7B491044735DE76C673ABB3B125DD325FD5E779D7EFE12BA80178D46689AE70A25E558A3FA846417D44C5F4CA256E7F4BF2'
         [IO.Compression.ZipFile]::ExtractToDirectory($archive, $runtimeStage)
     }
@@ -261,7 +287,13 @@ try {
     Write-Host 'Cpp2IL 与配套插件校验通过。'
 
     if ($loaderNeeded) { Copy-MissingTree (Join-Path $loaderStage 'MelonLoader') (Join-Path $game 'MelonLoader') }
-    if ($runtimeNeeded) { Copy-MissingTree $runtimeStage $runtime }
+    if ($runtimeToRepair.Count) {
+        # Leave the failed checks in place until the rest of the runtime is copied.
+        Copy-MissingTree $runtimeStage $runtime $runtimeToRepair
+        foreach ($relative in $runtimeToRepair) {
+            Copy-VerifiedDependency (Join-Path $runtimeStage $relative) (Join-Path $runtime $relative) 'SHA256' $runtimeFiles[$relative]
+        }
+    }
     if ($unitySource) { Copy-VerifiedDependency $unitySource $unityTarget 'SHA256' $unityHash }
 
     $backup = Join-Path $game ('UserData/AnnihilatedModsInstaller/backups/' + (Get-Date -Format 'yyyyMMdd-HHmmss-fff') + '-' + [guid]::NewGuid().ToString('N').Substring(0, 6))

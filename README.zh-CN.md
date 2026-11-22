@@ -41,7 +41,7 @@ Cpp2IL 下载失败、文件损坏，或启动日志出现 `Failed to Execute Cp
 
 ## 从源码构建
 
-准备 .NET 8 SDK 和 PowerShell 7。先在游戏目录安装 MelonLoader 0.7.3 并启动一次游戏，生成 `MelonLoader/Il2CppAssemblies/`。构建需要这个目录和 `MelonLoader/net6/`。四个项目面向 `net6.0`，首次构建可能需要获取对应的参考包。
+准备 .NET 8 SDK 和 PowerShell 7。先在游戏目录安装 MelonLoader 0.7.3 并启动一次游戏，生成 `MelonLoader/Il2CppAssemblies/`。构建需要这个目录和 `MelonLoader/net6/`。游戏内 Mod 项目面向 `net6.0`，首次构建可能需要获取对应的参考包。
 
 克隆仓库或下载 Release 里的 **Source code**。在含有 `scripts/` 的目录打开 PowerShell 7，运行以下命令，并按提示输入含 `Annihilated.exe` 的目录。支持不同盘符和带空格的文件夹名。
 
@@ -50,7 +50,9 @@ $gameRoot = (Read-Host '游戏文件夹路径').Trim().Trim('"')
 ./scripts/Build-Releases.ps1 -GameRoot $gameRoot
 ```
 
-脚本按当前检出的源码版本构建四个项目，在 `dist/` 生成五个安装包和 `SHA256SUMS.txt`。存档扩容包使用仓库内获授权分发的适配 DLL。只构建杯赛时，在同一个窗口设置好 `$gameRoot` 后运行以下命令。
+脚本默认构建六个游戏内 Mod 项目和贴图编辑器，在 `dist/` 生成七个安装包和 `SHA256SUMS.txt`。存档扩容包使用仓库内获授权分发的适配 DLL。若要一起构建奶龙换皮和独立火堆合成包，用 `-DragonSkinArchive` 传入已发布的奶龙手动安装 ZIP，用 `-BonfireDll` 传入已发布的独立火堆合成 DLL。脚本会校验这两个输入的 SHA-256。
+
+只构建杯赛时，在同一个窗口设置好 `$gameRoot` 后运行以下命令。
 
 ```powershell
 dotnet build ./CupMod/AnnihilatedCup.csproj -c Release "-p:GameRoot=$gameRoot"

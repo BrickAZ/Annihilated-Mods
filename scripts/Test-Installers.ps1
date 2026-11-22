@@ -18,6 +18,10 @@ $catalog = 'Annihilated_Data/StreamingAssets/aa/catalog.hash'
 $metadata = 'Annihilated_Data/il2cpp_data/Metadata/global-metadata.dat'
 $gameFiles = @('Annihilated.exe', 'UnityPlayer.dll', 'GameAssembly.dll', $catalog, $metadata)
 $cpp = 'MelonLoader/Dependencies/Il2CppAssemblyGenerator/Cpp2IL/Cpp2IL.exe'
+$runtimeHost = 'MelonLoader/Dependencies/dotnet/dotnet.exe'
+$coreClr = 'MelonLoader/Dependencies/dotnet/shared/Microsoft.NETCore.App/6.0.36/coreclr.dll'
+$hostFxr = 'MelonLoader/Dependencies/dotnet/host/fxr/6.0.36/hostfxr.dll'
+$retainedWriteTime = [datetime]::new(2000, 1, 1, 0, 0, 0, [DateTimeKind]::Utc)
 $payloads = [ordered]@{
     Cup = @('Launch-Cup.cmd', 'Mods/AnnihilatedCup.dll', 'Mods/AnnihilatedRoomRetry.dll')
     Gallery = @('Mods/AnnihilatedGallery.dll')
@@ -33,6 +37,8 @@ $native = @('Cup', 'Gallery', 'SaveSlotUnlimiter')
 $expectedDependencies = @{
     'version.dll' = '0CE7A4E530C7F83F172A2C44AED45EEDB3BDCF06B83760F143A0FBA6885FA929'
     'MelonLoader/net6/MelonLoader.dll' = 'BDD43DC0F3893C208C95389B863AB61C967AE14204DA0DD8051647E754C8709B'
+    $runtimeHost = 'D4401F5FBDEA869BB7211B00594746EF6962B7DD2BFCEB749889B920070C3F9F'
+    $coreClr = 'FE0AE2120E2B298E1C40F8FDA3845AA44D3DA6AFE3037AF4F982B0DD63E4356E'
     'MelonLoader/Dependencies/Il2CppAssemblyGenerator/UnityDependencies_6000.3.23.zip' = '21ECC95B489C49489A8CC3D0166771D93485EDAAF0C5D2F552E7A87F0C908028'
     'MelonLoader/Dependencies/Il2CppAssemblyGenerator/Cpp2IL/Plugins/Cpp2IL.Plugin.StrippedCodeRegSupport.dll' = '2CC4F8C66541F18B4DAED5410149EE7859C3190454D30BDA5CCD0895D2989EE6'
 }
@@ -83,11 +89,23 @@ try {
         }
         if (Test-Path -LiteralPath (Join-Path $fixture 'version.dll')) { throw 'Preflight installed a loader.' }
 
+        $blockedAssembly = Join-Path $fixture 'MelonLoader/Dependencies/dotnet/shared/Microsoft.NETCore.App/6.0.36/System.Runtime.dll'
+        if ($id -eq $Package[0]) {
+            $null = [IO.Directory]::CreateDirectory($blockedAssembly)
+            Run-Installer $extracted $fixture 'Install.cmd' $false
+            if (Test-Path -LiteralPath (Join-Path $fixture $coreClr)) {
+                throw "$id installed the key runtime files before the rest of the runtime was copied."
+            }
+            [IO.Directory]::Delete($blockedAssembly)
+        }
+
         Run-Installer $extracted $fixture '一键安装.cmd' $true
+        if (!(Test-Path -LiteralPath $blockedAssembly -PathType Leaf)) { throw "$id did not install System.Runtime.dll." }
         foreach ($relative in $expectedDependencies.Keys) {
             Assert-Hash (Join-Path $fixture $relative) $expectedDependencies[$relative]
         }
-        if (!(Test-Path -LiteralPath (Join-Path $fixture 'MelonLoader/Dependencies/dotnet/host/fxr/6.0.36/hostfxr.dll'))) {
+        $hostFxrPath = Join-Path $fixture $hostFxr
+        if (!(Test-Path -LiteralPath $hostFxrPath -PathType Leaf)) {
             throw "$id did not install portable .NET 6."
         }
         foreach ($relative in $payloads[$id]) {
@@ -96,6 +114,12 @@ try {
 
         $cppPath = Join-Path $fixture $cpp
         [IO.File]::WriteAllText($cppPath, 'broken dependency')
+        $coreClrPath = Join-Path $fixture $coreClr
+        [IO.File]::WriteAllBytes($coreClrPath, [byte[]]@())
+        $runtimeHostPath = Join-Path $fixture $runtimeHost
+        $hostStream = [IO.File]::OpenWrite($runtimeHostPath)
+        try { $hostStream.SetLength($hostStream.Length - 1024) } finally { $hostStream.Dispose() }
+        [IO.File]::SetLastWriteTimeUtc($hostFxrPath, $retainedWriteTime)
         $target = Join-Path $fixture ($payloads[$id] | Where-Object { $_ -like 'Mods/*' } | Select-Object -First 1)
         [IO.File]::WriteAllText($target, 'previous version')
         $previousHash = (Get-FileHash -LiteralPath $target).Hash
@@ -103,14 +127,19 @@ try {
         [IO.File]::WriteAllText($unrelated, 'unrelated mod')
         Run-Installer $extracted $fixture 'Install.cmd' $true
         Assert-Hash $cppPath $expectedDependencies[$cpp]
+        Assert-Hash $coreClrPath $expectedDependencies[$coreClr]
+        Assert-Hash $runtimeHostPath $expectedDependencies[$runtimeHost]
+        if ([IO.File]::GetLastWriteTimeUtc($hostFxrPath) -ne $retainedWriteTime) { throw "$id rewrote a good .NET host during repair." }
         $backup = @(Get-ChildItem -LiteralPath (Join-Path $fixture 'UserData/AnnihilatedModsInstaller/backups') -File -Recurse)
         if ($backup.Count -ne 1) { throw "$id did not back up exactly one replaced DLL." }
         Assert-Hash $backup[0].FullName $previousHash
         if ([IO.File]::ReadAllText($unrelated) -ne 'unrelated mod') { throw "$id replaced another mod." }
 
-        $lastWriteTime = (Get-Item -LiteralPath $cppPath).LastWriteTimeUtc
+        [IO.File]::SetLastWriteTimeUtc($cppPath, $retainedWriteTime)
+        [IO.File]::SetLastWriteTimeUtc($coreClrPath, $retainedWriteTime)
         Run-Installer $extracted $fixture 'Install.cmd' $true
-        if ((Get-Item -LiteralPath $cppPath).LastWriteTimeUtc -ne $lastWriteTime) { throw "$id rewrote a good Cpp2IL." }
+        if ([IO.File]::GetLastWriteTimeUtc($cppPath) -ne $retainedWriteTime) { throw "$id rewrote a good Cpp2IL." }
+        if ([IO.File]::GetLastWriteTimeUtc($coreClrPath) -ne $retainedWriteTime) { throw "$id rewrote a good .NET runtime file." }
         Write-Host "$id passed package install, upgrade backup, dependency repair, and repeated run."
     }
 
