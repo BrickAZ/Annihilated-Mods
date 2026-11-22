@@ -7,5 +7,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="../../src/IntentRows.cs" Condition="Exists('../../src/IntentRows.cs')" Link="IntentRows.cs" />
+    <Compile Include="../../src/IntentCatalog.cs" Condition="Exists('../../src/IntentCatalog.cs')" Link="IntentCatalog.cs" />
   </ItemGroup>
 </Project>

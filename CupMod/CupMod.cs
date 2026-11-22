@@ -11,17 +11,17 @@ using Il2CppNaninovel.UI;
 using MelonLoader;
 using UnityEngine;
 
-[assembly: MelonInfo(typeof(CupCompetition.CupMod), "Annihilated Cup", CupCompetition.CupMod.Version, "Anton")]
+[assembly: MelonInfo(typeof(CupCompetition.CupMod), "Annihilated Cup", CupCompetition.CupMod.Version, "Brick")]
 [assembly: MelonGame("DeathKumiai", "Annihilated")]
 
 namespace CupCompetition;
 
 public sealed partial class CupMod : MelonMod
 {
-    public const string Version = "0.5.4";
-    internal const int GameBuild = 26705080;
-    internal const string BuildHash = "13B13F97BBE50154B451753351656F99595AE0A542586097F27536F55C24F3C4";
-    internal const string CatalogHash = "c867cf04b05171a82710f970f4122af7";
+    public const string Version = "0.5.5";
+    internal const int GameBuild = 26845264;
+    internal const string BuildHash = "AB27FAA27ABF2AE18431C1586662C0B4720F7F59DACEAF6399B6B5BB9F2C8E39";
+    internal const string CatalogHash = "004a514c06f1f4a7563e5f75c24d55e4";
     internal const string ModeVariable = "xSwitchGameCursorOperationMode";
     private const string RoomRetrySlot = "AnnihilatedRoomRetryCheckpoint";
     private const string Profile = "AnnihilatedCup";
@@ -520,9 +520,9 @@ public sealed partial class CupMod : MelonMod
         }
         var spot = __instance.PlaybackSpot;
         if (cup.Settings.HarshTraining && spot.ScriptName == "Battle" &&
-            (spot.LineIndex is 1973 or 2057 || cup.IsTrainingKickChoice && spot.LineIndex is 1907 or 1912 or 1920))
+            (spot.LineIndex is 1974 or 2058 || cup.IsTrainingKickChoice && spot.LineIndex is 1908 or 1913 or 1921))
         {
-            __result = spot.LineIndex == 2057;
+            __result = spot.LineIndex == 2058;
             return false;
         }
         if (cup.openingDeathInProgress && spot.ScriptName == "GameOver")
@@ -533,7 +533,7 @@ public sealed partial class CupMod : MelonMod
                 __result = false;
                 return false;
             }
-            if (spot.LineIndex == 707)
+            if (spot.LineIndex == 720)
             {
                 // Return after revival, keeping the unspent starting curse instead of converting it to XP.
                 __result = true;
@@ -913,7 +913,7 @@ public sealed partial class CupMod : MelonMod
         {
             var spot = command.PlaybackSpot;
             if (Run.Running) FinishEntertainmentCommand(command, spot.ScriptName, spot.LineIndex);
-            if (Run.Running && Settings.HarshTraining && spot.ScriptName == "Action" && spot.LineIndex == 1315)
+            if (Run.Running && Settings.HarshTraining && spot.ScriptName == "Action" && spot.LineIndex == 1317)
             {
                 AllowTrainingStealAfterHit();
                 if (trainingSmoke) TraceTrainingHitForSmoke();
@@ -1363,13 +1363,13 @@ public sealed partial class CupMod : MelonMod
             Observe("Ending", 33);
             vars.SetVariableValue("dungeonId", "9");
             vars.SetVariableValue("battleTarget", "priest");
-            Observe("Battle", 4960);
+            Observe("Battle", 4972);
             vars.SetVariableValue("battleTarget", "outcastRe");
-            Observe("Battle", 3552);
+            Observe("Battle", 3565);
             if (!Run.Running || filteredChoices != 0)
                 throw new InvalidOperationException("Boss mode stopped before a target victory or restricted story choices.");
             vars.SetVariableValue("battleTarget", "priest");
-            Observe("Battle", 3552);
+            Observe("Battle", 3565);
         }
         else
         {
@@ -1593,7 +1593,7 @@ public sealed partial class CupMod : MelonMod
             _ => 0
         };
         if (boss > 0) Split(boss * 100, T($"已击败第 {boss} 层首领", $"Floor {boss} Boss Defeated"));
-        if (script == "Battle" && line == 6555 && Number("dungeonId") >= 5 &&
+        if (script == "Battle" && line == 6568 && Number("dungeonId") >= 5 &&
             Number("xPriestFinalPhase") is >= 1 and <= 3)
         {
             int phase = Number("xPriestFinalPhase");
@@ -1622,14 +1622,14 @@ public sealed partial class CupMod : MelonMod
             return;
         }
 
-        if (script != "Battle" || line is not (4 or 6555 or 8210)) return;
+        if (script != "Battle" || line is not (4 or 6568 or 8223)) return;
         if (BossGoal.ForBattle(ReadBattleTarget(), Number("dungeonId")) != boss) return;
         int rank = (boss.Floor - 1) * 100 + 90;
         if (line == 4)
             Split(rank, T("已进入目标 Boss 战", "Target Boss Battle Entered"));
         else
         {
-            int phase = Number(line == 6555 ? "xPriestFinalPhase" : "xGlausFinalPhase");
+            int phase = Number(line == 6568 ? "xPriestFinalPhase" : "xGlausFinalPhase");
             if (phase is >= 1 and <= 3 && (boss.Id != "priest" || !Flag("xSwitchRunAllowed")))
                 Split(rank + phase, T($"目标 Boss · 完成第 {phase} 阶段", $"Target Boss · Phase {phase} Complete"));
         }

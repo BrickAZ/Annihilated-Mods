@@ -8,7 +8,7 @@ Unofficial mods and offline Cup tools for Annihilated. Organize a Cup around a s
 
 ## Download and install
 
-The installers below are from **v1.0.5**. All five in-game mods were tested on Windows x64 with Steam Build `26705080` and MelonLoader 0.7.3. [Downloads](#downloads)
+The **v1.0.6** installers target Windows x64, Steam Build `26845264`, and MelonLoader 0.7.3. [Downloads](#downloads)
 
 1. Close the game, extract the entire mod ZIP, and run `一键安装.cmd` (the one-click installer). If it can't find the game, select the folder containing `Annihilated.exe` or drag that folder onto the CMD file. In Steam, right-click the game and choose **Manage → Browse local files** to open the folder.
 2. The installer checks the game files and verifies Cpp2IL and its plugin. It downloads MelonLoader 0.7.3 or portable .NET 6 if either is missing, and fetches fresh copies of any Cpp2IL files that are missing or fail verification. If the installer reports missing or invalid game files, verify the game's file integrity in Steam.
@@ -29,19 +29,19 @@ Organizers choose a target ending or boss and set the map seed, battle mode, sta
 
 Referees can extract the Cup ZIP and open `Cup-Referee.html` in a browser to review results offline. Use the button in the top-right corner to switch between English and Simplified Chinese. Load the event rules, then import results in bulk, review rule differences and penalties, inspect event timelines, and export provisional rankings as a CSV. To try it out, apply the rules from the bundled `examples/example-ritual.json`, then import that same sample file as a result.
 
-Cup v0.5.4 targets Steam Build `26705080`. It displays Chinese when the base game's last saved language is Chinese and English for other languages. Players can use either language in the same event when they share the same game build, Cup version, and rules. See `GUIDE.en.md` in the ZIP for rules and refereeing. For Build `26646212`, download Cup v0.4.11. [v0.5.4 installation and removal](CupMod/INSTALL.en.md) · [Older release](https://github.com/BrickAZ/Annihilated-Mods/releases/tag/v1.0.1)
+Cup v0.5.5 targets Steam Build `26845264`. It displays Chinese when the base game's last saved language is Chinese and English for other languages. Players can use either language in the same event when they share the same game build, Cup version, and rules. See `GUIDE.en.md` in the ZIP for rules and refereeing. For Build `26646212`, download Cup v0.4.11. [v0.5.5 installation and removal](CupMod/INSTALL.en.md) · [Older release](https://github.com/BrickAZ/Annihilated-Mods/releases/tag/v1.0.1)
 
 ## Other mods
 
-- **Enemy Intent Display**. Show damage per hit and attack count above enemies. Similar consecutive hits are grouped, and the display refreshes when the next action changes. [Download the v0.1.0 test build](https://github.com/BrickAZ/Annihilated-Mods/releases/tag/enemy-intent-v0.1.0) · [Guide](EnemyIntentMod/README.md)
-- **Story Replay & CG Gallery**. Revisit 38 story entries or browse 591 original CGs from the title screen. Choose either protagonist appearance before opening a replay. Replays use separate saves. [Guide in Chinese](GalleryMod/使用说明.md)
+- **Enemy Intent Display**. Show damage per hit and attack count above enemies. Similar consecutive hits are grouped, and the display refreshes when the next action changes. [Download v0.2.0](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-EnemyIntent-Build26845264-Online.zip) · [Guide](EnemyIntentMod/README.md)
+- **Story Replay & CG Gallery**. Revisit 38 story entries or browse 597 original CGs from the title screen. Choose either protagonist appearance before opening a replay. Replays use separate saves. [Guide in Chinese](GalleryMod/使用说明.md)
 - **F9 Room Retry**. The mod creates a checkpoint at the start of a new battle. Press F9 to return to the start of that fight. In the Cup, the event rules set the retry limit and time penalty. [Guide in Chinese](RoomRetryMod/使用说明.md)
 - **Attack Mode Switch**. Open the game's settings during a regular battle to choose QTE or probability-based attacks. The choice applies from the next attack. [Guide in Chinese](AttackModeSwitchMod/使用说明.txt)
 - **SaveSlotUnlimiter**. The patched v1.25 adds support for 300 slots in the game's save and load screens, including one autosave slot and 299 manual slots. [Guide in Chinese](SaveSlotUnlimiter/README.md)
 
 ## Build from source
 
-Use the .NET 8 SDK and PowerShell 7. Install MelonLoader 0.7.3 in the game folder and launch the game once to generate `MelonLoader/Il2CppAssemblies/`. The build needs that folder and `MelonLoader/net6/`. The four projects target `net6.0`, so the SDK may need to fetch the targeting pack on the first build.
+Use the .NET 8 SDK and PowerShell 7. Install MelonLoader 0.7.3 in the game folder and launch the game once to generate `MelonLoader/Il2CppAssemblies/`. The build needs that folder and `MelonLoader/net6/`. The mod projects target `net6.0`, so the SDK may need to fetch the targeting pack on the first build.
 
 Clone this repository or download **Source code** from the release. Open PowerShell 7 in the folder containing `scripts/`, run the following commands, and enter the path to the folder containing `Annihilated.exe`. The path can contain spaces and use any drive letter.
 
@@ -50,7 +50,7 @@ $gameRoot = (Read-Host 'Path to the game folder').Trim().Trim('"')
 ./scripts/Build-Releases.ps1 -GameRoot $gameRoot
 ```
 
-The script builds four projects from the checked-out source and puts five installers and `SHA256SUMS.txt` in `dist/`. The SaveSlotUnlimiter package uses the patched DLL distributed with permission in this repository. To build just the Cup mod, set `$gameRoot` in the same PowerShell session and run this command.
+The script builds seven installers in `dist/` by default. To rebuild the Nailong and standalone Bonfire packages, pass the published manual skin ZIP as `-DragonSkinArchive` and the standalone Bonfire DLL as `-BonfireDll`. The script verifies both inputs by SHA-256.
 
 ```powershell
 dotnet build ./CupMod/AnnihilatedCup.csproj -c Release "-p:GameRoot=$gameRoot"
@@ -71,17 +71,26 @@ Brick made the Cup mod, gallery, F9 Room Retry, Attack Mode Switch, and referee 
 
 Replace enemy battle sprites and supported item icons. The Windows editor can import PNGs, edit sprite sheets frame by frame, and restore the original texture. The Nailong skin replaces the dragon and the Dragon Eye icon and comes with a lightweight online installer.
 
-[Downloads](https://github.com/BrickAZ/Annihilated-Mods/releases/tag/texture-override-v0.1.0) · [Source and instructions](TextureOverrideMod/README.md)
+Texture Editor v1.1.2 automatically installs the texture mod and prerequisites when they are missing.
+
+[Download Texture Editor v1.1.2](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/AnnihilatedTextureEditor-v1.1.2.exe) · [Source and instructions](TextureOverrideMod/README.md)
 
 ## Downloads
 
-| Package | [v1.0.5 Release](https://github.com/BrickAZ/Annihilated-Mods/releases/tag/v1.0.5) |
+| Package | Download |
 | --- | --- |
-| Cup | [v0.5.4 ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.5/Annihilated-Cup-v0.5.4.zip) | |
-| Story Replay & CG Gallery | [v1.2.1 ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.5/Annihilated-Gallery-v1.2.1.zip) | |
-| F9 Room Retry | [v1.0.1 ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.5/Annihilated-RoomRetry-v1.0.1.zip) | |
-| Attack Mode Switch | [v1.1.0 ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.5/Annihilated-AttackModeSwitch-v1.1.0.zip) | |
-| SaveSlotUnlimiter | [v1.25 ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.5/Annihilated-SaveSlotUnlimiter-v1.25-Build26705080.zip) | |
-| Offline Prerequisite Repair | [Windows x64 ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.5/Annihilated-Offline-Repair-ML0.7.3-Windows-x64.zip) | |
+| Cup v0.5.5 | [ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-Cup-Build26845264-Online.zip) |
+| Story Replay & CG Gallery v1.2.2 | [ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-Gallery-Build26845264-Online.zip) |
+| F9 Room Retry | [ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-RoomRetry-Build26845264-Online.zip) |
+| Attack Mode Switch | [ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-AttackModeSwitch-Build26845264-Online.zip) |
+| SaveSlotUnlimiter v1.25 | [ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-SaveSlotUnlimiter-Build26845264-Online.zip) |
+| Enemy Intent Display v0.2.0 | [ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-EnemyIntent-Build26845264-Online.zip) |
+| PNG Texture Override & Texture Editor v1.1.2 | [ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-TextureOverride-Editor-Build26845264-Online.zip) |
+| Nailong Skin | [ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-DragonSkin-Build26845264-Online.zip) |
+| Standalone Bonfire Fusion | [ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-BonfireFusion-Build26845264-Online.zip) |
+| Standalone texture editor | [v1.1.2 EXE](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/AnnihilatedTextureEditor-v1.1.2.exe) |
+| Offline Cup referee | [HTML](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Cup-Referee.html) |
+| Route and ending guide (Simplified Chinese) | [HTML](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-Route-Guide-zh-CN.html) |
+| Updated art index | [CSV](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Art-Index-Build26845264.csv) |
 
-[Mod package checksums](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.5/SHA256SUMS.txt) · [Offline repair checksum](https://github.com/BrickAZ/Annihilated-Mods/releases/tag/v1.0.5#下载-downloads)
+[Asset checksums](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/SHA256SUMS.txt) · [Offline prerequisite repair](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.5/Annihilated-Offline-Repair-ML0.7.3-Windows-x64.zip)

@@ -3,12 +3,12 @@ using Il2Cpp;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using MelonLoader;
 
-[assembly: MelonInfo(typeof(EnemyIntent.EnemyIntentMod), "Annihilated Enemy Intent", "0.1.0", "Brick")]
+[assembly: MelonInfo(typeof(EnemyIntent.EnemyIntentMod), "Annihilated Enemy Intent", "0.2.0", "Brick")]
 [assembly: MelonGame("DeathKumiai", "Annihilated")]
 
 namespace EnemyIntent;
 
-public sealed class EnemyIntentMod : MelonMod
+public sealed partial class EnemyIntentMod : MelonMod
 {
     [ThreadStatic] private static RenderContext? current;
     private static MelonLogger.Instance? logger;
@@ -20,6 +20,8 @@ public sealed class EnemyIntentMod : MelonMod
         Patch(typeof(EnemyService), "UpdateEnemyNextActionDisplayCore",
             prefix: nameof(BeginRender), finalizer: nameof(EndRender));
         Patch(typeof(ActionData), nameof(ActionData.GetIconAndValueText), postfix: nameof(CaptureRow));
+        Patch(typeof(ActionOrStateFunctions), nameof(ActionOrStateFunctions.BuildEnemyNextActionTooltipContents),
+            postfix: nameof(AddIntentCatalog));
         Patch(typeof(EnemyService), "ApplyEnemyNextActionTextWithAnimation", prefix: nameof(FormatIntent));
     }
 
@@ -30,13 +32,13 @@ public sealed class EnemyIntentMod : MelonMod
         HarmonyInstance.Patch(target, prefix: Hook(prefix), postfix: Hook(postfix), finalizer: Hook(finalizer));
     }
 
-    private static void BeginRender(ActionSetData? __0, Il2CppReferenceArray<ActionData>? __1,
+    private static void BeginRender(EnemyService __instance, ActionSetData? __0, Il2CppReferenceArray<ActionData>? __1,
         EnemyController? __2, out RenderContext? __state)
     {
         __state = current;
         current = null;
         if (__0 != null && __1 != null && __1.Length > 0 && __2 != null)
-            current = new RenderContext(__2.enemyId, __0.Pointer, new NativeIntentRow[__1.Length]);
+            current = new RenderContext(__instance, __2.enemyId, __0.Pointer, new NativeIntentRow[__1.Length]);
     }
 
     private static void EndRender(RenderContext? __state) => current = __state;
@@ -91,5 +93,5 @@ public sealed class EnemyIntentMod : MelonMod
         }
     }
 
-    private sealed record RenderContext(int EnemyId, IntPtr ActionSet, NativeIntentRow[] Rows);
+    private sealed record RenderContext(EnemyService Service, int EnemyId, IntPtr ActionSet, NativeIntentRow[] Rows);
 }

@@ -1,10 +1,10 @@
-# Annihilated Cup v0.5.4 installation guide
+# Annihilated Cup v0.5.5 installation guide
 
 English | [简体中文](INSTALL.md)
 
-For Windows x64 and Steam Build `26705080`, with MelonLoader 0.7.3. The game folder contains `Annihilated.exe`. To find it, right-click the game in your Steam library and choose **Manage → Browse local files**.
+For Windows x64 and Steam Build `26845264`, with MelonLoader 0.7.3. The game folder contains `Annihilated.exe`. To find it, right-click the game in your Steam library and choose **Manage → Browse local files**.
 
-[Download Annihilated-Cup-v0.5.4.zip](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.5/Annihilated-Cup-v0.5.4.zip) · [SHA-256 checksum](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.5/Annihilated-Cup-v0.5.4.sha256)
+[Download Annihilated-Cup-Build26845264-Online.zip](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-Cup-Build26845264-Online.zip) · [SHA-256 checksum](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/SHA256SUMS.txt)
 
 ## Install
 

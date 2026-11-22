@@ -1,5 +1,3 @@
-using System.Diagnostics;
-using System.Security.Cryptography;
 using System.Text.Json;
 
 namespace AnnihilatedGallery;
@@ -10,13 +8,11 @@ internal sealed class GalleryGameBuild
 
     public static GalleryGameBuild Current => Detected.Value;
 
-    public nint StateManagerConstructor { get; }
     public int BackgroundReturnLine { get; }
     public Coordinates Lines { get; }
 
-    private GalleryGameBuild(nint moduleBase, int constructorRva, int backgroundReturnLine, string coordinates = null)
+    private GalleryGameBuild(int backgroundReturnLine, string coordinates = null)
     {
-        StateManagerConstructor = moduleBase + constructorRva;
         BackgroundReturnLine = backgroundReturnLine;
         if (coordinates != null)
         {
@@ -28,17 +24,16 @@ internal sealed class GalleryGameBuild
 
     private static GalleryGameBuild Detect()
     {
-        using var process = Process.GetCurrentProcess();
-        var module = process.Modules.Cast<ProcessModule>()
-            .Single(m => m.ModuleName.Equals("GameAssembly.dll", StringComparison.OrdinalIgnoreCase));
-        using var binary = File.OpenRead(module.FileName);
-        using var sha256 = SHA256.Create();
-        return Convert.ToHexString(sha256.ComputeHash(binary)) switch
+        string catalog = Path.Combine(AppContextPath.GameRoot, "Annihilated_Data", "StreamingAssets", "aa", "catalog.hash");
+        if (!File.Exists(catalog))
+            return null;
+        return File.ReadAllText(catalog).Trim() switch
         {
-            "38F5ADA37FEC235248A61971C06E4ACCF4C95A74B5C74FCCBE32412AB04C26F1"
-                => new GalleryGameBuild(module.BaseAddress, 0xAF96C0, 530),
-            "13B13F97BBE50154B451753351656F99595AE0A542586097F27536F55C24F3C4"
-                => new GalleryGameBuild(module.BaseAddress, 0xB17770, 549, "AnnihilatedGallery.Coordinates.26705080"),
+            "b9254bd24d0daef581f2186fa1da77c5" => new GalleryGameBuild(530),
+            "c867cf04b05171a82710f970f4122af7"
+                => new GalleryGameBuild(549, "AnnihilatedGallery.Coordinates.26705080"),
+            "004a514c06f1f4a7563e5f75c24d55e4"
+                => new GalleryGameBuild(549, "AnnihilatedGallery.Coordinates.26845264"),
             _ => null
         };
     }
@@ -47,5 +42,8 @@ internal sealed class GalleryGameBuild
     {
         public Dictionary<string, int[]> Replays { get; set; }
         public Dictionary<string, Dictionary<int, int>> StoryCg { get; set; }
+        public string[] RemovedGalleryAddresses { get; set; } = Array.Empty<string>();
+        public GalleryEntry[] AddedGalleryEntries { get; set; } = Array.Empty<GalleryEntry>();
+        public StoryCgArchive.Mark[] AddedStoryCgMarks { get; set; } = Array.Empty<StoryCgArchive.Mark>();
     }
 }

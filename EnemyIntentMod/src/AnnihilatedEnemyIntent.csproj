@@ -10,6 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="$(LoaderDir)/MelonLoader.dll;$(LoaderDir)/0Harmony.dll;$(LoaderDir)/Il2CppInterop.Runtime.dll" Private="false" />
-    <Reference Include="$(InteropDir)/Il2Cppmscorlib.dll;$(InteropDir)/Assembly-CSharp.dll;$(InteropDir)/UnityEngine.CoreModule.dll" Private="false" />
+    <Reference Include="$(InteropDir)/Il2Cppmscorlib.dll;$(InteropDir)/Assembly-CSharp.dll;$(InteropDir)/Il2CppElringus.Naninovel.Runtime.dll;$(InteropDir)/UnityEngine.CoreModule.dll" Private="false" />
   </ItemGroup>
 </Project>

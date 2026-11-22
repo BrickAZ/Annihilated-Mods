@@ -141,19 +141,19 @@ public sealed partial class CupMod
             return true;
         if (spot.ScriptName != "Battle") return false;
         // The back slot is empty. The synchronized hero skill cannot hand off to an excluded soldier.
-        if (spot.LineIndex is 1665 or 1666 || soloExcluded == "player" && spot.LineIndex is 1498 or 2567)
+        if (spot.LineIndex is 1665 or 1666 || soloExcluded == "player" && spot.LineIndex is 1498 or 2577)
             return true;
-        return spot.LineIndex == 4737 && Read("actionTargetId") == soloExcluded;
+        return spot.LineIndex == 4749 && Read("actionTargetId") == soloExcluded;
     }
 
     private bool ForceSoloCommand(Command command)
     {
         if (soloExcluded.Length == 0) return false;
         var spot = command.PlaybackSpot;
-        if (spot.ScriptName == "Battle" && spot.LineIndex == 1973 && soloExcluded == "player" && Settings.HarshTraining)
+        if (spot.ScriptName == "Battle" && spot.LineIndex == 1974 && soloExcluded == "player" && Settings.HarshTraining)
             return true;
-        return spot.ScriptName == "Action" && spot.LineIndex is 280 or 281 &&
-            Read("actionTargetId") == soloExcluded && ((spot.LineIndex == 280) == (Read("actionTargetArray").Length > 0));
+        return spot.ScriptName == "Action" && spot.LineIndex is 282 or 283 &&
+            Read("actionTargetId") == soloExcluded && ((spot.LineIndex == 282) == (Read("actionTargetArray").Length > 0));
     }
 
     private void ReplaceSoloCondition(Command command, string expression)
@@ -173,9 +173,9 @@ public sealed partial class CupMod
         {
             if (line == 1128) EnterSoloBattle();
             // Restore the narrative roster before the native victory experience distribution.
-            if (line is 5038 or 5258) RestoreSoloBattle();
+            if (line is 5050 or 5270) RestoreSoloBattle();
             if (soloExcluded.Length == 0) return;
-            if (line == 4816 && soloExcluded == "player" && (Number("partnerHealth") <= 0 || Number("partnerDeath") > 0))
+            if (line == 4828 && soloExcluded == "player" && (Number("partnerHealth") <= 0 || Number("partnerDeath") > 0))
             {
                 var gosub = command.Cast<Gosub>();
                 var original = gosub.Path;
@@ -188,10 +188,10 @@ public sealed partial class CupMod
             }
             switch (line)
             {
-                case 1820:
+                case 1821:
                     soloNativeDreakOffered = false;
                     break;
-                case 1973 when soloExcluded == "player":
+                case 1974 when soloExcluded == "player":
                     soloNativeDreakOffered = true;
                     break;
                 case 1489 when soloExcluded == "player":
@@ -200,22 +200,22 @@ public sealed partial class CupMod
                 case 1624:
                     ReplaceSoloCondition(command, "false");
                     break;
-                case 4872 when soloExcluded == "partner":
+                case 4884 when soloExcluded == "partner":
                     // An excluded priest cannot resurrect the sole soldier.
                     ReplaceSoloCondition(command, "false");
                     break;
-                case 1966 when soloExcluded == "player":
+                case 1967 when soloExcluded == "player":
                     ReplaceSoloCondition(command, "turnCharacter==\"partner\"");
                     break;
-                case 2707 or 2722 or 3992:
+                case 2717 or 2732 or 4005:
                     ReplaceSoloCondition(command, "true");
                     break;
-                case 3484:
+                case 3497:
                     // The native block increments actionCount and goes to NextAction. The native
                     // action-free and phase-transition branches above it still take precedence.
                     ReplaceSoloCondition(command, Settings.InheritDisabledAction ? "actionCount==1" : "false");
                     break;
-                case 1377 or 3511 when soloExcluded == "player":
+                case 1377 or 3524 when soloExcluded == "player":
                     if (soloCommandRestore.ContainsKey(command.Pointer)) break;
                     var target = command.Cast<SetCustomVariable>();
                     var original = target.Expression;
@@ -228,9 +228,9 @@ public sealed partial class CupMod
         if (script == "Action")
         {
             // The game builds group targets before it calls the incoming single-target resolver.
-            if (line == 2220 && soloExcluded.Length > 0)
+            if (line == 2222 && soloExcluded.Length > 0)
                 vars!.SetVariableValue("aliveAllyList", Number(SoloActor + "Death") > 0 ? "" : SoloActor);
-            if (line == 250 && soloExcluded.Length > 0)
+            if (line == 252 && soloExcluded.Length > 0)
             {
                 string targets = Read("actionTargetArray");
                 if (targets.Length > 0)

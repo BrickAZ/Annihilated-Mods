@@ -1,6 +1,6 @@
 《勇者小队全灭了》战斗攻击方式切换 Mod v1.1.0
 
-已在 Windows x64 的 Steam Build 26646212 和 26705080 上使用 MelonLoader 0.7.3 验证。
+已在 Windows x64 的 Steam Build 26646212、26705080 和 26845264 上使用 MelonLoader 0.7.3 验证。
 游戏目录是你电脑上含 Annihilated.exe 的文件夹。
 Steam 用户可通过游戏库的「管理 → 浏览本地文件」打开。
 

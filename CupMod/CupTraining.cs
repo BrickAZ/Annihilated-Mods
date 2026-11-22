@@ -75,7 +75,7 @@ public sealed partial class CupMod
         if (Active is not { Run.Running: true, Settings.HarshTraining: true } cup || string.IsNullOrEmpty(__0))
             return true;
         var spot = cup.player!.PlaybackSpot;
-        bool nativeStealAttack = spot.ScriptName == "Action" && spot.LineIndex == 1316 &&
+        bool nativeStealAttack = spot.ScriptName == "Action" && spot.LineIndex == 1318 &&
             cup.Read("actionType") == "stealAttack" && cup.Read("actionUserId") is "player" or "partner";
         if (!cup.buildingTrainingStealBar && !nativeStealAttack) return true;
         if (!cup.HasTrainingStealTarget(__0, out int id) || !EnemyCustomFunctions.IsEnemyTargetable(id))
@@ -133,19 +133,19 @@ public sealed partial class CupMod
                 vars.SetVariableValue("addEnemyPositions", "0.25,0.75");
                 vars.SetVariableValue("enemyNumber", "2");
                 break;
-            case 1820:
+            case 1821:
                 companionHasStealSkill = false;
                 break;
-            case 1921 when Read("turnCharacter") == "partner":
+            case 1922 when Read("turnCharacter") == "partner":
                 companionHasStealSkill |= HasNativeSteal(Number("actionNumber"));
                 break;
-            case 2041 when trainingSmoke && Read("turnCharacter") == "partner" &&
+            case 2042 when trainingSmoke && Read("turnCharacter") == "partner" &&
                 Environment.GetCommandLineArgs().Contains("--annihilated-cup-training-native-card-smoke", StringComparer.Ordinal):
                 // Reproduce the native warrior-hand configuration at the point where the game chooses its basic card.
                 vars!.SetVariableValue("partnerCharacter", "warrior");
                 vars.SetVariableValue("xSwitchSlimeWarriorSpecialWeaponActive", "1");
                 break;
-            case 2057:
+            case 2058:
                 string actor = Read("turnCharacter");
                 bool show = actor == "player" || actor == "partner" &&
                     !companionHasStealSkill && !HasNativeSteal(Number("defaultActionNumber"));
@@ -252,7 +252,7 @@ public sealed partial class CupMod
                         bonusHit = releaseBonusKey = true;
                     }
                 }
-                if (stoleWeapon && (player!.PlaybackSpot.ScriptName, player.PlaybackSpot.LineIndex) == ("Battle", 2137) &&
+                if (stoleWeapon && (player!.PlaybackSpot.ScriptName, player.PlaybackSpot.LineIndex) == ("Battle", 2140) &&
                     choices.FirstOrDefault(choice => choice.ChoiceState?.Summary == Read("defaultActionNumber") && ActiveButton(choice) != null) is { } nextCard)
                 {
                     if (bonusSelected && (!bonusHit || Read("turnCharacter") == firstActor)) continue;
@@ -276,7 +276,7 @@ public sealed partial class CupMod
                     Finish("smoke_steal_action_pass");
                     yield break;
                 }
-                if (!clicked && player!.PlaybackSpot.ScriptName == "Battle" && player.PlaybackSpot.LineIndex == 2137)
+                if (!clicked && player!.PlaybackSpot.ScriptName == "Battle" && player.PlaybackSpot.LineIndex == 2140)
                 {
                     var basic = choices.FirstOrDefault(choice => choice.ChoiceState?.Summary == Read("defaultActionNumber") &&
                         ActiveButton(choice) != null);

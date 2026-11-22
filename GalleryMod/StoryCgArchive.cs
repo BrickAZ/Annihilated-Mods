@@ -7,7 +7,7 @@ namespace AnnihilatedGallery;
 
 internal sealed class StoryCgArchive : IDisposable
 {
-    private sealed class Mark
+    internal sealed class Mark
     {
         public string Script { get; set; }
         public int Line { get; set; }
@@ -15,7 +15,8 @@ internal sealed class StoryCgArchive : IDisposable
         public string Title { get; set; }
         public string Asset { get; set; }
         public string Actor { get; set; }
-        public string Key => $"{Script}-{Line}";
+        public string ArchiveKey { get; set; }
+        public string Key => ArchiveKey ?? $"{Script}-{Line}";
         public int PlaybackLine { get; set; }
     }
 
@@ -41,12 +42,12 @@ internal sealed class StoryCgArchive : IDisposable
         filenames = new Dictionary<string, Mark>(StringComparer.Ordinal);
         var game = GalleryGameBuild.Current;
         var lines = game?.Lines?.StoryCg;
-        foreach (var mark in entries)
+        foreach (var mark in entries.Concat(game?.Lines?.AddedStoryCgMarks ?? Array.Empty<Mark>()))
         {
             filenames.Add(mark.Key, mark);
             mark.PlaybackLine = lines != null && lines.TryGetValue(mark.Script, out var script) &&
                 script.TryGetValue(mark.Line, out int line) ? line : mark.Line;
-            if (game != null)
+            if (game != null && mark.PlaybackLine >= 0)
                 marks.Add((mark.Script, mark.PlaybackLine), mark);
         }
         this.warn = warn;

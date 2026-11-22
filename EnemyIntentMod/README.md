@@ -1,8 +1,10 @@
-# Annihilated Enemy Intent v0.1.0
+# Annihilated Enemy Intent v0.2.0
+
+Hover over an enemy intent to see the planned action and the enemy’s available moves.
 
 English | [简体中文](README.zh-CN.md)
 
-[Download the Windows test build](https://github.com/BrickAZ/Annihilated-Mods/releases/tag/enemy-intent-v0.1.0)
+[Download the Windows installer](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-EnemyIntent-Build26845264-Online.zip)
 
 The enemy's next-action display shows damage per hit and hit count, for example `12 ×2`. Consecutive attacks share a row when the damage, attack type, target, and warning state match. Block and other effects keep their native icons. The display updates when the game recalculates damage or changes the enemy's next action. The game continues to choose each action.
 
@@ -12,7 +14,7 @@ The enemy's next-action display shows damage per hit and hit count, for example 
 2. Extract the ZIP and merge its `Mods` folder into the folder containing `Annihilated.exe`.
 3. Launch the game as usual and enter a battle. To uninstall, close the game and remove `Mods/AnnihilatedEnemyIntent.dll`.
 
-Tested on Windows x64, Steam Build `26705080`. Goblin battle tests covered per-hit damage, consecutive attacks, block icons and intent changes. Complex bosses and crowded encounters still need layout testing.
+Tested on Windows x64, Steam Build `26845264`. Goblin battle tests covered per-hit damage, consecutive attacks, block icons and intent changes. Complex bosses and crowded encounters still need layout testing.
 
 ## Build from source
 

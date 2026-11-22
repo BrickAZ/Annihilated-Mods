@@ -32,14 +32,14 @@ public sealed partial class CupMod
     private void RecordSoloSmokeCommand(string script, int line)
     {
         if (soloSmokeRoundDone) return;
-        if (SoloUiWarriorSmoke && !Settings.InheritDisabledAction && (script, line) == ("Action", 776) &&
+        if (SoloUiWarriorSmoke && !Settings.InheritDisabledAction && (script, line) == ("Action", 778) &&
             Read("actionUserId") == "partner" && Read("actionTargetId") == "enemy1" &&
             IsDirectEntertainmentDamage(Read("damageType")))
         {
             // Reach the original victory sequence via a real weapon hit.
             vars!.SetVariableValue("enemy1Health", "1");
         }
-        if (SoloSmokeDreak && script == "Battle" && line == 1966 && SoloActor == "partner" &&
+        if (SoloSmokeDreak && script == "Battle" && line == 1967 && SoloActor == "partner" &&
             Number("actionCount") == (Settings.InheritDisabledAction ? 2 : 1))
         {
             // Exercise the real Dreak card after the ordinary card. An intact goblin's native
@@ -47,19 +47,19 @@ public sealed partial class CupMod
             vars!.SetVariableValue("enemy1Break", "0");
             vars.SetVariableValue("enemy1BreakCount", "0");
         }
-        if (SoloSmokeDreak && script == "Battle" && line == 3552 && Number("selectCommand") == -101 && SoloActor == "partner")
+        if (SoloSmokeDreak && script == "Battle" && line == 3565 && Number("selectCommand") == -101 && SoloActor == "partner")
         {
             soloDreakVictoryExcludedHealth = Number("playerHealth");
             soloDreakStolenWeapons = Number("enemy1StolenWeaponCount");
             soloSmokeActions.Add((Number("actionCount"), Read("turnCharacter"), Number("selectCommand")));
             LoggerInstance.Msg($"Cup solo smoke: native Dreak victory | stolen={soloDreakStolenWeapons}");
         }
-        if (script == "Battle" && line == 3458 && !soloSmokeEnemyPhase)
+        if (script == "Battle" && line == 3471 && !soloSmokeEnemyPhase)
         {
             soloSmokeActions.Add((Number("actionCount"), Read("turnCharacter"), Number("selectCommand")));
             return;
         }
-        if (script == "Battle" && line == 3859)
+        if (script == "Battle" && line == 3872)
         {
             soloSmokeEnemyPhase = true;
             LoggerInstance.Msg($"Cup solo smoke: enemy phase after {string.Join(",", soloSmokeActions)}");
@@ -72,10 +72,10 @@ public sealed partial class CupMod
             }
             return;
         }
-        if (script == "Action" && line == 284 && soloSmokeEnemyPhase &&
+        if (script == "Action" && line == 286 && soloSmokeEnemyPhase &&
             Read("actionUserId").StartsWith("enemy", StringComparison.Ordinal) && Read("actionTargetId") is "player" or "partner")
             soloSmokeEnemyTargets.Add(Read("actionTargetId"));
-        if (script == "Battle" && line == 4362) soloSmokeRoundDone = true;
+        if (script == "Battle" && line == 4374) soloSmokeRoundDone = true;
     }
 
     private System.Collections.IEnumerator VerifySoloForSmoke()
@@ -104,7 +104,7 @@ public sealed partial class CupMod
                     InputSystem.QueueStateEvent(keyboard, new KeyboardState());
                     keyDown = false;
                 }
-                if (SoloUiWarriorSmoke && !sawVictoryUi && (player!.PlaybackSpot.ScriptName, player.PlaybackSpot.LineIndex) == ("Battle", 4838))
+                if (SoloUiWarriorSmoke && !sawVictoryUi && (player!.PlaybackSpot.ScriptName, player.PlaybackSpot.LineIndex) == ("Battle", 4850))
                 {
                     yield return new WaitForSecondsRealtime(0.35f);
                     yield return new WaitForEndOfFrame();
@@ -180,7 +180,7 @@ public sealed partial class CupMod
                     yield break;
                 }
                 if (!soloSmokeEnemyPhase && clicked < expectedActions && soloSmokeActions.Count == clicked &&
-                    player!.PlaybackSpot.ScriptName == "Battle" && player.PlaybackSpot.LineIndex == 2137)
+                    player!.PlaybackSpot.ScriptName == "Battle" && player.PlaybackSpot.LineIndex == 2140)
                 {
                     var cards = UnityEngine.Object.FindObjectsByType<ChoiceHandlerButton>(FindObjectsSortMode.None);
                     var basic = cards.FirstOrDefault(card => card.ChoiceState?.Summary == Read("defaultActionNumber") &&

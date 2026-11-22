@@ -148,6 +148,8 @@ mageEplogueNotMaryokuPartyWithNewMember 尾声·加入新成员的小队
 mage4souNotMaryokuKokuhakuKissMe 告白之后的吻
 mage4souNotMaryokuKokuhakuMe 史莱姆事件后的告白
 mage4souNotMaryokuMageYorikakariMe 法师倚在主角身旁
+mage4souMaryokuOmowazuSonoKatawaraESuwarikondeMe 法师在主角身边坐下
+mage4souMaryokuUshiroKaraHikaemeNiKakattaKoeNiMe 背后传来的轻声呼唤
 mage5souNotMaryokuLoveCutEgaoMe 恋爱尾声·法师的笑容
 mage5souNotMaryokuLoveCutMe 恋爱尾声·法师特写
 mage5souNotMaryokuSlimePriestMe 非魔力线·史莱姆与祭司
@@ -179,6 +181,7 @@ priest4souTenseiKaisouKaisi 祭司的转生回忆·开端
 priest4souTenseiKaisouKodomoZidai 祭司的转生回忆·童年
 priest4souTenseiKaisouOtonaZidai 祭司的转生回忆·成年
 priest4souLowSanMiorosuPriest 低理智分支·俯视主角的祭司
+priest4souMayottaKenWoMitibikuYouni 指引迷失之剑
 priest4souLowSanWatashihaDaikiraiDesuyo 低理智分支·祭司的厌恶
 priest4souLowSanGameOverKanokeBack 低理智分支·棺木的背面
 priest4souLowSanGameOverKanokeHand 低理智分支·棺木边的手
@@ -206,6 +209,7 @@ priest5souHighLoopMudaDesuyo 高循环·徒劳的尝试
 priest5souHighLoopIkuraSippaisitemo 高循环·无论失败多少次
 priest5souHighLoopKenniNegai 高循环·向剑许愿
 priest5souHighLoopMiorosu 高循环·俯身凝望
+priest5souHighLoopMiorosuMe 高循环·俯身凝望
 priest5souHighLoopDakaratte 高循环·祭司的回应
 priest5souHighLoopSugaruTe 高循环·紧抓不放的手
 priest5souHighLoopEpilogueKotobaAfureru 高循环尾声·话语涌出

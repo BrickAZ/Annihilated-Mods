@@ -218,14 +218,14 @@ public sealed partial class CupMod
         double deadline = Time.realtimeSinceStartupAsDouble + 15;
         var scriptPlayer = player!;
         while (Run.Running && Time.realtimeSinceStartupAsDouble < deadline &&
-               !(scriptPlayer.PlaybackSpot.ScriptName == "Battle" && scriptPlayer.PlaybackSpot.LineIndex == 2137))
+               !(scriptPlayer.PlaybackSpot.ScriptName == "Battle" && scriptPlayer.PlaybackSpot.LineIndex == 2140))
         {
             yield return null;
             AdvanceWeaponSmoke();
         }
         int goblin = EnemyCustomFunctions.GetEnemyBaseHp("goblin");
         int outcast = EnemyCustomFunctions.GetEnemyBaseHp("outcast");
-        if (scriptPlayer.PlaybackSpot.ScriptName != "Battle" || scriptPlayer.PlaybackSpot.LineIndex != 2137 ||
+        if (scriptPlayer.PlaybackSpot.ScriptName != "Battle" || scriptPlayer.PlaybackSpot.LineIndex != 2140 ||
             Number("enemy1Health") != goblin * 2 || Number("enemy1MaxHealth") != goblin * 2 ||
             Number("enemy2Health") != outcast * 2 || Number("enemy2MaxHealth") != outcast * 2)
         {
@@ -293,13 +293,13 @@ public sealed partial class CupMod
         }
         yield return VerifyEntertainmentDamageForSmoke(script, "partner", "enemy2", "attack", "attack", 20);
         if (!Run.Running) yield break;
-        HandleEntertainmentCommand(null!, "Battle", 3505);
+        HandleEntertainmentCommand(null!, "Battle", 3518);
         yield return VerifyEntertainmentDamageForSmoke(script, "player", "enemy2", "attack", "attack", 10);
         if (!Run.Running) yield break;
         WriteEntertainmentNumber("turnCount", 5);
         yield return VerifyEntertainmentDamageForSmoke(script, "player", "enemy2", "attack", "attack", 20);
         if (!Run.Running) yield break;
-        HandleEntertainmentCommand(null!, "Battle", 3645);
+        HandleEntertainmentCommand(null!, "Battle", 3658);
         yield return VerifyEntertainmentDamageForSmoke(script, "player", "enemy2", "attack", "attack", 10);
         if (!Run.Running) yield break;
         LoggerInstance.Msg("Cup entertainment smoke passed: steal damage with extra actions off | current round = 10, next round = 20, other enemy = 10, refresh = 20, after party phase = 10.");

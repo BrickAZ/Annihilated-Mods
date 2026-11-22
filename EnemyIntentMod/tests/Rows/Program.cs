@@ -31,6 +31,22 @@ Expect("pure effects retain original text", "heal 5<BR>summon",
     new AttackKey?[] { null, null }, Array.Empty<int>(), "heal 5<BR>summon", 2);
 Console.WriteLine("All 10 intent row checks passed.");
 
+var candidates = new[] { new IntentMove("hit", "攻击"), new IntentMove("guard", "格挡"), new IntentMove("hit", "重复") };
+var zh = IntentCatalog.Format(candidates, new IntentMove("guard", "格挡"), "zh-CN");
+if (zh.Title != "全部意图" || !zh.Description.Contains("当前　格挡") ||
+    !zh.Description.Contains("攻击") || zh.Description.Contains("重复"))
+    throw new InvalidOperationException("The list must preserve order, deduplicate, and mark exactly the selected move.");
+var transient = IntentCatalog.Format(candidates, new IntentMove("copy", "复制"), "zh-CN");
+if (!transient.Description.Contains("当前　复制") || !transient.Description.Contains("格挡"))
+    throw new InvalidOperationException("A temporary selected move must appear alongside the original move list.");
+var sameEffects = IntentCatalog.Format(
+    new[] { new IntentMove("hit", "攻击"), new IntentMove("slam", "攻击") },
+    new IntentMove("slam", "攻击"), "zh-CN");
+if (!sameEffects.Description.Contains("当前　攻击") || !sameEffects.Description.Contains("slam") ||
+    !sameEffects.Description.Contains("hit"))
+    throw new InvalidOperationException("Distinct moves with the same effects must remain distinguishable.");
+Console.WriteLine("All 3 intent catalog checks passed.");
+
 static void Expect(string name, string text, AttackKey?[] attacks, int[] warnings,
     string expectedText, int expectedCount, params int[] expectedWarnings)
 {

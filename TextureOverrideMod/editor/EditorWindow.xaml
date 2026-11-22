@@ -401,9 +401,13 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <TextBlock x:Name="Status" Foreground="{StaticResource Muted}" TextTrimming="CharacterEllipsis"/>
-            <TextBlock Grid.Column="1" x:Name="ModState" Margin="13,0,0,0" Foreground="{StaticResource Muted}" FontSize="12"/>
+            <TextBlock x:Name="Status" Foreground="{StaticResource Muted}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+            <TextBlock Grid.Column="1" x:Name="ModState" Margin="13,0,0,0" Foreground="{StaticResource Muted}" FontSize="12" VerticalAlignment="Center"/>
+            <Button Grid.Column="2" x:Name="InstallMod" Content="安装 / 重试" Margin="8,0,0,0"
+                    AutomationProperties.Name="安装或重试安装换皮 Mod"
+                    MinHeight="26" Padding="8,3" Visibility="Collapsed"/>
         </Grid>
     </Grid>
     </Border>

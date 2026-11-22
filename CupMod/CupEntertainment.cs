@@ -27,20 +27,20 @@ public sealed partial class CupMod
 
             // The action loop, including free actions and solo takeover, converges here.
             // The second entry covers native branches that jump straight to the enemy phase.
-            case ("Battle", 3463) when Settings.ExtraActionAfterSteal:
+            case ("Battle", 3476) when Settings.ExtraActionAfterSteal:
                 GrantPendingStealAction();
                 break;
 
-            case ("Battle", 3505 or 3645) when TracksStealDamage || Settings.ExtraActionAfterSteal:
+            case ("Battle", 3518 or 3658) when TracksStealDamage || Settings.ExtraActionAfterSteal:
                 WriteEntertainmentNumber(CompletedPartyRound, Number("turnCount"));
                 if (Settings.ExtraActionAfterSteal) ClearPendingStealActions();
                 break;
 
-            case ("Action", 776) when TracksStealDamage || Settings.EnemyAttackMultiplier != 1:
+            case ("Action", 778) when TracksStealDamage || Settings.EnemyAttackMultiplier != 1:
                 ApplyEntertainmentDamage();
                 break;
 
-            case ("Battle", 14318) when Settings.EnemyHealthMultiplier != 1:
+            case ("Battle", 14333) when Settings.EnemyHealthMultiplier != 1:
                 MultiplyEntertainmentNumber("tempWarriorFinalHealthGrowth", Settings.EnemyHealthMultiplier);
                 break;
         }
@@ -68,18 +68,18 @@ public sealed partial class CupMod
                 if (Settings.ExtraActionAfterSteal) ClearPendingStealActions();
                 break;
 
-            case ("Battle", 5373) when TracksStealDamage || Settings.EnemyHealthMultiplier != 1:
+            case ("Battle", 5385) when TracksStealDamage || Settings.EnemyHealthMultiplier != 1:
                 ApplyNewEnemyHealth();
                 break;
 
             // This phase gives the existing Dropout slot a new pool of HP.
-            case ("Battle", 4398) when Settings.EnemyHealthMultiplier != 1:
+            case ("Battle", 4410) when Settings.EnemyHealthMultiplier != 1:
                 MultiplyEntertainmentNumber("tempAdd", Settings.EnemyHealthMultiplier);
                 break;
 
             // Both transformations add the former shape's maximum HP to the next shape.
             // Hand the native spawn calculation the former shape's original maximum.
-            case ("Battle", 11153) when Settings.EnemyHealthMultiplier != 1:
+            case ("Battle", 11166) when Settings.EnemyHealthMultiplier != 1:
                 int carriedHealth = Number("tempSlimeTransitionSourceHealth");
                 if (carriedHealth > 0)
                 {
@@ -91,16 +91,16 @@ public sealed partial class CupMod
                 }
                 break;
 
-            case ("Battle", 11154) when Settings.EnemyHealthMultiplier != 1:
+            case ("Battle", 11167) when Settings.EnemyHealthMultiplier != 1:
                 RestoreSpawnMaxHealth("tempSlimeTransitionSourceId", "tempSlimeTransitionSourceMaxHealth");
                 break;
 
-            case ("Battle", 9100) when Settings.EnemyHealthMultiplier != 1:
+            case ("Battle", 9113) when Settings.EnemyHealthMultiplier != 1:
                 RestoreSpawnMaxHealth("xVillainessWithDollSlot", "enemyCustomMaxHealthAddValue");
                 break;
 
             // The native subroutine sets this only after resource and steal-limit checks.
-            case ("Action", 2260) when (TracksStealDamage || Settings.ExtraActionAfterSteal) && Read("timing") == "battle":
+            case ("Action", 2262) when (TracksStealDamage || Settings.ExtraActionAfterSteal) && Read("timing") == "battle":
                 RecordSuccessfulWeaponSteal();
                 break;
         }

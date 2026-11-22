@@ -85,7 +85,7 @@ public sealed partial class CupMod
         }
     }
 
-    // Native @stop positions and their @choice destinations in Steam build 26705080.
+    // Native @stop positions and their @choice destinations in Steam build 26845264.
     // Early choices deliberately prepare the existing distrust and dependence checks.
     private string? StoryDestination(Route route, string script, int line)
     {
@@ -143,7 +143,7 @@ public sealed partial class CupMod
             ("Scenario_Mage4", 385) => ".MageChoiceKodoku",
             ("Scenario_Mage4", 438) => ".MageJogenAdvice",
             ("Scenario_Mage4", 621) => ".MageChoiceUramiNai",
-            ("Scenario_Mage4", 1566) => route.Id == "mageNotMaryokuSuki" ? ".MageChoicekokuhakusuki" : ".MageChoicekokuhakuflat",
+            ("Scenario_Mage4", 1575) => route.Id == "mageNotMaryokuSuki" ? ".MageChoicekokuhakusuki" : ".MageChoicekokuhakuflat",
             ("Scenario_Mage5", 254) => route.Id == "mage5YakusokuSinaiBad" ? ".MageChoiceYakusokuSinai" : ".MageChoiceYakusokuSuru",
             ("Scenario_Mage5", 2229) => ".RouletteDevour1",
             ("Scenario_Mage5", 2242) => ".RouletteDevour2",

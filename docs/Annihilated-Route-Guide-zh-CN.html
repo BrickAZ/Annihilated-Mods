@@ -1,0 +1,895 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>勇者小队全灭了 · 路线与结局</title>
+<style>
+:root{color-scheme:dark;--bg:#151216;--surface:#1d191e;--line:#403640;--ink:#f5e8e9;--muted:#c2afb8;--accent:#f4a8bd;--heading:"Noto Serif SC","Songti SC","SimSun",serif;--body:"Microsoft YaHei","PingFang SC","Noto Sans CJK SC",sans-serif;--mono:"IBM Plex Mono",Consolas,monospace}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 var(--body)}
+button,input{font:inherit}a{color:var(--accent)}button{cursor:pointer}button:disabled{cursor:default}[hidden]{display:none!important}button:focus-visible,a:focus-visible,summary:focus-visible,input:focus-visible{outline:2px solid #ffd1dc;outline-offset:4px}
+.wrap{width:min(1160px,calc(100% - 72px));margin:auto}
+.hero{position:relative;isolation:isolate;min-height:365px;display:flex;align-items:center;border-bottom:1px solid #59414c;overflow:hidden;background:#22181f}
+.hero img{position:absolute;z-index:-2;right:0;top:0;width:min(69%,1000px);height:100%;object-fit:cover;object-position:50% 40%}
+.hero:after{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(90deg,#21181f 9%,#21181f 25%,#21181fee 38%,#21181f25 67%,transparent 100%),linear-gradient(0deg,#21181f 0%,transparent 25%)}
+.hero-copy{padding:56px 0 48px}
+.kicker{margin:0 0 12px;font:700 13px var(--mono);letter-spacing:.25em;color:var(--accent)}
+h1,h2,h3,p{margin:0}
+h1{font:700 clamp(38px,5.7vw,78px)/1.1 var(--heading);letter-spacing:-.045em}
+.subtitle{margin-top:17px;font-size:clamp(18px,2.6vw,26px);letter-spacing:.17em;color:#fbdde5}
+.build{display:inline-flex;margin-top:24px;color:var(--muted);font-size:12px;letter-spacing:.05em;gap:12px;flex-wrap:wrap}
+.build span+span{border-left:1px solid var(--line);padding-left:12px}
+.sticky{position:sticky;z-index:2;top:0;background:#19151af7;border-bottom:1px solid var(--line)}
+.nav{display:flex;gap:0;flex-wrap:wrap}
+.nav button{padding:14px 19px;background:none;color:var(--muted);border:0;border-bottom:2px solid transparent;white-space:nowrap}
+.nav button:first-child{padding-left:0;padding-right:24px}
+.nav button[aria-pressed="true"]{border-bottom-color:var(--accent);color:var(--ink)}
+.nav button:hover{color:var(--ink)}
+.layout{display:grid;grid-template-columns:minmax(230px,.72fr) minmax(0,1.68fr);gap:clamp(32px,5vw,72px);padding-top:37px;padding-bottom:42px;align-items:start}
+.route-info{padding:18px 0 12px;border-top:2px solid #d989a0}
+.route-info h2,.content h2{font:700 clamp(27px,3.2vw,36px)/1.2 var(--heading)}
+.route-info .intro{margin:12px 0 18px;color:var(--muted)}
+.entry{padding:13px 15px;background:#271d25;border:1px solid #493644}
+.entry strong{display:block;color:var(--accent);font-size:12px;letter-spacing:.12em;margin-bottom:3px}
+.timeline{list-style:none;margin:20px 0 0;padding:0}
+.timeline li{border-bottom:1px solid var(--line);padding:11px 0}
+.timeline strong{font-size:13px;color:#f3d8e0;display:block}
+.timeline p{font-size:13px;color:var(--muted);margin-top:3px}
+.content-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap}
+#count{color:var(--muted);font-size:13px}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:18px 0 15px}
+.search{flex:1 1 185px;display:flex;align-items:center;gap:8px}
+.search input{width:100%;padding:9px 11px;background:#201a21;border:1px solid var(--line);color:var(--ink);border-radius:4px}
+.search input::placeholder{color:#ae9aa6}
+.small-btn{border:1px solid var(--line);color:var(--ink);background:var(--surface);border-radius:4px;padding:9px 11px;white-space:nowrap}
+.small-btn:hover{border-color:var(--accent)}
+.small-btn:disabled{opacity:.55}
+.list{border-top:1px solid var(--line)}
+.route-group{margin:19px 0 6px;color:var(--accent);font-size:13px;letter-spacing:.1em}
+.ending{border-bottom:1px solid var(--line);scroll-margin-top:100px}
+.ending summary{display:grid;grid-template-columns:14px minmax(0,1fr) auto;gap:12px;align-items:center;list-style:none;padding:14px 8px;cursor:pointer}
+summary::-webkit-details-marker{display:none}
+.ending summary:before{content:"+";font:600 20px var(--mono);color:var(--accent)}
+.ending[open] summary:before{content:"−"}
+.ending summary:hover,.ending[open]{background:#211a22}
+.title{font-size:17px;font-weight:700;line-height:1.45;display:block}
+.teaser{font-size:13px;color:var(--muted);display:block;margin-top:3px}
+.meta{text-align:right;white-space:nowrap;color:var(--muted);font-size:12px}
+.kind{display:block;color:#f5afc1}
+.kind[data-kind="通关"]{color:#afe1c4}
+.kind[data-kind="回退结局"]{color:#f3ce9f}
+.detail{padding:4px 16px 17px 34px}
+.detail ol{padding-left:20px;margin:4px 0 12px}
+.detail li{margin:6px 0}
+.detail li::marker{color:var(--accent)}
+.note{font-size:13px;border-top:1px solid var(--line);padding-top:9px;color:var(--muted)}
+.source{display:block;margin-top:8px;color:#bca1b1;font:12px/1.55 var(--mono);overflow-wrap:anywhere}
+.choice-section{scroll-margin-top:108px;margin-top:26px;border-top:1px solid var(--line)}
+.choice-section>summary,.chapter>summary{cursor:pointer;padding:13px 0;color:#f5dce4;font-weight:700}
+.choice-section[open]>summary{padding-bottom:5px}
+.choice-section p{color:var(--muted);font-size:13px;margin-bottom:10px}
+.chapter{border-bottom:1px solid var(--line)}
+.chapter>summary{font-size:14px}
+.choice-groups{padding:0 0 4px 18px}
+.choice-group{padding:3px 0 10px}
+.choice-group ul{margin:0;padding-left:18px}
+.choice-group .source{margin:0 0 2px}
+.option-rule{color:var(--muted);font-size:12px;margin-left:8px}
+.empty{padding:19px 0;color:var(--muted)}
+footer{border-top:1px solid var(--line);padding:24px 0 39px;color:var(--muted);font-size:13px}
+footer p+p{margin-top:7px}
+@media(max-width:760px){.wrap{width:calc(100% - 36px)}.layout{grid-template-columns:1fr;gap:23px;padding-top:23px}.hero{min-height:300px}.hero-copy{padding:46px 0 34px}.hero img{width:100%;object-position:center}.hero:after{background:linear-gradient(90deg,#21181ff5,#21181fc0 36%,#21181f25),linear-gradient(0deg,#21181f,transparent 55%)}.nav button{padding:10px 11px;font-size:13px}.nav button:first-child{padding-right:12px}.meta{font-size:11px}.ending summary{gap:8px;padding-left:3px}.detail{padding-left:22px}.title{font-size:16px}}
+@media(max-width:380px){.wrap{width:calc(100% - 24px)}.nav button{padding:8px 9px}.hero h1{font-size:36px}.ending summary{grid-template-columns:12px minmax(0,1fr) auto}}
+@media print{.sticky,.toolbar{display:none}.hero{min-height:0}.hero img{display:none}.wrap{width:100%}.layout{display:block}.route-info{margin-bottom:24px}.ending{break-inside:avoid}}
+
+.branch-panel{padding-top:33px;padding-bottom:52px}
+.branch-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:12px 28px;border-bottom:1px solid var(--line);padding-bottom:19px;margin-bottom:25px;flex-wrap:wrap}
+.branch-heading h2{font:700 clamp(31px,4vw,44px)/1.2 var(--heading)}
+.branch-heading p,.branch-note{color:var(--muted);margin-top:8px}
+.branch-actions{display:flex;gap:8px;flex-wrap:wrap}
+.branch-grid{display:grid;grid-template-columns:minmax(245px,.74fr) minmax(0,1.7fr);gap:clamp(28px,4vw,55px);align-items:start}
+.branch-sidebar{min-width:0}
+.branch-metrics{margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-top:2px solid #d989a0}
+.branch-metrics div{padding:9px 8px 7px;border-bottom:1px solid var(--line)}
+.branch-metrics dt{font-size:12px;color:var(--muted)}
+.branch-metrics dd{font:700 23px/1.45 var(--mono);margin:0;color:#fbe6eb}
+.branch-flags{margin-top:8px;color:#f3ce9f;font-size:13px}
+.branch-settings,.branch-history{scroll-margin-top:108px;margin-top:13px;padding:10px 0;border-top:1px solid var(--line)}
+.branch-settings summary,.branch-history summary{cursor:pointer;color:#f5dce4;font-weight:700}
+.branch-settings p{font-size:12px;color:var(--muted);margin:7px 0 11px}
+.branch-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.branch-fields label{font-size:12px;color:var(--muted)}
+.branch-fields input{width:100%;padding:5px 7px;color:var(--ink);border:1px solid var(--line);background:var(--surface);border-radius:3px}
+.branch-fields input:disabled{opacity:.48}
+.branch-settings fieldset{border:1px solid var(--line);margin:11px 0;padding:5px 9px 8px}
+.branch-settings legend{font-size:12px;color:var(--muted);padding:0 4px}
+.branch-settings fieldset label{display:flex;align-items:baseline;gap:6px;font-size:13px}
+.branch-settings input[type=checkbox]{accent-color:#f4a8bd}
+.branch-settings button{font-size:13px}
+.branch-flow{min-width:0;border-top:2px solid #d989a0;padding:16px 0 6px}
+.branch-flow h3{font:700 clamp(22px,3.3vw,34px)/1.25 var(--heading);margin-top:4px}
+.branch-kicker{font-size:13px;letter-spacing:.1em;color:var(--accent)}
+.branch-kind{margin:9px 0;color:#afe1c4;font-size:13px}
+.branch-end-link{display:inline-block;margin:0 0 10px}
+.branch-edges{list-style:none;padding:0 0 0 14px;margin:17px 0 11px;border-left:1px solid #725565}
+.branch-edges li{position:relative;margin:0 0 12px;border:1px solid var(--line);border-radius:4px;background:#211a22}
+.branch-edges li::before{content:"";position:absolute;left:-15px;top:22px;width:14px;border-top:1px solid #725565}
+.branch-edge{display:flex;width:100%;gap:9px;justify-content:space-between;align-items:baseline;text-align:left;background:#2a2029;color:var(--ink);border:0;padding:9px 12px;font-weight:700}
+.branch-edge:enabled:hover{background:#392733;color:#ffe4ed}
+.branch-edge:disabled{background:#201c21;color:#b9a8af}
+.branch-arrow{color:var(--accent);white-space:nowrap;font-size:13px}
+.branch-edge:disabled .branch-arrow,.branch-rule.locked{color:#f3ce9f}
+.branch-edge-info{display:grid;gap:2px;padding:7px 12px 9px;font-size:13px}
+.branch-target{color:#e8ccd8}
+.branch-rule,.branch-detail{color:var(--muted)}
+.branch-delta{color:#afe1c4}
+.branch-history ol{padding-left:25px;margin:8px 0 0;max-height:300px;overflow:auto}
+.branch-history li{border-bottom:1px solid var(--line);padding:4px 1px;color:var(--muted)}
+.branch-history small{display:block;font-size:11px;padding-bottom:4px}
+.branch-crumb{color:var(--accent);background:none;border:0;text-align:left;padding:3px;font-size:13px}
+.branch-crumb:hover{text-decoration:underline}
+@media(max-width:760px){
+  .branch-panel{padding-top:24px}
+  .branch-grid{grid-template-columns:minmax(0,1fr);gap:20px}
+  .branch-sidebar{display:contents}
+  .branch-metrics{grid-row:1;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .branch-flags{grid-row:2;margin-top:-12px}
+  .branch-flow{grid-row:3}
+  .branch-settings{grid-row:4}
+  .branch-history{grid-row:5}
+}
+
+
+
+.branch-flow{scroll-margin-top:106px}
+.branch-art{margin:14px 0 17px}
+.branch-art button{display:block;width:100%;padding:0;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:#171218;position:relative}
+.branch-art img{display:block;width:100%;height:clamp(190px,32vw,365px);object-fit:contain}
+.branch-art figcaption{display:flex;justify-content:space-between;gap:6px;margin-top:5px;color:var(--muted);font-size:12px}
+.branch-art button:hover{border-color:var(--accent)}
+.branch-art .art-expand{position:absolute;right:8px;bottom:8px;padding:3px 9px;background:#1a141be8;color:var(--ink);border:1px solid #6d5364;border-radius:3px;font-size:12px}
+.branch-dialog{max-width:min(1080px,calc(100% - 22px));max-height:calc(100% - 22px);padding:10px;background:var(--surface);border:1px solid var(--line);border-radius:6px;color:var(--ink)}
+.branch-dialog::backdrop{background:#100d11df}
+.branch-dialog-header{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:3px 3px 9px}
+.branch-dialog-header strong{font-size:15px}
+.branch-dialog img{display:block;width:min(960px,85vw);max-height:75vh;object-fit:contain;background:#171218}
+.branch-dialog p{font-size:12px;color:var(--muted);padding:5px 3px 0}
+@media(max-width:560px){.branch-art img{height:auto;aspect-ratio:16/9}.branch-art figcaption{display:block}.branch-dialog img{width:100%}}
+
+.story-reader{margin:10px 0 17px;background:#201920;border:1px solid var(--line);border-radius:4px;padding:14px 16px 11px}
+.story-reader:focus{outline:2px solid var(--accent);outline-offset:4px}
+.story-label{display:flex;justify-content:space-between;gap:8px;color:var(--muted);font-size:12px;flex-wrap:wrap}
+.story-speaker{display:block;color:var(--accent);font-weight:700;margin:8px 0 0}
+.story-line{white-space:pre-line;margin:5px 0 12px;min-height:3.3em;line-height:1.72;font-size:16px}
+.story-controls{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.story-controls .small-btn{font-size:13px;padding:5px 10px}
+.story-controls .story-next{color:#ffe0eb;background:#392634;border-color:#775463}
+.story-controls .story-skip{margin-left:auto}
+.story-transcript{border-top:1px solid var(--line);padding-top:8px;margin-top:10px}
+.story-transcript summary{font-size:13px;color:var(--muted);cursor:pointer}
+.story-transcript p{white-space:pre-line;margin:8px 0;font-size:14px}
+.story-transcript strong{color:var(--accent)}
+.story-choices-note{margin:8px 0;color:var(--muted);font-size:13px}
+.branch-reading-note{margin:12px 0;color:var(--muted);font-size:13px}
+.branch-reading-note summary{cursor:pointer}
+@media(max-width:560px){.story-reader{padding:11px 12px}.story-controls .story-skip{margin-left:0}.story-line{font-size:15px}}
+</style>
+</head>
+<body>
+<header class="hero">
+
+<div class="wrap hero-copy"><p class="kicker">ANNIHILATED</p><h1>勇者小队全灭了</h1><p class="subtitle">路线与结局攻略</p><p class="build"><span>含全结局剧透</span><span>Steam Build 26845264</span></p></div>
+</header>
+<div class="sticky">
+<nav class="nav wrap" aria-label="选择线路" id="navigation"></nav>
+</div>
+<main class="wrap layout" id="main">
+<aside class="route-info" id="route-info" aria-label="线路入口和分岔"></aside>
+<section class="content" aria-labelledby="list-heading">
+
+<details id="steam-build-26845264-update" style="padding:12px 14px;border-bottom:1px solid var(--line,#5a5462)">
+  <summary>2026-11-22 · Steam Build 26845264 攻略更新</summary>
+  <ul>
+    <li>官方为部分结局新增类型标签。剧情、结局内容和原有分支条件沿用本攻略中的路线。</li>
+    <li>第 4 层前四区更新了普通遭遇。第 1 至 3 区各新增 7、7、8 组，第 4 区新增 6 组，撤掉 1 组并调整两组的深度区间。精英遭遇表没有变化。</li>
+    <li>原生存读档菜单现在有 179 个手动槽和 1 个自动槽。Game Over 获得的诅咒上调，连续失败时增幅更明显，敌人属性与 Dark Holy 也经过平衡调整。</li>
+    <li>法师线第 4 层和僧侣线第 4、5 层补入插图与主角差分。</li>
+  </ul>
+
+  <p><a href="https://steamcommunity.com/app/2638080/allnews/">Steam 官方更新公告</a></p>
+</details>
+<div class="content-head"><h2 id="list-heading">结局索引</h2><span id="count" role="status"></span></div>
+<div class="toolbar">
+<label class="search"><input type="search" id="search" aria-label="搜索结局或条件" placeholder="搜索结局、选项或达成条件"></label>
+<button type="button" class="small-btn" id="show-choices" aria-controls="choices" hidden>查看可选项 ↓</button>
+<button type="button" class="small-btn" id="expand" aria-controls="endings">展开全部</button>
+</div>
+<div id="endings" class="list"></div>
+<div id="choices"></div>
+</section>
+</main>
+<section class="wrap branch-panel" id="branch-panel" aria-labelledby="branch-heading" hidden>
+  <header class="branch-heading">
+    <div><h2 id="branch-heading">分支推演</h2><p>从选择同伴开始。先看画面和对话，读完本段后选择下一步。</p></div>
+    <div class="branch-actions">
+      <button type="button" class="small-btn" id="branch-calibrate">校准数值</button>
+      <button type="button" class="small-btn" id="branch-undo">退回上一步</button>
+      <button type="button" class="small-btn" id="branch-reset" title="清除本轮路径，保留全局循环和存档记录">重新选择同伴</button>
+    </div>
+  </header>
+  <div class="branch-grid">
+    <aside class="branch-sidebar" aria-label="当前状态与选择记录">
+      <dl class="branch-metrics" id="branch-metrics" aria-live="polite"></dl>
+      <p id="branch-flags" class="branch-flags" hidden></p>
+      <details class="branch-settings" open>
+        <summary>当前数值与跨周目记录</summary>
+        <p>初始按无序章加成计算。战斗、随机事件与场景间的自动变化请以游戏为准，在判定前可把实际理智填进来。</p>
+        <form id="branch-settings">
+          <div class="branch-fields">
+            <label>主角理智<input name="sanity" data-title="主角理智" type="number" min="-20" max="100" step="1" required></label>
+            <label>同伴理智<input name="ally" data-title="同伴理智" type="number" min="-20" max="100" step="1" required></label>
+            <label>理智恢复上限<input name="cap" data-title="理智恢复上限" type="number" min="-20" max="100" step="1" required></label>
+            <label>全局循环<input name="loops" data-title="全局循环" type="number" min="0" max="9999999" step="1" required></label>
+          </div>
+          <fieldset>
+            <legend>存档记录</legend>
+            <label><input name="priestUnlocked" data-title="僧侣已解锁" type="checkbox">僧侣已解锁</label>
+            <label><input name="clearHero" data-title="勇者指定通关" type="checkbox">勇者「并肩走出迷宫」</label>
+            <label><input name="clearMage" data-title="魔法师指定通关" type="checkbox">魔法师「取回魔力 · 拉钩」</label>
+            <label><input name="clearWarrior" data-title="战士指定通关" type="checkbox">战士普通偶像／箱庭尾声</label>
+          </fieldset>
+          <button type="submit" class="small-btn">应用数值与记录</button>
+        </form>
+      </details>
+      <details class="branch-history" id="branch-path-details" hidden>
+        <summary>已走路径 · 点击任一步回退</summary>
+        <ol id="branch-path"></ol>
+      </details>
+    </aside>
+    <section id="branch-flow" class="branch-flow" aria-label="当前节点与选项"></section>
+  </div>
+</section>
+
+
+<footer><div class="wrap">
+<p>依据本地正式版 Naninovel 剧情、地图数据与简体中文资源整理。结局卡标题为便于检索的描述名，脚本名与行号列在卡片底部。</p>
+<p>共 21 条可达的字幕结局记录，含 2 条剧情回退结局。另列序章献祭与魔法师开局折返。战士故障后箱庭记录在脚本中有编号，但终局条件排除了同时触发，未列作可达结局。</p>
+<p>条件来自脚本核对。游戏内未逐线实跑。分支推演画面使用本地剧情插图，或由对应背景、立绘和界面素材组合。涉及主角外观时采用一号外观。对话为原版简体中文节选，轮盘等无对白节点配有衔接说明。<a href="https://store.steampowered.com/app/2638080/Annihilated/">Steam 官方页面</a></p>
+</div></footer>
+<noscript><p class="wrap">请在浏览器中启用 JavaScript 以使用路线索引。</p></noscript>
+
+
+<script type="application/json" id="guide-data">{"routes":{"hero":{"name":"勇者线","en":"HERO","intro":"第 3 层落选者的邀约决定路线。信任选择与理智只决定哪些答案会亮起。","entry":"序章选勇者并确认同行。","checkpoints":[["第 1 层 · 对勇者的判断","「相信勇者」−1；「无法相信勇者」+1；「现在还不知道」0。"],["第 2 层 · 恶役千金战后","「勇者一定很痛苦吧」−1；「勇者就是怪物」+1；「现在断言还为时过早」0。"],["第 3 层 · 你是我的敌人吗","选「是」+1，选「不是」−1。到落选者邀约时，理智 ≤40、≤30、≤20 各叠加 +1。"],["第 3 层 · 落选者邀约","不信任分 ≤4 可选「我要和勇者一起拯救世界。」；「我要和你一起拯救世界。」始终可选；不信任分 ≥2 可选「我谁也不相信。」。"]]},"mage":{"name":"魔法师线","en":"MAGE","intro":"第 3 层决定是否取回魔力。取回线看拉钩，未取回线看第 4 层表态和第 5 层走法。","entry":"序章选魔法师，继续选择「即便如此，仍选择与魔法师同行」→「确定，与魔法师同行」。","checkpoints":[["第 1 层 · 陷阱之后","两项红字回应会提前返回标题。要继续走，选择承诺保护或追问陷阱。"],["第 3 层 · 是否取回魔力","「我希望你能取回魔力」进入拉钩路线。「我希望你不要取回魔力」进入表态与岔路路线。"],["第 4 层 · 未取回线表态","「我，喜欢魔法师。」记为喜欢；「魔法师对我来说，非常重要。」记为珍视。两项都会继续到第 5 层。"],["第 5 层 · 未取回线地图岔口","第 2 区出现僧侣首领格与剧情格。首领格直接开战且无法逃跑；剧情格走岔路，会遇到两场可逃跑的僧侣战，之后还有正式终战。"]]},"warrior":{"name":"战士线","en":"WARRIOR","intro":"第 1 层如何处置盗贼，第 2 层是否坚持推翻决定，以及终局是否接受战士，共同决定尾声。","entry":"序章选战士并确认同行。","checkpoints":[["第 1 层 · 盗贼战后","只有「还是杀了吧，无法原谅他」立下杀戮结局的标记。其余四项都归入未立标记。"],["第 2 层 · 恶役千金战后","直接选「维持既定的选择。」即可维持。先选「推翻既定的选择。」才会出现二次确认，选「即便如此，也要推翻既定的选择。」才立下推翻标记。"],["第 3 层 · 落选者邀约","选「拒绝」继续战士线，接受联手会提前结束。"],["第 5 层 · 阻止战士","先选「即便如此，也要阻止战士」。下一次选「还是要阻止战士」会进入决斗，选「……还是接受吧」会先播放故障坏结局再回到这里。"]]},"priest":{"name":"僧侣线","en":"PRIEST","intro":"第 3 层的伸手选择决定第 4 层的走法，第 5 层的点头或摇头决定终局类型。","entry":"首次解锁时，在第 1 或第 2 层与非僧侣同伴同行并战败，触发僧侣的死亡事件。选「好」可立即走僧侣线，选「不」也会为之后的同行选择解锁僧侣。","checkpoints":[["第 1–3 层 · 僧侣依赖分","「确实，这或许是神的奇迹」+1；「乖乖把嘴张开」+1；「舍弃僧侣以外的同伴」走完该事件 +10；「……或许可以听一点点。」+1。「即便如此也要斩杀他」「听这些又有什么意义呢？」各 −1。"],["第 3 层 · 落选者伸手","此刻理智 ≤50 加 1、≤40 再加 2、≤30 再加 3、≤20 再加 5。依赖分 ≥2 可看向僧侣；≤4 可拒绝或接手。若刚从低理智坏结局回来，拒绝会开放，重选的部分选项会被逐步封住。"],["第 4 层 · 史莱姆之后","第 3 层拒绝伸手 → 可救僧侣或旁观；看向僧侣 → 先看低理智坏结局，再被送回第 3 层。"],["第 5 层 · 是否回去","正常状态下，点头进入慢生活，摇头进入战斗终局。若本轮已经触发第 4 层低理智坏结局，摇头只会绕回提问，最终用点头走回退版尾声。"]]},"common":{"name":"序章与共通","en":"PROLOGUE","intro":"先看同伴入口、序章特殊结局，以及怎样识别普通战败。","entry":"完成任意一位的序章谈话后，选择「考虑脱身方法」。出现确认时选「整合情报」，进入正式的同行选择。序章先找谁聊天不会锁定同行人选。","checkpoints":[["序章 · 同伴","勇者、魔法师、战士开局可选。僧侣的正式同行选项要通过早期战败后的僧侣事件解锁。 死亡事件选「好」立即进入僧侣线，选「不」保留后续同行选择。"],["序章 · 理智","同行时主角理智从 50 开始。勇者、战士、魔法师的指定序章提问分别可加 2，安慰魔法师也可加 2。"],["战败与循环","一般战败进入 Game Over，可用诅咒兑换资源后选择「重新尝试」。普通战败和序章献祭会增加全局循环计数。战士终战的剧情重试、勇者终击失败等另有处理，见各线结局卡。"]]}},"ends":[["hero","hero","并肩走出迷宫","通关","第 5 层","与勇者一起拯救世界，并命中终战的专用判定条。",["第 3 层选「我要和勇者一起拯救世界。」。该选项需要不信任分 ≤4。想稳定保留它，可依次选「相信勇者」「勇者一定很痛苦吧」「不是」。","击败落选者和第 4 层史莱姆，推进第 5 层至僧侣终战。此前两组态度选项会改对话，终局继续汇合。","僧侣最后形态出现专用判定条后，把指针停在橙色区（约判定条的 27%–73%）。成功触发终击即可进尾声。"],"专用判定失败会进 Game Over 并重试终战。","Scenario_Hero3:2021–2036 · Battle:2176–2203 · Scenario_Hero5:1574–1899"],["hero","hero4Bad","谁也不相信","坏结局","第 4 层","第 3 层否定所有人，打完第 4 层史莱姆后收束。",["第 3 层落选者邀约时选「我谁也不相信。」。需要不信任分 ≥2。稳定做法是先选「无法相信勇者」「勇者就是怪物」，再在「你是我的敌人吗」处选「是」。","打完第 3 层落选者，进入勇者不信任分支，继续打完第 4 层史莱姆。"],"播放结局后返回标题。","Scenario_Hero3:2021–2036, 2284–2354 · Scenario_Hero4:1611–2056"],["hero","dropout_hero","与落选者联手","坏结局","第 3 层","接受落选者的邀请，脱离勇者。",["在第 3 层落选者邀约时选「我要和你一起拯救世界。」。这一项没有不信任分门槛。","继续看完落选者分支，进入勇者线的全灭结局。"],"播放结局后返回标题。","Scenario_Hero3:2033–2036, 2224–2278 · Scenario:437–636"],["mage","mageMaryoku","取回魔力 · 拉钩","通关","第 5 层","让魔法师取回魔力，答应约定，打完僧侣终战。",["第 3 层选「我希望你能取回魔力」。","第 5 层听到约定时选「拉钩」。","打完僧侣终战并继续读完尾声。"],"该结局会增加僧侣低／高循环分流读取的魔法师通关计数。","Scenario_Mage3:1167–1175 · Scenario_Mage5:249–262, 486, 813–927"],["mage","mage5YakusokuSinaiBad","取回魔力 · 没有拉钩","坏结局","第 5 层","让魔法师取回魔力，在约定前保持沉默。",["第 3 层选「我希望你能取回魔力」。","第 5 层面对约定选「…………」，继续完成僧侣战和后续剧情。"],"播放结局后返回标题。","Scenario_Mage3:1167–1175 · Scenario_Mage5:249–323, 486, 944–1312"],["mage","mageNotMaryokuSuki","未取回魔力 · 喜欢","通关","第 5 层","表达喜欢，走岔路，两次撤离，再打正式终战。",["第 3 层选「我希望你不要取回魔力」。","第 4 层史莱姆战后选「我，喜欢魔法师。」。","第 5 层第 2 区选剧情格走岔路。前两场可撤离的僧侣战用逃跑指令离开，之后赢下正式终战。"],"早期两战直接获胜会转入特殊胜利结局。","Scenario_Mage4:1571–1608 · MapDataBase:9-2 · Dungeon:1425–1438 · Scenario_Mage5:1799–1965, 2498–2728"],["mage","mageNotMaryokuIssyo","未取回魔力 · 珍视","通关","第 5 层","表达珍视，走岔路，两次撤离，再打正式终战。",["第 3 层选「我希望你不要取回魔力」。","第 4 层史莱姆战后选「魔法师对我来说，非常重要。」。","第 5 层第 2 区选剧情格走岔路。前两场可撤离的僧侣战用逃跑指令离开，之后赢下正式终战。"],"与「喜欢」结局共用战斗路线，由第 4 层的表态决定尾声。","Scenario_Mage4:1571–1622 · MapDataBase:9-2 · Scenario_Mage5:1799–1965, 2498–2655, 2731–2857"],["mage","mageNotMaryokuSpecialWin","未取回魔力 · 特殊胜利","通关","第 5 层","在第 5 层提前战胜僧侣。",["第 3 层选「我希望你不要取回魔力」。第 4 层两种表态均可。","第 5 层第 2 区直接走僧侣首领格并获胜，或选剧情格走岔路，在前两场可撤离的僧侣战中任意一场直接获胜。"],"走首领格时，理智 40 的分界只改变开战叙述。两场都撤离后会进入按表态分流的正式终战。","Dungeon:475–481, 1425–1438 · Scenario_Mage5:1799–1808, 1954–1963, 2871–2998 · Battle:5192–5227"],["mage","mage-exit","陷阱后折返","提前收束","第 1 层","魔法师问要不要回头换同伴时，有两个提前退出选项。",["遇到陷阱、魔法师受伤后，选「……就这么办吧，我们回头。」或「明白了。」。两项有各自的收束对白。"],"两项都直接返回标题，绕过结局字幕。","Scenario_Mage1:197–218, 263–270"],["warrior","warrior","偶像尾声","通关","第 5 层","不立杀戮标记、维持既定选择，并阻止战士。",["第 1 层盗贼战后，选「不想杀他」或其余三项非杀戮回应。","第 2 层恶役千金战后，选「维持既定的选择。」；如果先点了推翻，可在二次确认选「若是如此，还是维持既定的选择。」。","第 3 层拒绝落选者。第 5 层两次坚持阻止战士，完成后续两场决斗。"],"首场决斗获胜后，剧情会自动走一遍 Game Over，再推进到第二场决斗。此结局增加僧侣分流读取的战士通关计数。","Scenario_Warrior1:1539–1543 · Scenario_Warrior2:3485–3523 · Scenario_Warrior5:1089–1145, 1296–1535, 1583–1953"],["warrior","warrior_hakoniwa","箱庭尾声","通关","第 5 层","第 2 层两次确认推翻，第 5 层直接阻止战士。",["第 1 层盗贼战后不要选「还是杀了吧，无法原谅他」。","第 2 层选「推翻既定的选择。」→「即便如此，也要推翻既定的选择。」；随后按剧情选择「杀掉。」。","第 3 层拒绝落选者，第 5 层直接坚持阻止战士，完成决斗。"],"这条尾声与普通偶像尾声共用通关类型，另有独立结局记录和最后一张 CG。","Scenario_Warrior2:3485–3554 · Scenario_Warrior5:1737–1854 · Ending:453–454"],["warrior","warriorKill","杀戮尾声","通关","第 5 层","第 1 层选杀盗贼，保持该标记直到最终决斗。",["第 1 层盗贼战后选「还是杀了吧，无法原谅他」。","第 2 层可维持或推翻当时的处置方案。第 1 层标记仍会决定结局。","第 3 层拒绝落选者，第 5 层阻止战士，打完后续决斗。"],"此标记优先级高于接受后的故障标记，即使先看了故障坏结局，最终仍归入杀戮尾声。","Scenario_Warrior1:1540, 1727 · Scenario_Warrior5:1583–1586, 1945–1953"],["warrior","warriorGlitchBad","接受战士 · 故障","回退结局","第 5 层","先尝试阻止，然后选择接受战士。",["第 3 层拒绝落选者，推进至第 5 层。","先选「即便如此，也要阻止战士」，下一次选「……还是接受吧」。"],"结局字幕之后自动回到终局，接受选项会关闭。继续阻止即可打向最后的尾声。","Scenario_Warrior5:1089–1145, 1955–1961, 2186–2200"],["warrior","warriorAfterGlitch","故障之后的偶像尾声","通关","第 5 层","先看接受战士的故障坏结局，再返回并阻止。",["第 1 层盗贼战后不要选「还是杀了吧，无法原谅他」。","第 5 层先阻止一次，再选「……还是接受吧」，看完故障坏结局。","返回后选「还是要阻止战士」，完成两场决斗。"],"第 2 层即使确认过推翻，故障标记也会让结尾走偶像尾声。","Scenario_Warrior5:1138–1145, 1737–1854, 1945–1953, 2186–2200"],["warrior","dropout_warrior","放弃救援，与落选者联手","坏结局","第 3 层","同意停止营救勇者小队。",["第 3 层落选者提出联手时选「放弃救援勇者小队，同落选者一起打败魔王」。"],"播放结局后返回标题。另一个选项「拒绝」继续战士线。","Scenario_Warrior3:1434–1436, 1553–1578 · Scenario:437–636"],["priest","dropout_priest","握住落选者的手","坏结局","第 3 层","第 3 层依赖分 ≤4 时，接受落选者。",["保持理智、避免选择「舍弃僧侣以外的同伴」。可用「即便如此也要斩杀他」「听这些又有什么意义呢？」分别降低 1 点依赖分。","落选者伸手时选「我毫不犹豫地伸出手。」。该选项需要依赖分 ≤4。"],"正常流程播放结局并返回标题。若刚从第 4 层低理智坏结局回退，同一选择会绕回提问。","Scenario_Priest3:1135–1164, 1694–1744 · Scenario:437–636"],["priest","priest4KilledBad","看向僧侣 · 低理智","回退结局","第 4 层","第 3 层看向僧侣，打完第 4 层史莱姆。",["第 3 层落选者伸手时选「移开视线，看向僧侣。」。需要依赖分 ≥2。若只想稳定打开这项，第 2 层选「舍弃僧侣以外的同伴」并完成该事件会加 10。","继续打赢第 3 层落选者及第 4 层史莱姆。"],"字幕后自动回到第 3 层伸手选择，并保留低理智坏结局标记。理智恢复上限会设为 35。","Scenario_Priest3:1135–1178, 1363 · Scenario_Priest4:2242–2254, 2639–2683"],["priest","priest4NoReachBad","袖手旁观","坏结局","第 4 层","第 3 层拒绝伸手，史莱姆战后不救僧侣。",["第 3 层选「我，选择不伸手。」并继续打赢落选者。初次需要依赖分 ≤4。","第 4 层打完史莱姆，在僧侣遭到袭击后选「就这么静静地看着这一切。」。"],"正常流程返回标题。若已从低理智坏结局回退，这项会送回同一选择。","Scenario_Priest3:1156–1164, 1389–1690 · Scenario_Priest4:2242–2254, 2905–2910, 3134–3180"],["priest","priestNod","点头 · 慢生活","通关","第 5 层","救下僧侣后同意回去。",["第 3 层选「我，选择不伸手。」；第 4 层打赢史莱姆后选「我不想僧侣死掉」。","第 5 层选「向僧侣点头」。本轮此前须未经历第 4 层的低理智回退结局。"],"这条结局在第 5 层决定，不需要打僧侣终战。","Scenario_Priest4:2905–2921 · Scenario_Priest5:140–163, 1374–1611"],["priest","priestNodAfterLowSan","点头 · 低理智回退版","通关","第 5 层","先经历一次第 4 层低理智坏结局，再救僧侣并点头。",["第 3 层先选「移开视线，看向僧侣。」，继续到第 4 层，看完低理智坏结局。","被送回第 3 层时改选「我，选择不伸手。」；再打完两层并在史莱姆战后选「我不想僧侣死掉」。","第 5 层选「向僧侣点头」。可先摇头看额外对白，之后仍会回到同一选择。"],"分支读取是否曾触发低理智坏结局，当前理智数字不会把该标记清掉。","Scenario_Priest4:2639–2683, 2905–2921 · Scenario_Priest5:140–163, 1609–1682"],["priest","priestLowLoop","摇头 · 低循环／魔王","通关","第 5 层后","累计循环 ≤8，且三项指定通关计数均为 0。",["选僧侣后，第 3 层拒绝伸手，第 4 层救僧侣。不要先触发第 4 层低理智回退结局。","第 5 层选「向僧侣摇头」，打完僧侣终战。结算时全局循环须 ≤8，且勇者通关、魔法师取回魔力并拉钩通关、战士普通偶像或箱庭通关的三个计数均为 0。","继续进入额外区域，与临时同伴一起挑战魔王，获胜后进入尾声。"],"普通战败也会增加循环计数。要收集两种摇头结局，先做低循环更稳。","Battle:14490–14493 · Scenario_Priest5:140–163, 245–309, 371–615"],["priest","priestHighLoop","摇头 · 高循环","通关","第 5 层","累计循环 ≥9，或任一指定通关计数大于 0。",["和低循环一样，在第 3 层拒绝伸手、第 4 层救僧侣，第 5 层选「向僧侣摇头」。","让全局循环达到 9，或事先通关勇者、魔法师取回魔力并拉钩、战士普通偶像或箱庭中的一项，再完成僧侣终战。","终战触发剧情提示后，开启破坏模式，打碎手上可破坏的武器。完成终击后继续剧情，按提示选取心脏武器。","尾声可选「永别了。」「我曾喜欢过你。」「…………」。三项有各自的画面，共用高循环结局记录。"],"通关成就和分流用的全局通关计数口径不同。","Battle:14490–14493 · Scenario_Priest5:245–309, 1133–1158, 1369–1370 · Battle:14567–14614 · Scenario_Priest5:1121, 1725–1743"],["common","ritual","序章 · 献祭仪式","提前收束","序章","在正式选择同伴前接受僧侣的提议。",["序章对话找僧侣，选「真的出不去了吗」。","出现仪式提案时选「举行仪式」。选「不举行仪式」会继续谈话。"],"触发死亡剧情并自动读档，增加全局循环和被僧侣杀死的次数。","Opening3:1389–1436, 1440–1534"]],"choices":{"hero":[["第 1 层","Scenario_Hero1",[[731,[["相信勇者",""],["无法相信勇者",""],["现在还不知道",""]]]]],["第 2 层","Scenario_Hero2",[[93,[["吃",""],["果然还是不行",""]]],[634,[["难得的邀请，答应吧",""],["还是算了",""]]],[1096,[["她一定，很寂寞吧",""],["真是令人毛骨悚然",""]]],[1492,[["勇者一定很痛苦吧",""],["勇者就是怪物",""],["现在断言还为时过早",""]]]]],["第 3 层","Scenario_Hero3",[[924,[["是",""],["不是",""]]],[936,[["是",""],["是",""],["是",""],["是",""]]],[1051,[["是",""],["不是",""]]],[2033,[["我要和勇者一起拯救世界。","不信任分 ≤4"],["我要和你一起拯救世界。",""],["我谁也不相信。","不信任分 ≥2"]]]]],["第 5 层","Scenario_Hero5",[[99,[["我似乎无法为了世界而战。",""],["我也要为了世界而战。",""]]],[1441,[["或许是这样吧",""],["我不这样想",""]]]]]],"mage":[["第 1 层","Scenario_Mage1",[[95,[["搜索地面",""],["搜索墙壁",""]]],[197,[["……就这么办吧，我们回头。",""],["下次我一定保护好你",""],["即便如此，我不会再让你受伤了",""],["明白了。",""],["……刚才的陷阱，我们不是处理了吗？",""]]],[303,[["我不会那么想的",""],["请你不要再这样做了",""],["魔法师，其实你很温柔啊。",""]]],[484,[["作为合理的策略提议的",""],["情感因素占比较大的",""]]],[1094,[["根本不需要什么理由",""],["并非毫无益处",""]]]]],["第 2 层","Scenario_Mage2",[[82,[["现在有我在你身边",""],["你的故乡是个怎样的地方？",""],["要牵着手走吗？",""]]],[159,[["呃……我的？",""],["魔法师的！",""]]],[298,[["你和人偶挺般配的",""],["你和人偶不太搭呢",""]]],[491,[["确实，是这样没错",""],["我也隐约有这种感觉",""]]],[555,[["我并不打算放弃其他队友",""],["………无论如何，一定要回到地面",""],["也有可能魔法师就是那个叛徒",""]]],[848,[["换3张",""],["换1张",""],["换5张",""]]],[930,[["一决胜负",""],["弃牌",""]]],[1027,[["今后也请多多关照",""],["请给我膝枕",""],["让我再考虑一下",""]]],[1939,[["头脑聪明又爱逞强的人吧",""],["总之专一的人就好",""],["果然还是看脸吧",""],["不感兴趣！！！！",""]]],[2047,[["关于这次事件的主谋",""],["为什么要袭击勇者小队",""],["关于你操控的那些人偶",""],["请告诉我你喜欢的类型",""]]],[2466,[["我觉得，特别之人注定是孤单的。",""],["我反倒觉得，平凡无奇的人，才更容易孤身一人啊。",""]]]]],["第 3 层","Scenario_Mage3",[[426,[["说实话，确实有点",""],["我从未后悔过，真是一场开心的冒险",""]]],[1167,[["我希望你能取回魔力",""],["我希望你不要取回魔力",""]]]]],["第 4 层","Scenario_Mage4",[[384,[["魔法师，那时很寂寞吗？",""],["魔法师，是喜欢我吗？",""]]],[437,[["拜托给我多提点有用的建议",""],["尽管来依赖我吧",""]]],[619,[["那个人不会恨我",""],["那个人已经死了",""]]],[1571,[["我，喜欢魔法师。",""],["魔法师对我来说，非常重要。",""]]]]],["第 5 层","Scenario_Mage5",[[251,[["拉钩","取回魔力分支"],["…………","取回魔力分支"]]],["地图 9-2",[["僧侣首领格","直接开战，胜利进入特殊结局"],["剧情格","走岔路，随后有两场可撤离的战斗"]]],[2214,[["轮盘剧情按钮（左侧）",""],["轮盘剧情按钮（右侧）",""]]],[2227,[["轮盘剧情按钮（左侧）",""],["轮盘剧情按钮（右侧）",""]]],[2241,[["轮盘剧情按钮（左侧）",""],["轮盘剧情按钮（右侧）",""]]]]]],"warrior":[["第 1 层","Scenario_Warrior1",[[614,[["我不喜欢这样，如果这样我会心生怨恨",""],["虽然心里讨厌，但也没办法",""],["我觉得这样挺好的，能从危险中解放出来",""]]],[1539,[["不想杀他",""],["还是杀了吧，无法原谅他",""],["保留意见，现在无法做出选择",""],["保留意见，他应当接受正式的审判",""],["交给战士决定",""]]]]],["第 2 层","Scenario_Warrior2",[[2613,[["即便如此……或许还是该相信一次可能性的",""],["但是……至少可以告诉我啊",""],["……或许，你说的没错。",""]]],[2957,[["暂时接受提议。等战士身体复原之后，再决定是否反戈一击也不迟。",""],["拒绝。不接受提议。",""],["让战士自己决定。",""]]],[3485,[["推翻既定的选择。",""],["维持既定的选择。",""]]],[3516,[["即便如此，也要推翻既定的选择。",""],["若是如此，还是维持既定的选择。",""]]],[3545,[["杀掉。","第 1 层未选杀盗贼"],["不杀。","第 1 层已选杀盗贼"]]]]],["第 3 层","Scenario_Warrior3",[[772,[["我不打算接受。",""],["……",""]]],[1434,[["拒绝",""],["放弃救援勇者小队，同落选者一起打败魔王",""]]]]],["第 4 层","Scenario_Warrior4",[[607,[["START!（开始轮盘）",""]]],[616,[["STOP!（停止轮盘）",""]]]]],["第 5 层","Scenario_Warrior5",[[1091,[["即便如此，也要阻止战士",""]]],[1138,[["还是要阻止战士",""],["……还是接受吧","尚未看过故障坏结局"]]],[1142,[["还是要阻止战士","故障回退阶段"]]]]]],"priest":[["第 1 层","Scenario_Priest1",[[84,[["也就是说，我是诅咒了别人吗？",""],["我的命运被谁的诅咒改变了？",""],["根本不存在什么命运！",""]]],[349,[["确实，这或许是神的奇迹",""],["这根本不是神的奇迹！",""]]],[880,[["即便如此也要斩杀他",""],["先听听他怎么说",""]]],[1156,[["相信僧侣",""],["不相信僧侣",""]]]]],["第 2 层","Scenario_Priest2",[[249,[["乖乖把嘴张开",""],["允许我郑重谢绝",""]]],[473,[["听这些又有什么意义呢？",""],["乖乖听着就好",""]]],[538,[["我明白了",""],["就算事实的确如此，这种事我也办不到",""]]],[818,[["与其错过，不如一死了之",""],["哪怕错过，也该彼此活下去",""]]],[1398,[["我做不到",""],["舍弃僧侣以外的同伴",""]]],[1943,[["那已经只是区区一颗头颅，一件死物了",""],["如果你还觉得它如此重要，那我便不再夺取",""],["（无言）",""]]]]],["第 3 层","Scenario_Priest3",[[262,[["想都别想。",""],["……或许可以听一点点。",""]]],[1161,[["移开视线，看向僧侣。","依赖分 ≥2，回退后重选此项会受限"],["我，选择不伸手。","依赖分 ≤4，或已经从低理智坏结局回退"],["我毫不犹豫地伸出手。","依赖分 ≤4，回退后选它会绕回"]]],[1427,[["僧侣从一开始就不值得信任",""],["…………",""]]],[1528,[["如果可以，我也想成为勇者",""],["想成为某个人心中的特别存在，这一点我能理解。",""],["我不理解",""]]],[1821,[["我记得，我已经说过不会成为勇者。",""],["…………",""]]]]],["第 4 层","Scenario_Priest4",[[1657,[["摇头",""],["点头",""]]],[2908,[["我不想僧侣死掉",""],["就这么静静地看着这一切。",""]]]]],["第 5 层","Scenario_Priest5",[[52,[["若是珍视的人幸福，我也就幸福了",""],["自己的幸福才是最重要的",""]]],[142,[["向僧侣摇头","低理智回退后，只可尝试摇头一次"],["向僧侣点头",""]]],[1133,[["永别了。",""],["我曾喜欢过你。",""],["…………",""]]],[1729,[["选择剧情提供的心脏武器",""]]]]]],"common":[["序章谈话与同行","Opening3",[[78,[["勇者",""],["魔法师",""],["战士",""],["僧侣",""],["考虑脱身方法","至少已结束一位角色的谈话"]]],[128,[["你在吃什么？",""]]],[166,[["吃",""],["不吃",""]]],[262,[["这里到底发生了什么？",""],["继续待在这里没问题吗？",""],["接下来我们怎么办？",""],["能听懂我说话吗……？",""],["结束对话",""]]],[517,[["这里到底发生了什么？",""],["继续待在这里没问题吗？",""],["接下来我们怎么办？",""],["……其他人，是不是不太正常？",""],["结束对话",""]]],[769,[["告诉她有我在",""],["什么也不说，保持沉默",""]]],[970,[["这里到底发生了什么？",""],["继续待在这里没问题吗？",""],["接下来我们怎么办？",""],["怎么感觉你的表情完全没变化呢",""],["结束对话",""]]],[1389,[["真的出不去了吗",""],["大家究竟都发生了什么",""],["你们平时吃什么？",""],["接下来怎么办",""],["结束对话",""]]],[1432,[["举行仪式",""],["不举行仪式",""]]],[1820,[["整合情报","询问不足四位时出现"],["再等等！","询问不足四位时出现"]]],[1984,[["勇者",""],["战士",""],["魔法师",""],["僧侣","完成早期战败后的僧侣事件"]]],[2018,[["是",""],["否",""]]],[2026,[["是",""],["否",""]]],[2399,[["即便如此，仍选择与魔法师同行",""],["还是算了",""]]],[2467,[["确定，与魔法师同行",""],["还是算了",""]]],[2649,[["你那根法杖，现在也没用了吧？",""],["你才不是累赘",""]]],[2854,[["……决定好了",""],["让我重新考虑一下",""],["……明白了。",""],["让我再想一想",""]]]]],["初次战败事件","Scenario",[[33,[["好",""],["不",""]]]]]]}}</script>
+<script>
+const guide = JSON.parse(document.querySelector('#guide-data').textContent);
+const navigation = document.querySelector('#navigation');
+const info = document.querySelector('#route-info');
+const endings = document.querySelector('#endings');
+const choices = document.querySelector('#choices');
+const count = document.querySelector('#count');
+const search = document.querySelector('#search');
+const expand = document.querySelector('#expand');
+const showChoices = document.querySelector('#show-choices');
+const routes = Object.entries(guide.routes);
+let active = 'all';
+
+function element(tag, content, className) {
+  const node = document.createElement(tag);
+  if (content) node.textContent = content;
+  if (className) node.className = className;
+  return node;
+}
+
+function routeLink(key, label) {
+  const link = element('a', label);
+  link.href = '#' + key;
+  return link;
+}
+
+function renderInfo() {
+  const route = guide.routes[active];
+  info.replaceChildren();
+  if (!route) {
+    info.append(element('h2', '从哪条线开始？'));
+    info.append(element('p', '选上方同伴，查看如何进入线路、关键分岔和每层可选项。', 'intro'));
+    const list = element('ul', '', 'timeline');
+    for (const [key, item] of routes) {
+      const row = element('li');
+      row.append(routeLink(key, item.name), element('p', item.intro));
+      list.append(row);
+    }
+    info.append(list);
+    return;
+  }
+  info.append(element('h2', route.name), element('p', route.intro, 'intro'));
+  const entry = element('div', '', 'entry');
+  entry.append(element('strong', '线路入口'), element('p', route.entry));
+  info.append(entry);
+  const timeline = element('ol', '', 'timeline');
+  for (const [title, description] of route.checkpoints) {
+    const item = element('li');
+    item.append(element('strong', title), element('p', description));
+    timeline.append(item);
+  }
+  info.append(timeline);
+}
+
+function endingCard(row) {
+  const [, id, title, kind, floor, teaser, steps, note, source] = row;
+  const card = element('details', '', 'ending');
+  card.id = 'end-' + id;
+  const summary = element('summary');
+  const headline = element('span');
+  headline.append(element('span', title, 'title'), element('span', teaser, 'teaser'));
+  const meta = element('span', '', 'meta');
+  const type = element('span', kind, 'kind');
+  type.dataset.kind = kind;
+  meta.append(type, element('span', floor));
+  summary.append(headline, meta);
+  const body = element('div', '', 'detail');
+  const list = element('ol');
+  for (const step of steps) list.append(element('li', step));
+  body.append(list, element('p', note, 'note'), element('span', source, 'source'));
+  card.append(summary, body);
+  return card;
+}
+
+function renderEndings() {
+  endings.replaceChildren();
+  const terms = search.value.toLowerCase().trim().split(/\s+/).filter(Boolean);
+  const matches = guide.ends.filter(row => {
+    const text = [guide.routes[row[0]].name, ...row.flat()].join(' ').toLowerCase();
+    return (active === 'all' || row[0] === active) && terms.every(term => text.includes(term));
+  });
+  count.textContent = matches.length + ' 项';
+  if (!matches.length) endings.append(element('p', '没有匹配的结局。', 'empty'));
+  let lastRoute;
+  for (const row of matches) {
+    if (active === 'all' && lastRoute !== row[0]) {
+      endings.append(element('h3', guide.routes[row[0]].name, 'route-group'));
+      lastRoute = row[0];
+    }
+    endings.append(endingCard(row));
+  }
+  expand.disabled = !matches.length;
+  expand.textContent = '展开全部';
+}
+
+function renderChoices() {
+  choices.replaceChildren();
+  showChoices.hidden = active === 'all' || !guide.choices[active];
+  if (showChoices.hidden) return;
+  const section = element('details', '', 'choice-section');
+  section.append(element('summary', '按章节查看可选项'));
+  section.append(element('p', '同一组中的选项出现在同一个选择界面。分岔条件见线路说明和对应结局卡。'));
+  for (const [label, script, groups] of guide.choices[active]) {
+    const chapter = element('details', '', 'chapter');
+    chapter.append(element('summary', label + ' · ' + groups.length + ' 组'));
+    const groupList = element('div', '', 'choice-groups');
+    for (const [line, options] of groups) {
+      const group = element('div', '', 'choice-group');
+      group.append(element('span', script + ':' + line, 'source'));
+      const list = element('ul');
+      for (const [text, condition] of options) {
+        const item = element('li', text);
+        if (condition) item.append(element('span', condition, 'option-rule'));
+        list.append(item);
+      }
+      group.append(list);
+      groupList.append(group);
+    }
+    chapter.append(groupList);
+    section.append(chapter);
+  }
+  choices.append(section);
+}
+
+function selectRoute(key) {
+  active = key;
+  search.value = '';
+  for (const button of navigation.querySelectorAll('button')) {
+    button.setAttribute('aria-pressed', String(button.dataset.route === active));
+  }
+  const showBranch = active === 'branch';
+  document.querySelector('#main').hidden = showBranch;
+  branch.activate(showBranch);
+  if (!showBranch) {
+    renderInfo();
+    renderEndings();
+    renderChoices();
+  }
+}
+
+function applyHash(scrollToContent = false) {
+  const hash = location.hash.slice(1);
+  const end = hash.startsWith('end-') && guide.ends.find(row => 'end-' + row[1] === hash);
+  const route = end ? end[0] : (hash === 'branch' || Object.hasOwn(guide.routes, hash)) ? hash : 'all';
+  selectRoute(route);
+  if (end) {
+    const card = document.getElementById(hash);
+    card.open = true;
+    card.scrollIntoView();
+  } else if (scrollToContent) {
+    document.querySelector('.sticky').scrollIntoView();
+    if (window.scrollY < navigation.parentElement.offsetTop) {
+      window.scrollTo(0, navigation.parentElement.offsetTop);
+    }
+  }
+}
+
+for (const [key, label] of [['all','总览'], ['branch','分支推演'], ...routes.map(([key, item]) => [key, item.name])]) {
+  const button = element('button', label);
+  button.type = 'button';
+  button.dataset.route = key;
+  button.setAttribute('aria-controls', key === 'branch' ? 'branch-panel' : 'route-info endings choices');
+  button.addEventListener('click', () => {
+    const hash = key === 'all' ? '#all' : '#' + key;
+    if (location.hash !== hash) history.pushState(null, '', hash);
+    applyHash(true);
+  });
+  navigation.append(button);
+}
+showChoices.addEventListener('click', () => {
+  const section = choices.querySelector('.choice-section');
+  section.open = true;
+  section.querySelector('summary').focus({preventScroll:true});
+  section.scrollIntoView();
+});
+search.addEventListener('input', renderEndings);
+expand.addEventListener('click', () => {
+  const open = expand.textContent === '展开全部';
+  for (const card of endings.querySelectorAll('details')) card.open = open;
+  expand.textContent = open ? '收起全部' : '展开全部';
+});
+const branch = (() => {
+  const nodes = new Map();
+  const endingsById = new Map(guide.ends.map(row => [row[1], row]));
+  const choiceGroups = new Map(Object.values(guide.choices).flatMap(chapters =>
+    chapters.flatMap(([, script, groups]) => groups.map(([line, options]) =>
+      [script + ':' + line, options.map(([text]) => text)]))));
+  const P = (n) => ({ key:'sanity', n, label:'主角理智' });
+  const A = (n) => ({ key:'ally', n, label:'同伴理智' });
+  const B = (n) => [P(n), A(n)];
+  const D = (n) => ({ key:'distrust', n, label:'不信任基础分' });
+  const R = (n) => ({ key:'reliance', n, label:'依赖基础分' });
+  const L = (n) => ({ key:'loops', n, label:'全局循环' });
+  const delta = (n) => n > 0 ? '+' + n : n < 0 ? '−' + Math.abs(n) : '±0';
+  const yes = () => true;
+  const set = (key,value) => ({key,value});
+  const o = (next, effects = [], extra = {}) => ({next,effects:effects.flat(),...extra});
+  const label = (text,next,effects = [],extra = {}) => ({...o(next,effects,extra),text});
+  const g = (id, script, line, title, options, note = '') => {
+    const key = script + ':' + line;
+    const text = choiceGroups.get(key);
+    if (!text || text.length !== options.length) throw new Error('选项数不匹配 '+key);
+    nodes.set(id, {id,title,note,source:key, options:options.map((opt,i) => ({...opt,text:opt.text || text[i]}))});
+  };
+  const custom = (id,title,note,options,source='') => nodes.set(id,{id,title,note,options,source});
+  const e = (id, back = null) => {
+    const [,,title,,,teaser] = endingsById.get(id);
+    custom('end-'+id,title,teaser,back ? [label('继续剧情',back.next,back.effects,{detail:back.detail})] : []);
+    nodes.get('end-'+id).ending = id;
+  };
+  const floor = (id,name,n,next, note='') => custom(id,'进入第 '+n+' 层',note || ('完成'+name+'前的探索和战斗，继续下一处剧情选择。'),[label('推进到下一处选择',next)]);
+  const battle = (id,title,note,next,source) => custom(id,title,note,[label('完成战斗，继续剧情',next)],source);
+  const hscore = s => s.distrust + [40,30,20].filter(n=>s.sanity<=n).length;
+  const pscore = s => s.reliance + [[50,1],[40,2],[30,3],[20,5]].reduce((sum,[n,add])=>sum+(s.sanity<=n?add:0),0);
+  const high = s => s.loops>=9 || s.clearHero || s.clearMage || s.clearWarrior;
+  const locked = (when,rule) => ({when,rule});
+  const cap = n => ({key:'cap',value:n,label:'主角理智恢复上限'});
+  const party = {hero:['勇者','h1',30],mage:['魔法师','m-confirm1',30],warrior:['战士','w1-first',66],priest:['僧侣','p-confirm',100]};
+  const choiceParty = (id) => {
+    const [name,,ally] = party[id];
+    return label(name,'start-confirm',[set('route',id),set('ally',ally)],id==='priest' ?
+      {...locked(s=>s.priestUnlocked,'须解锁僧侣'),detail:'早期战败后完成僧侣事件即可解锁。'} : {});
+  };
+
+  custom('start','选择同行同伴','从正式同行选择开始。可在「当前数值与跨周目记录」里填入实际存档状态。',
+    [...Object.keys(party).map(choiceParty),label('模拟早期战败，解锁僧侣','p-death',[L(1)],
+      {...locked(s=>!s.priestUnlocked,'僧侣尚未解锁'),detail:'第 1 或 2 层、非僧侣同行、非教学战败。'}),
+      label('回看序章 · 僧侣的仪式','ritual')],'Opening3:1970–1988 · GameOver:34–54');
+  g('ritual','Opening3',1432,'序章 · 僧侣提议举行仪式',[
+    o('end-ritual',[L(1)]),o('start')],
+    '此场景发生在正式选择同伴之前。选「真的出不去了吗」即可看到仪式提议。');
+  e('ritual',{next:'start',effects:[],detail:'游戏在死亡剧情后自动读档，推演回到选择同伴。'});
+  const startAfterConfirm = s => party[s.route][1];
+  const leaveParty = [set('route','')];
+  g('start-confirm','Opening3',2018,'序章 · 确认同行',[o('start-confirm2'),o('start',leaveParty)]);
+  g('start-confirm2','Opening3',2026,'序章 · 再次确认',[o(startAfterConfirm),o('start',leaveParty)]);
+  g('p-death','Scenario',33,'战败后 · 僧侣伸出援手',[
+    o('p-confirm',[set('priestUnlocked',true),set('route','priest'),set('ally',100),set('forcedPriest',true)]),
+    o('start',[set('priestUnlocked',true)])],
+    '「好」立即进入僧侣同行流程。「不」返回同伴选择进行下一次推演，僧侣仍会解锁。');
+  g('m-confirm1','Opening3',2399,'序章 · 确认与魔法师同行',[o('m-confirm2'),o('start',[set('route','')])]);
+  g('m-confirm2','Opening3',2467,'序章 · 再次确认同行',[o('m-opening'),o('start',[set('route','')])]);
+  g('m-opening','Opening3',2649,'序章 · 魔法师的法杖',[o('m1-search',[P(-6),A(-12)]),o('m1-search',[P(6),A(5)])]);
+  custom('p-confirm','序章 · 确认与僧侣同行','对话文本随序章经历变化。从死亡事件直接加入时，本次只能确认同行。',[
+    label('确认同行','p1-curse'),
+    label('重新考虑','start',leaveParty,locked(s=>!s.forcedPriest,'本次并非从死亡事件直接加入'))],'Opening3:2847–2898');
+
+  g('h1','Scenario_Hero1',731,'第 1 层 · 你怎么看勇者？',[
+    o('h2',[P(-2),D(-1)]),o('h2',[P(-12),D(1)]),o('h2',[P(-1)])]);
+  floor('h2','勇者第 2 层','2','h2-moss');
+  g('h2-moss','Scenario_Hero2',93,'第 2 层 · 要吃吗？',[o('h2-tea',[P(3)]),o('h2-tea')]);
+  g('h2-tea','Scenario_Hero2',634,'第 2 层 · 恶役千金的邀请',[o('h2-impression',[P(5)]),o('h2-impression',[P(-3)])]);
+  g('h2-impression','Scenario_Hero2',1096,'第 2 层 · 对恶役千金的印象',[o('h2-judgment'),o('h2-judgment',[P(-3)])]);
+  g('h2-judgment','Scenario_Hero2',1492,'第 2 层 · 你怎么看勇者？',[
+    o('h3',[P(3),D(-1)]),o('h3',[P(-12),D(1)]),o('h3')]);
+  floor('h3','勇者第 3 层','3','h3-question');
+  g('h3-question','Scenario_Hero3',924,'第 3 层 · 第一轮问答',[o('h3-repeat'),o('h3-enemy')]);
+  g('h3-repeat','Scenario_Hero3',936,'第 3 层 · 重复出现的四个答案',
+    Array.from({length:4},(_,i)=>o('h3-enemy',[],{text:'是（第 '+(i+1)+' 项）'})), '四项都进入同一个后续。');
+  g('h3-enemy','Scenario_Hero3',1051,'第 3 层 · 你是我的敌人吗？',[o('h3-join',[P(-8),D(1)]),o('h3-join',[P(8),D(-1)])]);
+  g('h3-join','Scenario_Hero3',2033,'第 3 层 · 落选者邀约',[
+    o('h4',[P(s=>Math.min(15,Math.max(0,80-s.sanity)))],locked(s=>hscore(s)<=4,'不信任分 ≤4')),
+    o('end-dropout_hero'),
+    o('h4-bad',[P(s=>-Math.min(50,Math.max(0,s.sanity))),cap(30)],locked(s=>hscore(s)>=2,'不信任分 ≥2'))],
+    '不信任分 = 对话基础分 + 理智门槛分。理智 ≤40、≤30、≤20 时各叠加 1 分。请用此时的游戏理智核对选项是否可用。');
+  battle('h4-bad','第 3–4 层 · 不信任分支','打完落选者和史莱姆。','end-hero4Bad','Scenario_Hero4:1611–2056');
+  battle('h4','第 3–4 层 · 与勇者同行','打完落选者和史莱姆，进入第 5 层。','h5-world','Scenario_Hero4:1434–1610');
+  g('h5-world','Scenario_Hero5',99,'第 5 层 · 为世界而战',
+    [o('h5-priest',[P(s=>Math.min(8,Math.max(0,80-s.sanity)))]),o('h5-priest',[P(s=>Math.min(8,Math.max(0,80-s.sanity)))])]);
+  g('h5-priest','Scenario_Hero5',1441,'第 5 层 · 回应僧侣',[o('h5-fight',[P(-5)]),o('h5-fight',[P(5)])]);
+  custom('h5-fight','第 5 层 · 勇者终击','以游戏里橙色判定条的实际结果继续。判定区约为条长的 27%–73%。',[
+    label('命中橙色区','end-hero',[set('clearHero',true)],{detail:'写入勇者通关记录。'}),
+    label('终击失手，重新尝试','h5-fight',[L(1)],{detail:'进入 Game Over 后重试终战。'})],'Battle:2173–2200 · Scenario_Hero5:1574–1899');
+  for (const id of ['hero','hero4Bad','dropout_hero']) e(id);
+
+  g('m1-search','Scenario_Mage1',95,'第 1 层 · 搜索陷阱',[o('m1-trap'),o('m1-trap')]);
+  g('m1-trap','Scenario_Mage1',197,'第 1 层 · 陷阱受伤后',[
+    o('end-mage-exit'),o('m1-plan',[P(6),A(3)]),o('m1-plan',[P(6),A(3)]),o('end-mage-exit'),o('m1-reply',B(-9))]);
+  g('m1-reply','Scenario_Mage1',303,'第 1 层 · 继续追问陷阱',[o('m1-plan'),o('m1-plan'),o('m1-plan',B(9))]);
+  g('m1-plan','Scenario_Mage1',484,'第 1 层 · 合作的提议',[o('m1-reason',B(-3)),o('m1-reason',B(6))]);
+  g('m1-reason','Scenario_Mage1',1094,'第 1 层 · 继续同行的理由',[o('m2',B(10)),o('m2',[A(-5)])]);
+  floor('m2','魔法师第 2 层','2','m2-talk');
+  g('m2-talk','Scenario_Mage2',82,'第 2 层 · 与魔法师交谈',[o('m2-doll',[A(2)]),o('m2-doll',[A(2)]),o('m2-hand')]);
+  g('m2-hand','Scenario_Mage2',159,'第 2 层 · 要牵谁的手？',[o('m2-doll',[P(6)]),o('m2-doll')]);
+  g('m2-doll','Scenario_Mage2',298,'第 2 层 · 人偶',[o('m2-traitor'),o('m2-traitor')]);
+  g('m2-traitor','Scenario_Mage2',491,'第 2 层 · 谁是叛徒？',[o('m2-others'),o('m2-others')]);
+  g('m2-others','Scenario_Mage2',555,'第 2 层 · 其他同伴',[o('m2-draw',[P(2),A(4)]),o('m2-draw',[P(4)]),o('m2-draw',[P(-2),A(-6)])]);
+  g('m2-draw','Scenario_Mage2',848,'第 2 层 · 扑克换牌',[
+    o('m2-poker',[set('draw5',false)]),o('m2-poker',[set('draw5',false)]),o('m2-poker',[set('draw5',true)])]);
+  g('m2-poker','Scenario_Mage2',930,'第 2 层 · 扑克摊牌',[
+    o(s=>s.draw5?'m2-wish':'m2-type',B(s=>s.draw5?0:4),{detail:'换 5 张并摊牌会获胜，打开愿望选择。换 1 或 3 张会输，双方理智 +4。'}),
+    o('m2-type',[A(2)])]);
+  g('m2-wish','Scenario_Mage2',1027,'第 2 层 · 扑克胜利后的愿望',[o('m2-type',B(4)),o('m2-type'),o('m2-type',B(2))]);
+  g('m2-type','Scenario_Mage2',1939,'第 2 层 · 喜欢的类型',Array.from({length:4},()=>o('m2-ask')));
+  g('m2-ask','Scenario_Mage2',2047,'第 2 层 · 向恶役千金提问',Array.from({length:4},()=>o('m2-special')));
+  g('m2-special','Scenario_Mage2',2466,'第 2 层 · 特别与孤独',[o('m3'),o('m3',B(4))]);
+  floor('m3','魔法师第 3 层','3','m3-regret');
+  g('m3-regret','Scenario_Mage3',426,'第 3 层 · 后悔了吗？',[o('m3-power'),o('m3-power',[P(3),A(4)])]);
+  g('m3-power','Scenario_Mage3',1167,'第 3 层 · 要不要取回魔力？',[
+    o('m4-grudge',[A(1),A(1),set('power',true)],{detail:'开启取回魔力路线。'}),
+    o('m4-lonely',[A(3),set('power',false)],{detail:'开启未取回魔力路线。'})]);
+  g('m4-lonely','Scenario_Mage4',384,'第 4 层 · 问魔法师的心情',[o('m4-advice',[A(3)]),o('m4-advice',[A(3)])]);
+  g('m4-advice','Scenario_Mage4',437,'第 4 层 · 想得到怎样的回应？',[o('m4-love',[P(8),A(5)]),o('m4-love',[P(8),A(5)])],
+    '两项汇合后进入同一段剧情，主角理智 +8、魔法师理智 +5。');
+  g('m4-grudge','Scenario_Mage4',619,'第 4 层 · 那个人会恨我吗？',[o('m5-promise'),o('m5-promise')]);
+  g('m4-love','Scenario_Mage4',1571,'第 4 层 · 史莱姆战后的表态',[
+    o('m5-map',[set('love',true)],{detail:'未取回线正式终战获胜后走「喜欢」。'}),
+    o('m5-map',[set('love',false)],{detail:'未取回线正式终战获胜后走「珍视」。'})]);
+  g('m5-promise','Scenario_Mage5',251,'第 5 层 · 要拉钩吗？',[
+    o('m5-power-win',B(15),locked(s=>s.sanity>=-50,'主角理智 ≥−50')),
+    o('m5-power-bad',B(-10),locked(s=>s.sanity<=150,'主角理智 ≤150'))],
+    '脚本写有两个理智条件，常规理智范围 −20～100 内两项均可选。');
+  custom('m5-power-win','第 5 层 · 打完僧侣终战','继续打完僧侣战，并读完尾声。',[
+    label('完成战斗，继续剧情','end-mageMaryoku',[set('clearMage',true)],{detail:'写入魔法师「取回魔力并拉钩」通关记录。'})],'Scenario_Mage5:486–927');
+  battle('m5-power-bad','第 5 层 · 未拉钩后的僧侣战','战斗之后继续剧情，进入未履约的尾声。','end-mage5YakusokuSinaiBad','Scenario_Mage5:944–1312');
+  g('m5-map','Scenario_Mage5','地图 9-2','第 5 层 · 地图岔路',[o('m5-direct'),o('m5-early1')],
+    '地图出现两个格子。首领格直接对抗僧侣，剧情格进入两场可撤离的战斗。');
+  battle('m5-direct','第 5 层 · 直接挑战僧侣','这场首领战无法逃跑。理智是否达到 40 只改变开战叙述。','end-mageNotMaryokuSpecialWin','Dungeon:475–481 · Scenario_Mage5:2871–2998');
+  for (const [id,n,next] of [['m5-early1',1,'m5-early2'],['m5-early2',2,'m5-wheel1']]) {
+    custom(id,'第 5 层 · 岔路僧侣战 '+n,'在游戏里实际获胜或使用逃跑指令，再在这里选择对应结果。',[
+      label('直接打赢僧侣','end-mageNotMaryokuSpecialWin'),
+      label('使用逃跑指令撤离',next)],'Scenario_Mage5:1799–1965 · Battle:4876–4890, 5180–5215');
+  }
+  for (const [n,line] of [[1,2214],[2,2227],[3,2241]]) {
+    const next = n === 3 ? 'm5-last' : 'm5-wheel'+(n+1);
+    g('m5-wheel'+n,'Scenario_Mage5',line,'第 5 层 · 轮盘剧情 '+n,[o(next),o(next)],'左右按钮在脚本中跳到同一处。');
+  }
+  battle('m5-last','第 5 层 · 岔路正式终战','两次撤离后进入正式终战。获胜后读出第 4 层的表态。',
+    s=>s.love?'end-mageNotMaryokuSuki':'end-mageNotMaryokuIssyo','Scenario_Mage5:2498–2655');
+  for (const id of ['mage-exit','mageMaryoku','mage5YakusokuSinaiBad','mageNotMaryokuSpecialWin','mageNotMaryokuSuki','mageNotMaryokuIssyo']) e(id);
+
+
+  g('w1-first','Scenario_Warrior1',614,'第 1 层 · 对变故的看法',[o('w1-kill'),o('w1-kill'),o('w1-kill',B(1))]);
+  g('w1-kill','Scenario_Warrior1',1539,'第 1 层 · 如何处置盗贼',[
+    o('w2'),o('w2',[P(-3),A(-5),A(s=>-Math.max(0,s.ally-45)-10),set('kill',true)],
+      {detail:'立下杀戮标记。后续额外扣除战士理智 max(0，当前理智−45)+10。'}),
+    o('w2'),o('w2'),o('w2')],'只有第二项立下杀戮标记，终局会优先读取它。');
+  floor('w2','战士第 2 层','2','w2-mamai');
+  g('w2-mamai','Scenario_Warrior2',2613,'第 2 层 · 战士的过去',[o('w2-proposal',B(1)),o('w2-proposal',B(1)),o('w2-proposal')]);
+  g('w2-proposal','Scenario_Warrior2',2957,'第 2 层 · 对恶役千金的提议',[o('w2-change',[P(-2)]),o('w2-change',[P(2)]),o('w2-change')]);
+  g('w2-change','Scenario_Warrior2',3485,'第 2 层 · 恶役千金战后',[o('w2-recheck'),o('w3')]);
+  g('w2-recheck','Scenario_Warrior2',3516,'第 2 层 · 确认推翻决定',[
+    o('w2-treatment',[set('flip',true)],{detail:'写入「坚持推翻」标记。'}),o('w3')]);
+  g('w2-treatment','Scenario_Warrior2',3545,'第 2 层 · 具体怎么处置？',[
+    o('w3',[A(s=>-Math.max(0,s.ally-40)-15)],locked(s=>!s.kill,'第 1 层未选杀盗贼')),
+    o('w3',[],locked(s=>s.kill,'第 1 层已选杀盗贼'))]);
+  floor('w3','战士第 3 层','3','w3-answer');
+  g('w3-answer','Scenario_Warrior3',772,'第 3 层 · 对提议的回应',[o('w3-dropout',[P(3),A(4)]),o('w3-dropout',[A(-1)])]);
+  g('w3-dropout','Scenario_Warrior3',1434,'第 3 层 · 落选者邀约',[o('w4',[P(3)]),o('end-dropout_warrior')]);
+  floor('w4','战士第 4 层','4','w4-wheel');
+  g('w4-wheel','Scenario_Warrior4',607,'第 4 层 · 开始轮盘',[o('w4-stop')]);
+  g('w4-stop','Scenario_Warrior4',616,'第 4 层 · 停止轮盘',[o('w5')],'轮盘结果与后续战斗请在游戏内处理。');
+  floor('w5','战士第 5 层','5','w5-stop');
+  g('w5-stop','Scenario_Warrior5',1091,'第 5 层 · 要阻止战士吗？',[o('w5-choice')]);
+  g('w5-choice','Scenario_Warrior5',1138,'第 5 层 · 最后一次确认',[
+    o('w5-duel'),o('end-warriorGlitchBad',[set('glitch',true)],locked(s=>!s.glitch,'本轮尚未看过故障坏结局'))]);
+  custom('w5-duel','第 5 层 · 第一场决斗','获胜后，剧情会自动走一次 Game Over 流程，再进入第二场决斗。',[
+    label('决斗获胜，经过剧情 Game Over','w5-lv1',[L(1),{key:'ally',value:20,label:'战士理智在剧情中暂时'}],{detail:'剧情会清空诅咒，并进一步重置属性。'}),
+    label('决斗战败，重新尝试','w5-duel',[L(1)])],'Scenario_Warrior5:1251–1535 · GameOver:34–54, 388–394');
+  custom('w5-lv1','第 5 层 · 第二场决斗','最终判定优先级为第 1 层杀戮标记、故障标记、推翻标记。',[
+    label('完成决斗，查看尾声',s=>s.kill?'end-warriorKill':s.glitch?'end-warriorAfterGlitch':s.flip?'end-warrior_hakoniwa':'end-warrior',
+      [{key:'clearWarrior',value:s=>s.clearWarrior||(!s.kill&&!s.glitch)}])],'Scenario_Warrior5:1583–1586, 1737–1854, 1945–1953');
+  e('warriorGlitchBad',{next:'w5-choice',effects:[],detail:'回到阻止战士，接受选项会锁定。'});
+  for (const id of ['warrior','warrior_hakoniwa','warriorAfterGlitch','warriorKill','dropout_warrior']) e(id);
+
+  g('p1-curse','Scenario_Priest1',84,'第 1 层 · 对诅咒的理解',[o('p1-bread',[P(-5)]),o('p1-bread',[P(5)]),o('p1-bread')]);
+  g('p1-bread','Scenario_Priest1',349,'第 1 层 · 面包是奇迹吗？',[o('p1-slash',[P(-7),R(1)]),o('p1-slash',[P(2)])]);
+  g('p1-slash','Scenario_Priest1',880,'第 1 层 · 要斩杀吗？',[o('p1-trust',[R(-1)]),o('p1-trust')]);
+  g('p1-trust','Scenario_Priest1',1156,'第 1 层 · 相信僧侣吗？',[o('p2',[P(-20)]),o('p2',[P(2)])]);
+  floor('p2','僧侣第 2 层','2','p2-soup');
+  g('p2-soup','Scenario_Priest2',249,'第 2 层 · 僧侣递来食物',[o('p2-listen',[P(-3),R(1)]),o('p2-listen',[P(2)])]);
+  g('p2-listen','Scenario_Priest2',473,'第 2 层 · 要不要听僧侣说下去？',[o('p2-why',[P(2),R(-1)]),o('p2-story')]);
+  g('p2-why','Scenario_Priest2',538,'第 2 层 · 回答僧侣',[o('p2-abandon'),o('p2-abandon')]);
+  g('p2-story','Scenario_Priest2',818,'第 2 层 · 故事里的两人',[o('p2-abandon'),o('p2-abandon')]);
+  g('p2-abandon','Scenario_Priest2',1398,'第 2 层 · 要舍弃其他同伴吗？',[
+    o('p2-head',[P(3)]),o('p2-abandon-fight',[P(-10),P(-15),P(-15),P(-30)],
+      {detail:'该剧情分段扣除理智共 70 点，最低 −20。依赖分在专属战斗后 +10。'})]);
+  custom('p2-abandon-fight','第 2 层 · 舍弃其他同伴后的战斗','完成这一段专属战斗。',[
+    label('完成战斗，继续剧情','p3',[R(10),cap(35),P(-15),P(s=>Math.min(10,Math.max(0,20-s.sanity)))])],'Scenario_Priest2:1505–1849');
+  g('p2-head','Scenario_Priest2',1943,'第 2 层 · 为什么夺取头颅？',[o('p3',[P(2)]),o('p3',[P(3)]),o('p3')]);
+  floor('p3','僧侣第 3 层','3','p3-listen');
+  g('p3-listen','Scenario_Priest3',262,'第 3 层 · 要听僧侣说吗？',[o('p3-hand',[P(3)]),o('p3-hand',[P(-5),R(1)])]);
+  g('p3-hand','Scenario_Priest3',1161,'第 3 层 · 落选者伸手',[
+    o(s=>s.low?'p3-hand':'p3-look-fight',[
+      P(s=>-Math.min(50,Math.max(0,s.sanity-25))),cap(35),
+      set('lookTried',s=>s.lookTried||s.low)],locked(s=>pscore(s)>=2&&!s.lookTried,'依赖分 ≥2，且回退后尚未再次选过此项')),
+    o('p3-refuse',[P(5)],locked(s=>pscore(s)<=4||s.low,'依赖分 ≤4，或已从低理智坏结局回退')),
+    o(s=>s.low?'p3-hand':'end-dropout_priest',[set('handTried',s=>s.handTried||s.low)],
+      locked(s=>pscore(s)<=4&&!s.handTried,'依赖分 ≤4，且回退后尚未再次选过此项'))],
+    '理智 ≤50、≤40、≤30、≤20 时分别叠加 1、2、3、5 分。回退后再次看向僧侣或握手，会回到此处。');
+  battle('p3-look-fight','第 3–4 层 · 看向僧侣的分支','打完落选者和史莱姆。','end-priest4KilledBad','Scenario_Priest4:2242–2254, 2639–2683');
+  g('p3-refuse','Scenario_Priest3',1427,'第 3 层 · 拒绝之后的质问',[o('p3-refuse-fight',[P(3)]),o('p3-want',[P(2)])]);
+  g('p3-want','Scenario_Priest3',1528,'第 3 层 · 想成为勇者吗？',[o('p3-refuse-fight'),o('p3-refuse-fight'),o('p3-refuse-fight')]);
+  battle('p3-refuse-fight','第 3 层 · 对战落选者','胜利后和僧侣对话。','p3-after','Scenario_Priest3:1687–1822');
+  g('p3-after','Scenario_Priest3',1821,'第 3 层 · 战后的回应',[o('p4-blade'),o('p4-blade')]);
+  g('p4-blade','Scenario_Priest4',1657,'第 4 层 · 僧侣问答',[o('p4-fight'),o('p4-fight')]);
+  battle('p4-fight','第 4 层 · 对战史莱姆','打完史莱姆后，僧侣遭到袭击。','p4-save','Scenario_Priest4:2242–2249, 2905–2910');
+  g('p4-save','Scenario_Priest4',2908,'第 4 层 · 要救僧侣吗？',[
+    o('p5-happy',[P(3),P(5)],{detail:'过程中临时增加 146 点诅咒，随后扣回。'}),
+    o(s=>s.low?'p4-save':'end-priest4NoReachBad',[P(s=>s.low?0:-10)],{detail:'若已从低理智坏结局回退，这项会回到本题。'})]);
+  g('p5-happy','Scenario_Priest5',52,'第 5 层 · 怎样才算幸福？',[o('p5-nod'),o('p5-nod')]);
+  g('p5-nod','Scenario_Priest5',142,'第 5 层 · 要和僧侣回去吗？',[
+    o(s=>s.low?'p5-nod':'p5-priest',[P(1),set('shakeTried',s=>s.shakeTried||s.low)],
+      {...locked(s=>!s.shakeTried,'低理智回退后至多尝试摇头一次'),detail:'普通流程进入终战。经历过低理智坏结局时，摇头会回到本题。'}),
+    o(s=>s.low?'end-priestNodAfterLowSan':'end-priestNod',[P(-1)])]);
+  custom('p5-priest','第 5 层 · 僧侣终战','结算读取全局循环与三项指定通关记录。全局循环 ≤8 且三项记录均无时，进入低循环。',[
+    label('完成僧侣战，按记录分流',s=>high(s)?'p5-heart':'p5-demon',[],
+      {detail:'可先在数值面板填入你在游戏里的全局循环数与通关记录。'})],'Scenario_Priest5:245–309 · Battle:14475–14478');
+  battle('p5-demon','低循环 · 对战魔王','僧侣战后进入额外区域，完成魔王战。','end-priestLowLoop','Scenario_Priest5:313–615');
+  g('p5-heart','Scenario_Priest5',1729,'高循环 · 心脏武器',[o('p5-farewell')],
+    '终战按提示开启破坏模式，打碎手上可破坏的武器。终击后的剧情会提供心脏武器。');
+  g('p5-farewell','Scenario_Priest5',1133,'高循环 · 最后的话',['farewell','like','silent'].map(value=>o('end-priestHighLoop',[set('farewell',value)])),
+    '三项分别有对应画面，共用一个结局记录。');
+  e('priest4KilledBad',{next:'p3-hand',effects:[set('low',true),cap(35)],detail:'自动回到第 3 层伸手选择，保留低理智回退标记。'});
+  for (const id of ['dropout_priest','priest4NoReachBad','priestNod','priestNodAfterLowSan','priestLowLoop','priestHighLoop']) e(id);
+
+
+  const panel = document.querySelector('#branch-panel');
+  const flow = document.querySelector('#branch-flow');
+  const path = document.querySelector('#branch-path');
+  const metrics = document.querySelector('#branch-metrics');
+  const form = document.querySelector('#branch-settings');
+  const undo = document.querySelector('#branch-undo');
+  const reset = document.querySelector('#branch-reset');
+  const fresh = () => ({ at:'start', route:'', sanity:50, ally:0, cap:100, distrust:0, reliance:0, loops:0,
+    priestUnlocked:false, clearHero:false, clearMage:false, clearWarrior:false,
+    kill:false, flip:false, glitch:false, low:false, lookTried:false, handTried:false, shakeTried:false });
+  let state = fresh();
+  let history = [];
+
+  function resolve(value, from) {
+    return typeof value === 'function' ? value(from) : value;
+  }
+
+  function predict(option) {
+    const after = {...state};
+    const applied = new Map();
+    for (const effect of option.effects) {
+      const key = effect.key;
+      if (Object.hasOwn(effect,'n')) {
+        const n = resolve(effect.n,after);
+        const before = after[key];
+        if (key === 'ally' && (after.route === 'hero' || after.route === 'priest')) continue;
+        if (key === 'sanity' || key === 'ally') {
+          const limit = key === 'sanity' ? after.cap : 100;
+          after[key] = n < 0 ? Math.max(-20,before+n) : Math.max(before,Math.min(limit,before+n));
+        } else {
+          after[key] = before+n;
+        }
+        if (n) {
+          const old = applied.get(key) || { label:effect.label, n:0, before };
+          old.n += n;
+          applied.set(key,old);
+        }
+      } else {
+        after[key] = resolve(effect.value,after);
+        if (effect.label) applied.set(key,{label:effect.label,value:after[key]});
+      }
+    }
+    after.at = resolve(option.next,after);
+    const changes = Array.from(applied,([key,item]) => {
+      if (Object.hasOwn(item,'value')) return item.label+'设为 '+item.value;
+      const actual = after[key]-item.before;
+      return item.label+' '+delta(item.n)+(actual !== item.n ? '（实际 '+delta(actual)+'，受上限或下限影响）' : '');
+    });
+    return {after,changes};
+  }
+
+  function record(next, text, changes) {
+    history.push({snapshot:state,text,changes});
+    state = next;
+    render();
+  }
+
+  function renderMetrics() {
+    const items = [['主角理智',state.sanity],['理智恢复上限',state.cap],['全局循环',state.loops]];
+    if (['mage','warrior'].includes(state.route)) items.splice(1,0,['同伴理智',state.ally]);
+    if (state.route === 'hero') items.push(['不信任分（按当前理智）',hscore(state)]);
+    if (state.route === 'priest') items.push(['依赖分（按当前理智）',pscore(state)]);
+    metrics.replaceChildren(...items.map(([title,value]) => {
+      const item = element('div');
+      item.append(element('dt',title),element('dd',String(value)));
+      return item;
+    }));
+    const context = [];
+    if (state.route === 'mage' && state.power === false && state.love !== undefined) context.push(state.love?'第 4 层表态 · 喜欢':'第 4 层表态 · 珍视');
+    if (state.route === 'mage' && state.power !== undefined) context.push(state.power?'取回魔力':'未取回魔力');
+    if (state.route === 'warrior') {
+      if (state.kill) context.push('第 1 层选杀盗贼');
+      if (state.flip) context.push('坚持推翻');
+      if (state.glitch) context.push('已看故障结局');
+    }
+    if (state.route === 'priest' && state.low) context.push('经历低理智回退');
+    const flags = document.querySelector('#branch-flags');
+    flags.textContent = context.join(' · ');
+    flags.hidden = !context.length;
+    for (const field of form.elements) {
+      if (!Object.hasOwn(state,field.name)) continue;
+      if (field.type === 'checkbox') field.checked = state[field.name];
+      else field.value = state[field.name];
+    }
+    const allyField = form.elements.namedItem('ally');
+    allyField.disabled = !['mage','warrior'].includes(state.route);
+  }
+
+  function renderPath() {
+    const historyPanel = document.querySelector('#branch-path-details');
+    historyPanel.querySelector('summary').textContent = '已走路径 · '+history.length+' 步';
+    path.replaceChildren();
+    for (const [i,entry] of history.entries()) {
+      const item = element('li');
+      const rewind = element('button',entry.text,'branch-crumb');
+      rewind.type = 'button';
+      rewind.title = '回到选择这一步之前';
+      rewind.addEventListener('click',()=>restore(i));
+      item.append(rewind);
+      if (entry.changes.length) item.append(element('small',entry.changes.join(' · ')));
+      path.append(item);
+    }
+    historyPanel.hidden = !history.length;
+  }
+
+  function restore(i) {
+    state = history[i].snapshot;
+    history = history.slice(0,i);
+    render(true);
+  }
+
+  function focusScene() {
+    const stickyBottom = navigation.parentElement.getBoundingClientRect().bottom;
+    const title = flow.querySelector('h3');
+    const {top,bottom} = title.getBoundingClientRect();
+    if (top < stickyBottom || bottom > window.innerHeight) flow.scrollIntoView();
+    title.focus({preventScroll:true});
+  }
+
+  function render(focus = false) {
+    const node = nodes.get(state.at);
+    if (!node) throw new Error('未知的分支 '+state.at);
+    undo.disabled = !history.length;
+    reset.disabled = !history.length && state.at === 'start';
+    renderMetrics();
+    renderPath();
+    flow.replaceChildren();
+    flow.dataset.node = state.at;
+    const route = guide.routes[state.route];
+    const title = element('h3',node.title);
+    title.tabIndex = -1;
+    flow.append(element('p',node.ending?'结局':route?route.name:'路线入口','branch-kicker'),title);
+    const list = element('ul','','branch-edges');
+    let endingLink;
+    if (node.ending) {
+      const row = endingsById.get(node.ending);
+      endingLink = element('a','查看结局攻略 ↗','branch-end-link');
+      endingLink.href = '#end-'+node.ending;
+      flow.append(element('p',row[3]+' · '+row[4],'branch-kind'));
+    }
+    if (node.note) {
+      const note = element('details','','branch-reading-note');
+      note.append(element('summary','推演提示'),element('p',node.note,'branch-note'));
+      flow.append(note);
+    }
+    if (endingLink) flow.append(endingLink);
+    for (const [index,option] of node.options.entries()) {
+      const enabled = (option.when || yes)(state);
+      const prediction = predict(option);
+      const target = nodes.get(prediction.after.at);
+      if (!target) throw new Error('选项跳转缺失 '+prediction.after.at);
+      const item = element('li');
+      const button = element('button','','branch-edge');
+      button.type = 'button';
+      button.disabled = !enabled;
+      button.append(element('span',option.text,'branch-option'),element('span',enabled?'→':'未满足','branch-arrow'));
+      button.addEventListener('click',()=>{
+        record({...prediction.after,storyIndex:0,arrived:{from:node.id,index}},option.text,prediction.changes);
+        focusScene();
+      });
+      item.append(button);
+      const info = element('div','','branch-edge-info');
+      info.append(element('span','去向 · '+(target.id===node.id?'回到当前节点':target.title),'branch-target'));
+      if (option.rule) info.append(element('span',(enabled?'条件已满足 · ':'条件未满足 · ')+option.rule,enabled?'branch-rule':'branch-rule locked'));
+      if (prediction.changes.length) info.append(element('span',prediction.changes.join(' · '),'branch-delta'));
+      if (option.detail) info.append(element('span',option.detail,'branch-detail'));
+      item.append(info);
+      list.append(item);
+    }
+    if (node.options.length) flow.append(list);
+    if (node.source) flow.append(element('span',node.source,'source'));
+    if (focus) focusScene();
+  }
+
+  form.addEventListener('submit',(event)=>{
+    event.preventDefault();
+    if (!form.reportValidity()) return;
+    const next = {...state};
+    const changed = [];
+    for (const field of form.elements) {
+      if (!Object.hasOwn(state,field.name) || field.disabled) continue;
+      const value = field.type==='checkbox'?field.checked:field.valueAsNumber;
+      if (value === state[field.name]) continue;
+      next[field.name] = value;
+      changed.push(field.dataset.title+' '+(field.type==='checkbox'?(value?'是':'否'):value));
+    }
+    if (changed.length) record(next,'校准当前状态',changed);
+  });
+  document.querySelector('#branch-calibrate').addEventListener('click',()=>{
+    form.closest('details').open = true;
+    form.closest('details').scrollIntoView();
+    form.elements.namedItem('sanity').focus({preventScroll:true});
+  });
+  undo.addEventListener('click',()=>restore(history.length-1));
+  reset.addEventListener('click',()=>{
+    const {loops,priestUnlocked,clearHero,clearMage,clearWarrior} = state;
+    state = {...fresh(),loops,priestUnlocked,clearHero,clearMage,clearWarrior};
+    history = [];
+    render(true);
+  });
+
+  return {
+    activate(visible) {
+      panel.hidden = !visible;
+      if (visible) render();
+    }
+  };
+})();
+
+
+window.addEventListener('hashchange', () => applyHash(true));
+applyHash();
+</script>
+</body>
+</html>

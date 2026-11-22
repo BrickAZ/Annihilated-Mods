@@ -1,6 +1,6 @@
 # 《勇者小队全灭了。》杯赛 Mod
 
-杯赛 Mod v0.5.4 适用于 Windows x64 Steam Build 26705080。使用 MelonLoader 0.7.3 和当前游戏生成的 IL2CPP 互操作程序集。
+杯赛 Mod v0.5.5 适用于 Windows x64 Steam Build 26845264。使用 MelonLoader 0.7.3 和当前游戏生成的 IL2CPP 互操作程序集。
 
 ## 开赛
 

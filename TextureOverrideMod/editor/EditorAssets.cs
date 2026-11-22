@@ -114,7 +114,16 @@ namespace Annihilated.TextureEditor
     internal sealed class GameFolder
     {
         public string Root { get; private set; }
-        public bool HasMod { get { return File.Exists(Path.Combine(Root, "Mods", "AnnihilatedTextureOverride.dll")); } }
+        public string ModPath { get { return Path.Combine(Root, "Mods", RuntimeInstaller.ModFile); } }
+        public bool HasMod { get { return RuntimeInstaller.IsModAssembly(ModPath); } }
+        public bool HasRuntime
+        {
+            get
+            {
+                return HasMod && File.Exists(Path.Combine(Root, "version.dll")) &&
+                    File.Exists(Path.Combine(Root, "MelonLoader", "net6", "MelonLoader.dll"));
+            }
+        }
         public GameFolder(string root) { Root = Path.GetFullPath(root); }
 
         public static bool IsGame(string path)

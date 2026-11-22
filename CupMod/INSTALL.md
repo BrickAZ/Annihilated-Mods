@@ -1,10 +1,10 @@
-# 杯赛 Mod v0.5.4 安装说明
+# 杯赛 Mod v0.5.5 安装说明
 
 [English](INSTALL.en.md) | 简体中文
 
-适用于 Windows x64 和 Steam Build `26705080`，使用 MelonLoader 0.7.3。游戏目录是含 `Annihilated.exe` 的文件夹，可在 Steam 库中右键点击游戏，选择「管理 → 浏览本地文件」。
+适用于 Windows x64 和 Steam Build `26845264`，使用 MelonLoader 0.7.3。游戏目录是含 `Annihilated.exe` 的文件夹，可在 Steam 库中右键点击游戏，选择「管理 → 浏览本地文件」。
 
-[下载 Annihilated-Cup-v0.5.4.zip](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.5/Annihilated-Cup-v0.5.4.zip) · [SHA-256 校验值](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.5/Annihilated-Cup-v0.5.4.sha256)
+[下载 Annihilated-Cup-Build26845264-Online.zip](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-Cup-Build26845264-Online.zip) · [SHA-256 校验值](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/SHA256SUMS.txt)
 
 ## 安装
 

@@ -1,0 +1,71 @@
+﻿type,name,original_path,width,height,分类,子类,细类
+Texture2D,priest5souMaouClearMe1,Assets/Textures/CG/priest5souMaouClearMe1.png,4096,2345,CG,僧侣线,后半段
+Sprite,priest5souMaouClearMe1,Assets/Textures/CG/priest5souMaouClearMe1.png,4096,2345,CG,僧侣线,后半段
+Texture2D,priest5souMaouClearMe2,Assets/Textures/CG/priest5souMaouClearMe2.png,4096,2345,CG,僧侣线,后半段
+Sprite,priest5souMaouClearMe2,Assets/Textures/CG/priest5souMaouClearMe2.png,4096,2345,CG,僧侣线,后半段
+Texture2D,bloodyPot_d4,Assets/Textures/Enemy/bloodyPot_d4.png,800,800,敌人,地牢 4,bloodyPot
+Sprite,bloodyPot_d4,Assets/Textures/Enemy/bloodyPot_d4.png,798,743,敌人,地牢 4,bloodyPot
+Texture2D,buffAttacker_d4,Assets/Textures/Enemy/buffAttacker_d4.png,800,800,敌人,地牢 4,buffAttacker
+Sprite,buffAttacker_d4,Assets/Textures/Enemy/buffAttacker_d4.png,703,757,敌人,地牢 4,buffAttacker
+Texture2D,buffKiller_d4,Assets/Textures/Enemy/buffKiller_d4.png,800,800,敌人,地牢 4,buffKiller
+Sprite,buffKiller_d4,Assets/Textures/Enemy/buffKiller_d4.png,679,610,敌人,地牢 4,buffKiller
+Texture2D,buffer_d4,Assets/Textures/Enemy/buffer_d4.png,800,800,敌人,地牢 4,buffer
+Sprite,buffer_d4,Assets/Textures/Enemy/buffer_d4.png,673,748,敌人,地牢 4,buffer
+Texture2D,curseChainer_d4,Assets/Textures/Enemy/curseChainer_d4.png,800,800,敌人,地牢 4,curseChainer
+Sprite,curseChainer_d4,Assets/Textures/Enemy/curseChainer_d4.png,503,579,敌人,地牢 4,curseChainer
+Texture2D,damagePower_d4,Assets/Textures/Enemy/damagePower_d4.png,800,800,敌人,地牢 4,damagePower
+Sprite,damagePower_d4,Assets/Textures/Enemy/damagePower_d4.png,778,758,敌人,地牢 4,damagePower
+Texture2D,flower_d4,Assets/Textures/Enemy/flower_d4.png,800,800,敌人,地牢 4,flower
+Sprite,flower_d4,Assets/Textures/Enemy/flower_d4.png,496,565,敌人,地牢 4,flower
+Texture2D,golem_d4,Assets/Textures/Enemy/golem_d4.png,800,800,敌人,地牢 4,golem
+Sprite,golem_d4,Assets/Textures/Enemy/golem_d4.png,765,739,敌人,地牢 4,golem
+Texture2D,kobold_d4,Assets/Textures/Enemy/kobold_d4.png,671,510,敌人,地牢 4,kobold
+Sprite,kobold_d4,Assets/Textures/Enemy/kobold_d4.png,579,468,敌人,地牢 4,kobold
+Texture2D,manEater_d4,Assets/Textures/Enemy/manEater_d4.png,800,800,敌人,地牢 4,manEater
+Sprite,manEater_d4,Assets/Textures/Enemy/manEater_d4.png,757,792,敌人,地牢 4,manEater
+Texture2D,mandragora_d4,Assets/Textures/Enemy/mandragora_d4.png,800,800,敌人,地牢 4,mandragora
+Sprite,mandragora_d4,Assets/Textures/Enemy/mandragora_d4.png,467,550,敌人,地牢 4,mandragora
+Texture2D,mimic_d4,Assets/Textures/Enemy/mimic_d4.png,800,800,敌人,地牢 4,mimic
+Sprite,mimic_d4,Assets/Textures/Enemy/mimic_d4.png,761,624,敌人,地牢 4,mimic
+Texture2D,odorigui_d4,Assets/Textures/Enemy/odorigui_d4.png,800,800,敌人,地牢 4,odorigui
+Sprite,odorigui_d4,Assets/Textures/Enemy/odorigui_d4.png,781,783,敌人,地牢 4,odorigui
+Texture2D,ogre_d4,Assets/Textures/Enemy/ogre_d4.png,800,800,敌人,地牢 4,ogre
+Sprite,ogre_d4,Assets/Textures/Enemy/ogre_d4.png,796,794,敌人,地牢 4,ogre
+Texture2D,sabaWarrior_d4,Assets/Textures/Enemy/sabaWarrior_d4.png,800,800,敌人,地牢 4,sabaWarrior
+Sprite,sabaWarrior_d4,Assets/Textures/Enemy/sabaWarrior_d4.png,593,776,敌人,地牢 4,sabaWarrior
+Texture2D,seaMedusa_d4,Assets/Textures/Enemy/seaMedusa_d4.png,800,800,敌人,地牢 4,seaMedusa
+Sprite,seaMedusa_d4,Assets/Textures/Enemy/seaMedusa_d4.png,593,666,敌人,地牢 4,seaMedusa
+Texture2D,seaSummoner_d4,Assets/Textures/Enemy/seaSummoner_d4.png,800,800,敌人,地牢 4,seaSummoner
+Sprite,seaSummoner_d4,Assets/Textures/Enemy/seaSummoner_d4.png,741,743,敌人,地牢 4,seaSummoner
+Texture2D,shieldKnight_d4,Assets/Textures/Enemy/shieldKnight_d4.png,800,800,敌人,地牢 4,shieldKnight
+Sprite,shieldKnight_d4,Assets/Textures/Enemy/shieldKnight_d4.png,637,683,敌人,地牢 4,shieldKnight
+Texture2D,spiker_d4,Assets/Textures/Enemy/spiker_d4.png,800,800,敌人,地牢 4,spiker
+Sprite,spiker_d4,Assets/Textures/Enemy/spiker_d4.png,458,374,敌人,地牢 4,spiker
+Texture2D,steelGolem_d4,Assets/Textures/Enemy/steelGolem_d4.png,800,800,敌人,地牢 4,steelGolem
+Sprite,steelGolem_d4,Assets/Textures/Enemy/steelGolem_d4.png,679,743,敌人,地牢 4,steelGolem
+Texture2D,guardAttack1_effect_x5,Assets/Textures/CharacterAnimation/guardAttack1_effect_x5.png,6715,1011,战斗动作,战斗特效,防御道具攻击
+Sprite,guardAttack1_effect_x5,Assets/Textures/CharacterAnimation/guardAttack1_effect_x5.png,263,651,战斗动作,战斗特效,防御道具攻击
+Texture2D,priest5souHighLoopMiorosuMe1,Assets/Textures/CG/priest5souHighLoopMiorosuMe1.png,2048,1448,CG,僧侣线,后半段
+Sprite,priest5souHighLoopMiorosuMe1,Assets/Textures/CG/priest5souHighLoopMiorosuMe1.png,1781,1168,CG,僧侣线,后半段
+Texture2D,priest5souHighLoopMiorosuMe2,Assets/Textures/CG/priest5souHighLoopMiorosuMe2.png,2048,1448,CG,僧侣线,后半段
+Sprite,priest5souHighLoopMiorosuMe2,Assets/Textures/CG/priest5souHighLoopMiorosuMe2.png,1781,1168,CG,僧侣线,后半段
+Texture2D,hero_attack_guardAttack1,Assets/Textures/CharacterAnimation/hero_attack_guardAttack1.png,850,500,战斗动作,战斗特效,防御道具攻击
+Sprite,hero_attack_guardAttack1,Assets/Textures/CharacterAnimation/hero_attack_guardAttack1.png,545,479,战斗动作,战斗特效,防御道具攻击
+Texture2D,mage_attack_guardAttack1,Assets/Textures/CharacterAnimation/mage_attack_guardAttack1.png,850,500,战斗动作,战斗特效,防御道具攻击
+Sprite,mage_attack_guardAttack1,Assets/Textures/CharacterAnimation/mage_attack_guardAttack1.png,555,484,战斗动作,战斗特效,防御道具攻击
+Texture2D,mage4souMaryokuOmowazuSonoKatawaraESuwarikondeMe1,Assets/Textures/CG/mage4souMaryokuOmowazuSonoKatawaraESuwarikondeMe1.png,2048,1172,CG,法师线,后半段
+Sprite,mage4souMaryokuOmowazuSonoKatawaraESuwarikondeMe1,Assets/Textures/CG/mage4souMaryokuOmowazuSonoKatawaraESuwarikondeMe1.png,1494,1106,CG,法师线,后半段
+Texture2D,mage4souMaryokuOmowazuSonoKatawaraESuwarikondeMe2,Assets/Textures/CG/mage4souMaryokuOmowazuSonoKatawaraESuwarikondeMe2.png,2048,1172,CG,法师线,后半段
+Sprite,mage4souMaryokuOmowazuSonoKatawaraESuwarikondeMe2,Assets/Textures/CG/mage4souMaryokuOmowazuSonoKatawaraESuwarikondeMe2.png,1494,1106,CG,法师线,后半段
+Texture2D,mage4souMaryokuUshiroKaraHikaemeNiKakattaKoeNiMe1,Assets/Textures/CG/mage4souMaryokuUshiroKaraHikaemeNiKakattaKoeNiMe1.png,2048,1172,CG,法师线,后半段
+Sprite,mage4souMaryokuUshiroKaraHikaemeNiKakattaKoeNiMe1,Assets/Textures/CG/mage4souMaryokuUshiroKaraHikaemeNiKakattaKoeNiMe1.png,1494,1106,CG,法师线,后半段
+Texture2D,mage4souMaryokuUshiroKaraHikaemeNiKakattaKoeNiMe2,Assets/Textures/CG/mage4souMaryokuUshiroKaraHikaemeNiKakattaKoeNiMe2.png,2048,1172,CG,法师线,后半段
+Sprite,mage4souMaryokuUshiroKaraHikaemeNiKakattaKoeNiMe2,Assets/Textures/CG/mage4souMaryokuUshiroKaraHikaemeNiKakattaKoeNiMe2.png,1494,1106,CG,法师线,后半段
+Texture2D,priest4souMayottaKenWoMitibikuYouni,Assets/Textures/CG/priest4souMayottaKenWoMitibikuYouni.png,2048,1172,CG,僧侣线,后半段
+Sprite,priest4souMayottaKenWoMitibikuYouni,Assets/Textures/CG/priest4souMayottaKenWoMitibikuYouni.png,1780,1172,CG,僧侣线,后半段
+Texture2D,warrior_attack_guardAttack1,Assets/Textures/CharacterAnimation/warrior_attack_guardAttack1.png,850,500,战斗动作,战斗特效,防御道具攻击
+Sprite,warrior_attack_guardAttack1,Assets/Textures/CharacterAnimation/warrior_attack_guardAttack1.png,400,449,战斗动作,战斗特效,防御道具攻击
+Texture2D,player1_attack_guardAttack1,Assets/Textures/CharacterAnimation/player1_attack_guardAttack1.png,1343,1011,战斗动作,战斗特效,防御道具攻击
+Sprite,player1_attack_guardAttack1,Assets/Textures/CharacterAnimation/player1_attack_guardAttack1.png,655,522,战斗动作,战斗特效,防御道具攻击
+Texture2D,player2_attack_guardAttack1,Assets/Textures/CharacterAnimation/player2_attack_guardAttack1.png,1343,1011,战斗动作,战斗特效,防御道具攻击
+Sprite,player2_attack_guardAttack1,Assets/Textures/CharacterAnimation/player2_attack_guardAttack1.png,655,522,战斗动作,战斗特效,防御道具攻击

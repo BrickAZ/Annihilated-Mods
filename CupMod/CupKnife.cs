@@ -113,17 +113,17 @@ public sealed partial class CupMod
         {
             switch (line)
             {
-                case 2246:
+                case 2248:
                     stolenSlot = 0;
                     stolenItem = null;
                     waitingForStolenItem = false;
                     break;
-                case 2287:
-                case 2314:
+                case 2289:
+                case 2316:
                     waitingForStolenItem = knifeContext == null && Read("timing") == "battle" &&
                         Read("actionUserId") is "player" or "partner";
                     break;
-                case 2320:
+                case 2322:
                     PrepareKnifeFollowup(command.Cast<Gosub>());
                     break;
             }

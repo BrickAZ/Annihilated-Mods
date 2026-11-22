@@ -6,6 +6,9 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
+if ($env:ANNIHILATED_INSTALL_OUTPUT_UTF8 -eq '1') {
+    [Console]::OutputEncoding = [Text.UTF8Encoding]::new($false)
+}
 
 function Test-GameDirectory([string]$Path) {
     return $Path -and (Test-Path -LiteralPath (Join-Path $Path 'Annihilated.exe') -PathType Leaf)
@@ -80,6 +83,23 @@ function Assert-GameFiles([string]$Root) {
     }
 }
 
+function Assert-SupportedBuild([string]$Game) {
+    $profiles = @(Import-Csv -LiteralPath (Join-Path $PSScriptRoot 'Supported-Builds.csv'))
+    if (!$profiles.Count) { throw '安装包缺少游戏版本信息。请完整解压 ZIP。' }
+    $catalog = Join-Path $Game 'Annihilated_Data/StreamingAssets/aa/catalog.hash'
+    $actualCatalog = if (Test-Path -LiteralPath $catalog -PathType Leaf) {
+        (Get-Content -LiteralPath $catalog -Raw).Trim()
+    } else { '' }
+    $actualAssembly = (Get-FileHash -LiteralPath (Join-Path $Game 'GameAssembly.dll')).Hash
+    $match = $profiles | Where-Object {
+        $_.GameAssemblySha256 -eq $actualAssembly -and $_.CatalogHash -eq $actualCatalog
+    } | Select-Object -First 1
+    if (!$match) {
+        throw "此安装包支持 Steam Build $($profiles.Build -join '、')。当前游戏版本不匹配。"
+    }
+    Write-Host "游戏版本校验通过 Steam Build $($match.Build)"
+}
+
 function Copy-VerifiedDependency([string]$Source, [string]$Destination, [string]$Algorithm, [string]$Hash) {
     $null = New-Item -ItemType Directory -Path (Split-Path -Parent $Destination) -Force
     $pending = "$Destination.$([guid]::NewGuid().ToString('N')).tmp"
@@ -127,6 +147,11 @@ try {
         'room-retry' { 'Mods/AnnihilatedRoomRetry.dll' }
         'attack-mode' { 'Mods/AnnihilatedAttackModeSwitch.dll' }
         'save-slot' { 'Mods/SaveSlotUnlimiter.dll' }
+        'enemy-intent' { 'Mods/AnnihilatedEnemyIntent.dll' }
+        'texture-override' { 'Mods/AnnihilatedTextureOverride.dll'; 'AnnihilatedTextureEditor.exe' }
+        'texture-runtime' { 'Mods/AnnihilatedTextureOverride.dll' }
+        'dragon-skin' { 'Mods/AnnihilatedTextureOverride.dll'; 'UserData/TextureOverrides/Enemy/dragon.png'; 'UserData/TextureOverrides/Item/dragonEye.png' }
+        'bonfire-fusion' { 'Mods/BonfireFusion.dll' }
         default { throw '安装包标识无效。请完整解压 ZIP。' }
     }
     foreach ($file in $packageFiles) {
@@ -146,14 +171,8 @@ try {
     Assert-GameFiles $game
     Write-Host '游戏文件检查通过。'
 
-    if ($package -in @('cup', 'save-slot')) {
-        $buildHash = '13B13F97BBE50154B451753351656F99595AE0A542586097F27536F55C24F3C4'
-        $catalog = Join-Path $game 'Annihilated_Data/StreamingAssets/aa/catalog.hash'
-        if (!(Test-Path -LiteralPath $catalog -PathType Leaf) -or
-            (Get-Content -LiteralPath $catalog -Raw).Trim() -ne 'c867cf04b05171a82710f970f4122af7' -or
-            (Get-FileHash -LiteralPath (Join-Path $game 'GameAssembly.dll')).Hash -ne $buildHash) {
-            throw '此安装包需要 Steam Build 26705080。当前游戏版本不匹配。'
-        }
+    if ($package -in @('cup', 'gallery', 'save-slot')) {
+        Assert-SupportedBuild $game
     }
 
     $loaderFiles = @{
@@ -207,17 +226,43 @@ try {
             Hash = '2CC4F8C66541F18B4DAED5410149EE7859C3190454D30BDA5CCD0895D2989EE6'
         }
     )
-    foreach ($dependency in $cppFiles) {
+    $cppPending = foreach ($dependency in $cppFiles) {
         $target = Join-Path $cppDirectory $dependency.Target
         if ((Test-Path -LiteralPath $target -PathType Leaf) -and
             (Get-FileHash -LiteralPath $target).Hash -ceq $dependency.Hash) { continue }
         $source = Get-VerifiedDependency $dependency.Name "$cppBase/$($dependency.Name)" 'SHA256' $dependency.Hash
-        Copy-VerifiedDependency $source $target 'SHA256' $dependency.Hash
+        @{ Source = $source; Target = $target; Hash = $dependency.Hash }
+    }
+
+    # MelonLoader can consume this verified release archive on its first launch.
+    $unitySource = $null
+    $unity = (Get-Item -LiteralPath (Join-Path $game 'UnityPlayer.dll')).VersionInfo
+    if ($unity.FileMajorPart -eq 6000 -and $unity.FileMinorPart -eq 3 -and $unity.FileBuildPart -eq 23) {
+        $unityDirectory = Join-Path $game 'MelonLoader/Dependencies/Il2CppAssemblyGenerator'
+        $unityConfig = Join-Path $unityDirectory 'Config.cfg'
+        $coreModule = Join-Path $unityDirectory 'UnityDependencies/UnityEngine.CoreModule.dll'
+        $unityReady = (Test-Path -LiteralPath $coreModule -PathType Leaf) -and
+            (Test-Path -LiteralPath $unityConfig -PathType Leaf) -and
+            ((Get-Content -LiteralPath $unityConfig -Raw) -match '(?m)^\s*UnityVersion\s*=\s*"6000\.3\.23"')
+        if (!$unityReady) {
+            $unityName = 'UnityDependencies_6000.3.23.zip'
+            $unityTarget = Join-Path $unityDirectory $unityName
+            $unityHash = '21ECC95B489C49489A8CC3D0166771D93485EDAAF0C5D2F552E7A87F0C908028'
+            if (!(Test-Path -LiteralPath $unityTarget -PathType Leaf) -or
+                (Get-FileHash -LiteralPath $unityTarget).Hash -ne $unityHash) {
+                $unitySource = Get-VerifiedDependency $unityName 'https://github.com/LavaGang/MelonLoader.UnityDependencies/releases/download/6000.3.23/Managed.zip' 'SHA256' $unityHash
+            }
+        }
+    }
+
+    foreach ($pendingDependency in $cppPending) {
+        Copy-VerifiedDependency $pendingDependency.Source $pendingDependency.Target 'SHA256' $pendingDependency.Hash
     }
     Write-Host 'Cpp2IL 与配套插件校验通过。'
 
     if ($loaderNeeded) { Copy-MissingTree (Join-Path $loaderStage 'MelonLoader') (Join-Path $game 'MelonLoader') }
     if ($runtimeNeeded) { Copy-MissingTree $runtimeStage $runtime }
+    if ($unitySource) { Copy-VerifiedDependency $unitySource $unityTarget 'SHA256' $unityHash }
 
     $backup = Join-Path $game ('UserData/AnnihilatedModsInstaller/backups/' + (Get-Date -Format 'yyyyMMdd-HHmmss-fff') + '-' + [guid]::NewGuid().ToString('N').Substring(0, 6))
     foreach ($relative in $packageFiles) {

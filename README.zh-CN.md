@@ -8,7 +8,7 @@
 
 ## 下载与安装
 
-目前的安装包来自 **v1.0.5**。五个游戏内 Mod 均已在 Windows x64、Steam Build `26705080` 和 MelonLoader 0.7.3 下测试。[下载表](#下载)
+目前的安装包来自 **v1.0.6**，面向 Windows x64、Steam Build `26845264` 和 MelonLoader 0.7.3。[下载表](#下载)
 
 1. 退出游戏，完整解压所需的 Mod ZIP，双击 `一键安装.cmd`。如果没有自动找到游戏，请选择含 `Annihilated.exe` 的目录，或把该目录拖到 CMD 文件上。可以在 Steam 库中右键点击游戏，选择「管理 → 浏览本地文件」。
 2. 安装器会检查游戏文件，并校验 Cpp2IL 及其配套插件。它会下载缺失的 MelonLoader 0.7.3、便携版 .NET 6，以及缺失或校验失败的 Cpp2IL 文件。如果提示游戏文件缺失或格式异常，请在 Steam 验证游戏文件的完整性。
@@ -29,12 +29,12 @@ Cpp2IL 下载失败、文件损坏，或启动日志出现 `Failed to Execute Cp
 
 裁判完整解压杯赛 ZIP 后，用浏览器打开 `Cup-Referee.html` 即可离线核验。右上角可切换简体中文和英文。载入当届规则后，可以批量导入成绩、查看规则差异和罚秒、核对事件时间轴，并导出暂定排名 CSV。想先试一遍，可用包内的 `examples/example-ritual.json` 应用规则，再把同一个示例文件作为成绩导入。
 
-杯赛 v0.5.4 面向 Steam Build `26705080`。它读取常规游戏上次保存的语言设置，中文设置下显示中文，其他语言设置下显示英文。同一场比赛可混用中英文界面，选手需要统一游戏构建、杯赛版本和规则。比赛规则和裁判流程详见 ZIP 内的 `README.md`、`GUIDE.en.md` 和 `REFEREE.md`。使用 Build `26646212` 的玩家可下载杯赛 v0.4.11。[v0.5.4 安装与卸载](CupMod/INSTALL.md) · [旧版发布](https://github.com/BrickAZ/Annihilated-Mods/releases/tag/v1.0.1)
+杯赛 v0.5.5 面向 Steam Build `26845264`。它读取常规游戏上次保存的语言设置，中文设置下显示中文，其他语言设置下显示英文。同一场比赛可混用中英文界面，选手需要统一游戏构建、杯赛版本和规则。比赛规则和裁判流程详见 ZIP 内的 `README.md`、`GUIDE.en.md` 和 `REFEREE.md`。使用 Build `26646212` 的玩家可下载杯赛 v0.4.11。[v0.5.5 安装与卸载](CupMod/INSTALL.md) · [旧版发布](https://github.com/BrickAZ/Annihilated-Mods/releases/tag/v1.0.1)
 
 ## 其他 Mod
 
-- **怪物意图显示**。在怪物头顶显示单次伤害和攻击次数，合并符合条件的连击。改招或伤害变化后会更新提示。[下载 v0.1.0 测试版](https://github.com/BrickAZ/Annihilated-Mods/releases/tag/enemy-intent-v0.1.0) · [使用说明](EnemyIntentMod/README.zh-CN.md)
-- **剧情回放与 CG 画廊**。从标题界面回看 38 个剧情条目，或浏览 591 张 CG 原图。打开回放前可选择主角外观，回放使用独立存档。[使用说明](GalleryMod/使用说明.md)
+- **怪物意图显示**。在怪物头顶显示单次伤害和攻击次数，合并符合条件的连击。改招或伤害变化后会更新提示。[下载 v0.2.0](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-EnemyIntent-Build26845264-Online.zip) · [使用说明](EnemyIntentMod/README.zh-CN.md)
+- **剧情回放与 CG 画廊**。从标题界面回看 38 个剧情条目，或浏览 597 张 CG 原图。打开回放前可选择主角外观，回放使用独立存档。[使用说明](GalleryMod/使用说明.md)
 - **F9 重打当前房间**。进入新战斗时记录检查点，按 F9 回到这一场的开头。杯赛内的重打额度和罚秒由当届规则决定。[使用说明](RoomRetryMod/使用说明.md)
 - **战斗攻击方式切换**。在普通战斗中打开原版设置，可以切换 QTE 和概率判定。新方式从下一次攻击开始生效。[使用说明](AttackModeSwitchMod/使用说明.txt)
 - **存档扩容**。适配后的 SaveSlotUnlimiter v1.25 为存读档界面提供 300 个槽位，包括 1 个自动存档槽和 299 个手动槽。[使用说明](SaveSlotUnlimiter/README.md)
@@ -71,17 +71,26 @@ dotnet run --project ./RoomRetryMod/tests/RoomRetry.Tests.csproj
 
 用 PNG 更换怪物的战斗立绘和受支持的物品图标。Windows 编辑器支持预览、逐帧替换和恢复原图。想直接体验奶龙立绘和龙之眼图标，可以下载轻量联网一键包。
 
-[下载换皮工具与奶龙换皮](https://github.com/BrickAZ/Annihilated-Mods/releases/tag/texture-override-v0.1.0) · [源码与说明](TextureOverrideMod/README.md)
+打开 v1.1.2 编辑器并选定游戏目录后，缺少的换皮 Mod 和前置会自动安装。
+
+[下载编辑器 v1.1.2](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/AnnihilatedTextureEditor-v1.1.2.exe) · [源码与说明](TextureOverrideMod/README.md)
 
 ## 下载
 
-| 安装包 | [v1.0.5 Release](https://github.com/BrickAZ/Annihilated-Mods/releases/tag/v1.0.5) |
+| 安装包 | 下载 |
 | --- | --- |
-| 杯赛 | [v0.5.4 ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.5/Annihilated-Cup-v0.5.4.zip) | |
-| 剧情回放与 CG 画廊 | [v1.2.1 ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.5/Annihilated-Gallery-v1.2.1.zip) | |
-| F9 重打当前房间 | [v1.0.1 ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.5/Annihilated-RoomRetry-v1.0.1.zip) | |
-| 战斗攻击方式切换 | [v1.1.0 ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.5/Annihilated-AttackModeSwitch-v1.1.0.zip) | |
-| 存档扩容 | [v1.25 ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.5/Annihilated-SaveSlotUnlimiter-v1.25-Build26705080.zip) | |
-| 离线前置修复 | [Windows x64 ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.5/Annihilated-Offline-Repair-ML0.7.3-Windows-x64.zip) | |
+| 杯赛 v0.5.5 | [ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-Cup-Build26845264-Online.zip) |
+| 剧情回放与 CG 画廊 v1.2.2 | [ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-Gallery-Build26845264-Online.zip) |
+| F9 重打当前房间 | [ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-RoomRetry-Build26845264-Online.zip) |
+| 战斗攻击方式切换 | [ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-AttackModeSwitch-Build26845264-Online.zip) |
+| 存档扩容 v1.25 | [ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-SaveSlotUnlimiter-Build26845264-Online.zip) |
+| 怪物意图显示 v0.2.0 | [ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-EnemyIntent-Build26845264-Online.zip) |
+| PNG 换皮与贴图编辑器 v1.1.2 | [ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-TextureOverride-Editor-Build26845264-Online.zip) |
+| 奶龙换皮 | [ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-DragonSkin-Build26845264-Online.zip) |
+| 独立火堆固定合成 | [ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-BonfireFusion-Build26845264-Online.zip) |
+| 贴图编辑器独立 EXE | [v1.1.2 EXE](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/AnnihilatedTextureEditor-v1.1.2.exe) |
+| 离线裁判台 | [HTML](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Cup-Referee.html) |
+| 全路线与结局攻略（简中） | [HTML](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-Route-Guide-zh-CN.html) |
+| 本次美术资源索引 | [CSV](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Art-Index-Build26845264.csv) |
 
-[Mod 安装包 SHA-256](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.5/SHA256SUMS.txt) · [离线修复包校验值](https://github.com/BrickAZ/Annihilated-Mods/releases/tag/v1.0.5#下载-downloads)
+[全部附件 SHA-256](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/SHA256SUMS.txt) · [离线前置修复包](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.5/Annihilated-Offline-Repair-ML0.7.3-Windows-x64.zip)

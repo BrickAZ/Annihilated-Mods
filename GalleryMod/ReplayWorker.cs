@@ -1,7 +1,9 @@
+using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using HarmonyLib;
+using Il2CppInterop.Runtime;
 using Il2CppNaninovel;
 using Il2CppNaninovel.UI;
 using MelonLoader;
@@ -75,7 +77,7 @@ internal sealed class ReplayWorker : IDisposable
         backgroundReturnLine = game.BackgroundReturnLine;
 
         intercept = SetSaveProfile;
-        saveHook = new NativeHook<StateConstructor>(game.StateManagerConstructor,
+        saveHook = new NativeHook<StateConstructor>(ResolveStateManagerConstructor(),
             Marshal.GetFunctionPointerForDelegate(intercept));
         saveHook.Attach();
         if (saveHook.TrampolineHandle == saveHook.Target)
@@ -85,6 +87,26 @@ internal sealed class ReplayWorker : IDisposable
         harmony.Patch(AccessTools.PropertyGetter(typeof(Command), "ShouldExecute"),
             prefix: new HarmonyMethod(typeof(ReplayWorker), nameof(FilterCommand)),
             postfix: new HarmonyMethod(typeof(ReplayWorker), nameof(FinishCommand)));
+    }
+
+    private static nint ResolveStateManagerConstructor()
+    {
+        nint type = IL2CPP.GetIl2CppClass("Elringus.Naninovel.Runtime.dll", "Naninovel", nameof(StateManager));
+        if (type == 0)
+            throw new InvalidOperationException("找不到剧情回放所需的存档管理器。");
+        nint method = IL2CPP.GetIl2CppMethod(type, false, ".ctor", "System.Void",
+            "Naninovel.StateConfiguration", "Naninovel.EngineConfiguration");
+        if (method == 0)
+            throw new InvalidOperationException("找不到剧情回放所需的存档管理器构造函数。");
+
+        // The generated method info stores the native code pointer in its first field.
+        nint address = Marshal.ReadIntPtr(method);
+        using var process = Process.GetCurrentProcess();
+        var module = process.Modules.Cast<ProcessModule>()
+            .Single(m => m.ModuleName.Equals("GameAssembly.dll", StringComparison.OrdinalIgnoreCase));
+        if (address < module.BaseAddress || address >= module.BaseAddress + module.ModuleMemorySize)
+            throw new InvalidOperationException("存档管理器构造函数超出原生模块范围。");
+        return address;
     }
 
     private void SetSaveProfile(nint self, nint config, nint engine, nint method)

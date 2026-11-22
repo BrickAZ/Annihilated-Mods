@@ -120,20 +120,20 @@ Assert(ending("hero4Bad").KeepChoice("Scenario_Hero3", 2037, false) &&
     !ending("hero4Bad").KeepChoice("Scenario_Hero3", 2035, false), "Hero's third-floor choices include the inserted save alias");
 Assert(ending("ritual").KeepsEarlyEnding("Opening3", 1510) && ending("mage-exit").KeepsEarlyEnding("Scenario_Mage1", 271),
     "Pre-credits endings have explicit success markers");
-Assert(BossGoal.WinAt("Battle", 3552, "outcast", 1)?.Id == "outcast", "Main first-floor boss recognized");
-Assert(BossGoal.WinAt("Battle", 3552, "outcastRe", 5) == null, "A same-name rematch does not count");
-Assert(BossGoal.WinAt("Battle", 3552, "priest", 5) == null &&
+Assert(BossGoal.WinAt("Battle", 3565, "outcast", 1)?.Id == "outcast", "Main first-floor boss recognized");
+Assert(BossGoal.WinAt("Battle", 3565, "outcastRe", 5) == null, "A same-name rematch does not count");
+Assert(BossGoal.WinAt("Battle", 3565, "priest", 5) == null &&
     BossGoal.WinAt("Scenario_Hero5", 1587, "priest", 5, true)?.Id == "priest", "Hero finisher requires success");
-Assert(BossGoal.WinAt("Battle", 4960, "priest", 9) == null, "Leaving battle is not victory");
-Assert(BossGoal.WinAt("Battle", 3552, BossGoal.BattleId("", "outcast"), 1)?.Id == "outcast" &&
-    BossGoal.WinAt("Battle", 3552, BossGoal.BattleId("", "seaDragon,seaDragonPart"), 3)?.Id == "seaDragon",
+Assert(BossGoal.WinAt("Battle", 4972, "priest", 9) == null, "Leaving battle is not victory");
+Assert(BossGoal.WinAt("Battle", 3565, BossGoal.BattleId("", "outcast"), 1)?.Id == "outcast" &&
+    BossGoal.WinAt("Battle", 3565, BossGoal.BattleId("", "seaDragon,seaDragonPart"), 3)?.Id == "seaDragon",
     "Named fixed fights without battleTarget still require a victory");
-Assert(BossGoal.WinAt("Battle", 3552, BossGoal.BattleId("outcastRe", "outcast"), 1) == null,
+Assert(BossGoal.WinAt("Battle", 3565, BossGoal.BattleId("outcastRe", "outcast"), 1) == null,
     "An explicit rematch ID takes precedence over the enemy list");
-Assert(BossGoal.WinAt("Battle", 4453, "priest", 8)?.Id == "priest" &&
+Assert(BossGoal.WinAt("Battle", 4465, "priest", 8)?.Id == "priest" &&
     BossGoal.WinAt("Scenario_Priest5", 301, "", 7)?.Id == "priest", "Scripted priest victories use their own markers");
-Assert(BossGoal.WinAt("Battle", 13834, "warriorFinalDuel", 6)?.Id == "warriorFinalDuel" &&
-    BossGoal.WinAt("Battle", 13834, "warriorLv1Duel", 6) == null, "Stop-card victory applies to the first duel only");
+Assert(BossGoal.WinAt("Battle", 13849, "warriorFinalDuel", 6)?.Id == "warriorFinalDuel" &&
+    BossGoal.WinAt("Battle", 13849, "warriorLv1Duel", 6) == null, "Stop-card victory applies to the first duel only");
 setup.EventId = "Boss Cup";
 setup.BossMode = true;
 setup.SelectBoss("demonLord");

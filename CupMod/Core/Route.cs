@@ -95,8 +95,8 @@ internal sealed record Route(string Id, string Partner, string Name, string Engl
             "Scenario_Hero3" when line is 2034 or 2035 or 2037 => line == HeroChoice,
             "Scenario_Mage1" when line is 197 or 198 or 199 or 201 or 202 => (line is 197 or 201) == (Id == "mage-exit"),
             "Scenario_Mage3" when line is 1169 or 1170 => line == (Id is "mageMaryoku" or "mage5YakusokuSinaiBad" ? 1169 : 1170),
-            "Scenario_Mage4" when line is 1564 or 1565 => Id == "mageNotMaryokuSpecialWin" ||
-                line == (Id == "mageNotMaryokuSuki" ? 1564 : 1565),
+            "Scenario_Mage4" when line is 1573 or 1574 => Id == "mageNotMaryokuSpecialWin" ||
+                line == (Id == "mageNotMaryokuSuki" ? 1573 : 1574),
             "Scenario_Mage5" when line is 251 or 253 => line == (Id == "mage5YakusokuSinaiBad" ? 253 : 251),
             "Scenario_Warrior1" when line is >= 1540 and <= 1544 => (line == 1541) == (Id == "warriorKill"),
             "Scenario_Warrior2" when line is 3485 or 3486 => line == (Box ? 3485 : 3486),

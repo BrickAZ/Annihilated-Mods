@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -14,7 +15,7 @@ using Forms = System.Windows.Forms;
 
 [assembly: AssemblyTitle("Annihilated Texture Editor")]
 [assembly: AssemblyProduct("Annihilated Texture Editor")]
-[assembly: AssemblyVersion("1.1.1.0")]
+[assembly: AssemblyVersion("1.1.2.0")]
 
 namespace Annihilated.TextureEditor
 {
@@ -31,6 +32,9 @@ namespace Annihilated.TextureEditor
         private readonly Button apply;
         private readonly Button restore;
         private readonly Button exportOriginal;
+        private readonly Action<GameFolder> installRuntime;
+        private readonly HashSet<string> attemptedInstalls = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        private bool installing;
         private GameFolder game;
         private Asset selected;
         private PreparedImage candidate;
@@ -64,11 +68,12 @@ namespace Annihilated.TextureEditor
             }
         }
 
-        private Editor(GameFolder game)
+        private Editor(GameFolder game, Action<GameFolder> installRuntime = null)
         {
             using (var layout = Assembly.GetExecutingAssembly().GetManifestResourceStream("EditorWindow.xaml"))
                 window = (Window)XamlReader.Load(layout);
             this.game = game;
+            this.installRuntime = installRuntime ?? RuntimeInstaller.Install;
             catalog = Asset.Load();
             search = Find<TextBox>("Search");
             onlyReplaced = Find<CheckBox>("OnlyReplaced");
@@ -85,6 +90,7 @@ namespace Annihilated.TextureEditor
             Find<Button>("Enemies").Click += (s, e) => SwitchGroup("Enemy");
             Find<Button>("Items").Click += (s, e) => SwitchGroup("Item");
             Find<Button>("ChooseRoot").Click += (s, e) => BrowseGame();
+            Find<Button>("InstallMod").Click += async (s, e) => await EnsureRuntimeAsync(true);
             choosePng.Click += (s, e) => BrowseImage();
             chooseAll.Click += (s, e) => BrowseAllFrames();
             apply.Click += (s, e) => ApplySelected();
@@ -111,7 +117,12 @@ namespace Annihilated.TextureEditor
             drop.DragOver += OnDragOver;
             drop.Drop += OnDrop;
             window.PreviewKeyDown += OnShortcut;
-            window.Activated += (s, e) => RefreshList(refreshImages: true);
+            window.Loaded += async (s, e) => await EnsureRuntimeAsync();
+            window.Activated += (s, e) =>
+            {
+                RefreshList(refreshImages: true);
+                RefreshModState();
+            };
 
             RefreshGame();
             RefreshList("goblin");
@@ -132,8 +143,46 @@ namespace Annihilated.TextureEditor
         {
             SetText("RootPath", game == null ? "请选择游戏目录" : game.Root);
             Find<TextBlock>("RootPath").ToolTip = game == null ? null : game.Root;
-            SetText("ModState", game == null ? "" : game.HasMod ? "换皮 Mod 已安装" : "未找到换皮 Mod");
+            RefreshModState();
             Status(game == null ? "请选择包含 Annihilated.exe 的游戏目录。" : "应用或恢复后，重启游戏生效。");
+        }
+
+        private void RefreshModState()
+        {
+            var retry = Find<Button>("InstallMod");
+            bool ready = game != null && game.HasRuntime;
+            SetText("ModState", game == null ? "" : installing ? "正在安装换皮 Mod…" :
+                ready ? "换皮 Mod 已安装" : game.HasMod ? "缺少 MelonLoader" : "未安装换皮 Mod");
+            retry.Content = game != null && attemptedInstalls.Contains(game.Root) ? "重试安装" : "安装换皮 Mod";
+            retry.Visibility = game != null && !ready && !installing ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private async Task EnsureRuntimeAsync(bool retry = false)
+        {
+            if (game == null || installing || game.HasRuntime) return;
+            if (!attemptedInstalls.Add(game.Root) && !retry) return;
+
+            var target = game;
+            var chooseRoot = Find<Button>("ChooseRoot");
+            installing = true;
+            chooseRoot.IsEnabled = false;
+            RefreshModState();
+            Status("正在通过 GitHub 安装换皮 Mod 和缺少的前置…");
+            try
+            {
+                await Task.Run(() => installRuntime(target));
+                Status("换皮 Mod 已安装。启动游戏后应用替换图。");
+            }
+            catch (Exception error)
+            {
+                Status(error.Message + " 处理后可点右下角重试。", true);
+            }
+            finally
+            {
+                installing = false;
+                chooseRoot.IsEnabled = true;
+                RefreshModState();
+            }
         }
 
         private void SwitchGroup(string next)
@@ -280,7 +329,7 @@ namespace Annihilated.TextureEditor
             candidateViews = null;
         }
 
-        private void BrowseGame()
+        private async void BrowseGame()
         {
             using (var dialog = new Forms.FolderBrowserDialog())
             {
@@ -298,6 +347,7 @@ namespace Annihilated.TextureEditor
             ResetCandidate();
             RefreshGame();
             RefreshList(refreshImages: true);
+            await EnsureRuntimeAsync();
         }
 
         private void BrowseImage()

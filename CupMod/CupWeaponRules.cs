@@ -39,7 +39,7 @@ public sealed partial class CupMod
                 // Opening invokes the same starter-inventory reset again before entering the dungeon.
                 openingWeaponCurse = 0;
                 break;
-            case ("Action", 2246):
+            case ("Action", 2248):
                 stealAddPending = stealAddActive = false;
                 int slot = Number("selectCommand");
                 playerKickSteal = slot == -101 && Read("actionUserId") == "player" && Read("timing") == "battle";
@@ -55,17 +55,17 @@ public sealed partial class CupMod
                     if (IsWeapon(source)) drushSource = source!.Pointer;
                 }
                 break;
-            case ("Action", 2287 or 2314):
+            case ("Action", 2289 or 2316):
                 stealAddPending = true;
                 break;
             case ("Func", 137):
                 stealAddActive = stealAddPending && Read("addItem") == Read("enemyStealItem");
                 stealAddPending = false;
                 break;
-            case ("Action", 2320):
+            case ("Action", 2322):
                 stealAddPending = stealAddActive = false;
                 break;
-            case ("Battle", 1610 or 3442 or 3458 or 3552):
+            case ("Battle", 1610 or 3454 or 3471 or 3565):
             case ("Dungeon", 338):
             case ("GameOver", 0):
                 SettleWeaponReplacement();

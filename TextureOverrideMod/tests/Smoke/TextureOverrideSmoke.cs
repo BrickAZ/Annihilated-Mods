@@ -15,6 +15,7 @@ public sealed class TextureOverrideSmoke : MelonMod
     private bool expectOriginalSword;
     private bool requireSheet;
     private bool requireDragonEye;
+    private bool requireDragonBody;
 
     public override void OnInitializeMelon()
     {
@@ -24,6 +25,7 @@ public sealed class TextureOverrideSmoke : MelonMod
         expectOriginalSword = expectOriginal || args.Contains("--texture-smoke-invalid-sword");
         requireSheet = args.Contains("--texture-smoke-sheet");
         requireDragonEye = args.Contains("--texture-smoke-dragon-eye");
+        requireDragonBody = args.Contains("--texture-smoke-dragon-body");
     }
 
     public override void OnUpdate()
@@ -83,7 +85,7 @@ public sealed class TextureOverrideSmoke : MelonMod
             }
         }
 
-        if (requireBattle)
+        if (requireBattle || requireDragonBody)
         {
             var enemies = Engine.GetService<EnemyService>();
             Sprite? displayed = null;
@@ -119,6 +121,24 @@ public sealed class TextureOverrideSmoke : MelonMod
             {
                 Fail(ex.ToString());
                 yield break;
+            }
+
+            if (requireDragonBody)
+            {
+                var dragon = displayedBy!.LoadEnemyVisualAssetByKey("Naninovel/Characters/Enemy/dragon", true);
+                while (!dragon.IsCompleted)
+                    yield return null;
+                try
+                {
+                    var sprite = dragon.GetAwaiter().GetResult()?.Frames?.FirstOrDefault();
+                    RequirePicture(sprite, "dragon", 800, 800, false);
+                    LoggerInstance.Msg("Native dragon visual loader returned the replacement body.");
+                }
+                catch (Exception ex)
+                {
+                    Fail(ex.ToString());
+                    yield break;
+                }
             }
 
             if (requireSheet)

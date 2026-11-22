@@ -2,6 +2,9 @@ using System;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -25,7 +28,14 @@ namespace Annihilated.TextureEditor
                 Directory.CreateDirectory(Path.Combine(fixture.Root, "Annihilated_Data"));
                 Directory.CreateDirectory(Path.Combine(fixture.Root, "Mods"));
                 File.WriteAllBytes(Path.Combine(fixture.Root, "Annihilated.exe"), new byte[0]);
-                File.WriteAllBytes(Path.Combine(fixture.Root, "Mods", "AnnihilatedTextureOverride.dll"), new byte[0]);
+                File.WriteAllBytes(fixture.ModPath, new byte[0]);
+                Require(!fixture.HasMod && !fixture.HasRuntime, "A broken DLL does not count as an installed runtime");
+                string untrusted = Path.Combine(fixture.Root, "untrusted.zip");
+                string extraction = Path.Combine(fixture.Root, "untrusted.dll");
+                File.WriteAllBytes(untrusted, new byte[46667]);
+                try { RuntimeInstaller.ExtractVerifiedMod(untrusted, extraction); }
+                catch (InvalidDataException) { }
+                Require(!File.Exists(extraction), "An untrusted archive never produces an installable DLL");
                 var assets = Asset.Load();
                 var goblin = assets.Single(x => x.Id == "goblin" && x.Group == "Enemy");
                 var sword = assets.Single(x => x.Id == "ironSword" && x.Group == "Item");
@@ -58,13 +68,42 @@ namespace Annihilated.TextureEditor
                 MakePng(matching, 511, 481, Drawing.Color.DeepPink);
                 MakePng(undersized, 128, 32, Drawing.Color.SpringGreen);
                 File.WriteAllText(broken, "invalid PNG");
-                var editor = new Editor(fixture);
+                int installAttempts = 0;
+                var editor = new Editor(fixture, target =>
+                {
+                    Require(target.Root == fixture.Root, "Installer receives the selected directory");
+                    if (Interlocked.Increment(ref installAttempts) == 1)
+                        throw new IOException("模拟 GitHub 下载失败。");
+                    var assembly = AppDomain.CurrentDomain.DefineDynamicAssembly(
+                        new AssemblyName("AnnihilatedTextureOverride"), AssemblyBuilderAccess.Save,
+                        Path.GetDirectoryName(target.ModPath));
+                    File.Delete(target.ModPath);
+                    assembly.DefineDynamicModule("Fixture", RuntimeInstaller.ModFile);
+                    assembly.Save(RuntimeInstaller.ModFile);
+                    string loader = Path.Combine(target.Root, "MelonLoader", "net6");
+                    Directory.CreateDirectory(loader);
+                    File.WriteAllBytes(Path.Combine(loader, "MelonLoader.dll"), new byte[0]);
+                    File.WriteAllBytes(Path.Combine(target.Root, "version.dll"), new byte[0]);
+                });
                 editor.window.WindowStartupLocation = WindowStartupLocation.Manual;
                 editor.window.Left = -12000;
                 editor.window.Top = 0;
                 editor.window.ShowActivated = false;
                 editor.window.ShowInTaskbar = false;
                 editor.window.Show();
+
+                WaitForUi(() => installAttempts == 1 && !editor.installing);
+                var installButton = editor.Find<Button>("InstallMod");
+                Require(installButton.Visibility == Visibility.Visible &&
+                    editor.Find<TextBlock>("Status").Text.Contains("模拟 GitHub 下载失败"),
+                    "Missing runtime installs automatically and exposes retry on failure");
+                editor.window.Dispatcher.BeginInvoke(new Action(() =>
+                    installButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent))));
+                WaitForUi(() => installAttempts == 2 && !editor.installing);
+                Require(fixture.HasRuntime && installButton.Visibility == Visibility.Collapsed &&
+                    editor.Find<TextBlock>("ModState").Text == "换皮 Mod 已安装", "Successful retry updates runtime status");
+                editor.EnsureRuntimeAsync(true).GetAwaiter().GetResult();
+                Require(installAttempts == 2, "Already installed runtime is left alone");
 
                 editor.search.Text = "哥布林";
                 Require(editor.selected == goblin || editor.selected.Id == "goblin", "Chinese goblin search and selection");
@@ -205,14 +244,28 @@ namespace Annihilated.TextureEditor
                 Capture(editor.window, Path.Combine(output, "dragon-eye.png"));
                 editor.window.Close();
                 app.Shutdown();
-                File.WriteAllText(report, "PASS: " + assets.Count + " catalog entries; existing dragon eye found by Chinese name and previewed in only-replaced mode; state stays selected after saving; invalid PNG status; F5 disk refresh; enemy grouping, per-frame preservation, sorted batch import, restore and backups.");
+                File.WriteAllText(report, "PASS: auto-install, retry, existing runtime detection, rejected archive; " +
+                    assets.Count + " catalog entries; dragon eye preview; invalid PNG status; disk refresh; enemy grouping, frame edits, restore and backups.");
                 return 0;
             }
             catch (Exception e)
             {
                 File.WriteAllText(report, e.ToString());
+                if (Application.Current != null) Application.Current.Shutdown();
                 return 1;
             }
+        }
+
+        private static void WaitForUi(Func<bool> complete)
+        {
+            var frame = new DispatcherFrame();
+            var deadline = DateTime.UtcNow.AddSeconds(5);
+            var timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(20) };
+            timer.Tick += (s, e) => frame.Continue = !complete() && DateTime.UtcNow < deadline;
+            timer.Start();
+            Dispatcher.PushFrame(frame);
+            timer.Stop();
+            Require(complete(), "WPF install action timed out");
         }
 
         private static void MakePng(string path, int width, int height, Drawing.Color color)

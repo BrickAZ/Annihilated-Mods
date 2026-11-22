@@ -48,7 +48,12 @@ public sealed class EnemyIntentSmoke : MelonMod
         try
         {
             var profile = Engine.GetService<IStateManager>().Cast<StateManager>().Configuration.SaveFolderName;
-            Require(profile.StartsWith("CupSaves/", StringComparison.Ordinal), "Missing test save isolation.");
+            var expectedRoot = Environment.GetEnvironmentVariable("ANNIHILATED_CUP_QA_SAVE_ROOT");
+            var resolvedProfile = Path.GetFullPath(Path.Combine(Application.persistentDataPath, "NaninovelData", profile));
+            bool redirected = !string.IsNullOrWhiteSpace(expectedRoot) &&
+                resolvedProfile.StartsWith(Path.TrimEndingDirectorySeparator(Path.GetFullPath(expectedRoot)) +
+                    Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase);
+            Require(profile.StartsWith("CupSaves/", StringComparison.Ordinal) || redirected, "Missing test save isolation.");
             var service = Engine.GetService<EnemyService>();
             var original = service.GetEnemyNextActionInfo(1);
             var firstHit = original.Item2.First(row => row.action == ActionType.attack);

@@ -155,6 +155,9 @@ internal sealed class ReplayLibrary : IDisposable
     {
         filtered = entries.Where(item => item.Ending == ending && (route == "全部" || item.Route == route)).ToArray();
         bool busy = process != null;
+        bool supported = GalleryGameBuild.Current != null;
+        if (!supported)
+            status.text = "当前剧情资源版本尚未适配。CG 画廊仍可使用。";
         foreach (var control in routes)
         {
             GalleryView.ColorButton(control.Button, control.Route == route ? GalleryView.Chosen : GalleryView.Card);
@@ -176,7 +179,7 @@ internal sealed class ReplayLibrary : IDisposable
             var row = rows[i];
             int index = page * PageSize + i;
             row.gameObject.SetActive(index < filtered.Length);
-            row.interactable = !busy;
+            row.interactable = !busy && supported;
             if (index < filtered.Length)
                 row.GetComponentInChildren<Text>().text = $"{filtered[index].Route}    {filtered[index].Title}";
         }
@@ -185,7 +188,7 @@ internal sealed class ReplayLibrary : IDisposable
     private void Start(int slot)
     {
         int index = page * PageSize + slot;
-        if (process != null || index >= filtered.Length)
+        if (process != null || index >= filtered.Length || GalleryGameBuild.Current == null)
             return;
         try
         {

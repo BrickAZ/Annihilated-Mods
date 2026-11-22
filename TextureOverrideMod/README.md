@@ -1,8 +1,8 @@
 # Annihilated PNG 换皮 Mod v0.1.0
 
-[下载 PNG 换皮 Mod、贴图编辑器 v1.1.1 和奶龙换皮包](https://github.com/BrickAZ/Annihilated-Mods/releases/tag/texture-override-v0.1.0)
-
 ## Windows 贴图编辑器
+
+从游戏目录打开贴图编辑器，或通过「更改目录」选中游戏。v1.1.2 会检查换皮 Mod 和 MelonLoader，缺失时在后台安装。编辑器从 GitHub 的换皮发布下载经过 SHA-256 校验的 DLL，安装器会补齐缺失的前置。右下角显示安装状态。如果游戏正在运行或下载失败，处理后点击「重试安装」。
 
 双击游戏目录里的 `AnnihilatedTextureEditor.exe`。选择「怪物立绘」或「物品图标」，搜索并选中一项，导入 PNG，核对右侧预览后点「应用替换」。已有替换会显示在列表和预览里。返回窗口时会重新读取贴图，也可按 F5 手动刷新。点「恢复原图」可以停用这一项，之前的 PNG 会备份到 `UserData/TextureOverrides/.editor-backups`。应用或恢复后重启游戏生效。
 
@@ -12,7 +12,7 @@
 
 ## Mod 安装
 
-适用于当前测试的 Windows Steam Build 26705080 和 MelonLoader 0.7.3。把 `AnnihilatedTextureOverride.dll` 放进游戏的 `Mods` 目录。首次启动时，Mod 会在游戏目录创建以下文件夹。
+联网一键安装包面向 Windows x64 Steam Build 26845264 和 MelonLoader 0.7.3。也可把 `AnnihilatedTextureOverride.dll` 放进游戏的 `Mods` 目录。首次启动时，Mod 会在游戏目录创建以下文件夹。
 
 ```text
 UserData/
@@ -37,14 +37,3 @@ UserData/
 ## 实现
 
 在 Unity Addressables 的 AssetBundle 请求完成、结果进入原版缓存之前，用资源路径匹配 PNG。Mod 保留原 Sprite 的矩形、锚点、像素密度、边框、点击轮廓和帧名。同一 PNG 加载一次，供这个资源的各帧复用。原版继续负责怪物状态选择、播放和资源句柄。
-
-## 从源码构建
-
-使用 .NET 8 SDK 构建 Mod。游戏需要先启动过 MelonLoader，以便生成互操作程序集。在本项目目录执行：
-
-```powershell
-$gameRoot = (Read-Host '游戏文件夹路径').Trim().Trim('"')
-dotnet build ./src/AnnihilatedTextureOverride.csproj -c Release "-p:GameRoot=$gameRoot"
-```
-
-构建编辑器时，将本项目目录放在游戏的 `mod开发相关/TextureOverrideMod` 下。脚本从本机的 `mod开发相关/Annihilated_美术资源/资源清单.csv` 读取贴图目录，运行 `./editor/Build-Editor.ps1` 生成 EXE。

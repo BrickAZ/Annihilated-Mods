@@ -1,10 +1,10 @@
-# Annihilated Cup v0.5.4
+# Annihilated Cup v0.5.5
 
-For Windows x64 and Steam Build 26705080. The game folder is the one containing `Annihilated.exe`. In Steam, use **Manage → Browse local files** to find it.
+For Windows x64 and Steam Build 26845264. The game folder is the one containing `Annihilated.exe`. In Steam, use **Manage → Browse local files** to find it.
 
 ## Install and launch
 
-1. Exit the game and extract the entire `Annihilated-Cup-v0.5.4.zip` archive. Double-click `Install.cmd` or `一键安装.cmd`. Both open the same installer. If it asks for a folder, select the game folder.
+1. Exit the game and extract the entire `Annihilated-Cup-Build26845264-Online.zip` archive. Double-click `Install.cmd` or `一键安装.cmd`. Both open the same installer. If it asks for a folder, select the game folder.
 2. The installer downloads MelonLoader 0.7.3 and a portable .NET 6 runtime if needed. It installs the Cup mod, Room Retry v1.0.1 for F9 retries, and `Launch-Cup.cmd`.
 3. For a cup run, keep Steam open and double-click `Launch-Cup.cmd` in the game folder. On the first launch, wait for the title screen while MelonLoader prepares the game assemblies. Start the game normally for regular play.
 4. The Cup uses the language last saved in the base game. It displays Chinese with a Chinese game locale and English with every other locale. To switch, change the language in a normal game session, exit, and launch the Cup again.

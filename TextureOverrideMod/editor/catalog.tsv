@@ -1,0 +1,430 @@
+Enemy	7946ccb0c6b637a9	671	510	1	共通敌人	7946ccb0c6b637a9	基础图或形态	分类素材/敌人/共通敌人/7946ccb0c6b637a9/基础图或形态/原始贴图/7946ccb0c6b637a9.png
+Enemy	acid	800	800	1	地牢 4	acid	基础图或形态	分类素材/敌人/地牢 4/acid/基础图或形态/原始贴图/acid.png
+Enemy	angelactus	800	800	1	共通敌人	angelactus	基础图或形态	分类素材/敌人/共通敌人/angelactus/基础图或形态/原始贴图/angelactus.png
+Enemy	barrier	2885	1407	1	地牢 3	barrier	基础图或形态	分类素材/敌人/地牢 3/barrier/基础图或形态/原始贴图/barrier.png
+Enemy	bat	800	573	1	共通敌人	bat	基础图或形态	分类素材/敌人/共通敌人/bat/基础图或形态/原始贴图/bat.png
+Enemy	blackKnight	1215	1801	1	地牢 1	blackKnight	基础图或形态	分类素材/敌人/地牢 1/blackKnight/基础图或形态/原始贴图/blackKnight.png
+Enemy	blackKnight_attack	1215	1801	1	地牢 1	blackKnight	攻击	分类素材/敌人/地牢 1/blackKnight/攻击/原始贴图/blackKnight_attack.png
+Enemy	blackKnight_attack2	1215	1801	1	地牢 1	blackKnight	攻击	分类素材/敌人/地牢 1/blackKnight/攻击/原始贴图/blackKnight_attack2.png
+Enemy	blackKnight_damage	1215	1801	1	地牢 1	blackKnight	受伤	分类素材/敌人/地牢 1/blackKnight/受伤/原始贴图/blackKnight_damage.png
+Enemy	blackKnight_prepare	1215	1801	1	地牢 1	blackKnight	准备	分类素材/敌人/地牢 1/blackKnight/准备/原始贴图/blackKnight_prepare.png
+Enemy	blackKnight2	1215	1801	1	地牢 1	blackKnight	基础图或形态	分类素材/敌人/地牢 1/blackKnight/基础图或形态/原始贴图/blackKnight2.png
+Enemy	blackKnight2_attack	1215	1801	1	地牢 1	blackKnight	攻击	分类素材/敌人/地牢 1/blackKnight/攻击/原始贴图/blackKnight2_attack.png
+Enemy	blackKnight2_damage	1215	1801	1	地牢 1	blackKnight	受伤	分类素材/敌人/地牢 1/blackKnight/受伤/原始贴图/blackKnight2_damage.png
+Enemy	blackKnight2_prepare	1215	1801	1	地牢 1	blackKnight	准备	分类素材/敌人/地牢 1/blackKnight/准备/原始贴图/blackKnight2_prepare.png
+Enemy	blackKnight2_rangeAttack	1215	1801	1	地牢 1	blackKnight	远程攻击	分类素材/敌人/地牢 1/blackKnight/远程攻击/原始贴图/blackKnight2_rangeAttack.png
+Enemy	blocker	800	800	1	地牢 4	blocker	基础图或形态	分类素材/敌人/地牢 4/blocker/基础图或形态/原始贴图/blocker.png
+Enemy	bloodyPot	800	800	1	地牢 2	bloodyPot	基础图或形态	分类素材/敌人/地牢 2/bloodyPot/基础图或形态/原始贴图/bloodyPot.png
+Enemy	bloodyPot_d4	800	800	1	地牢 4	bloodyPot	四层变体	分类素材/敌人/地牢 4/bloodyPot/四层变体/原始贴图/bloodyPot_d4.png
+Enemy	bom	800	800	1	地牢 4	bom	基础图或形态	分类素材/敌人/地牢 4/bom/基础图或形态/原始贴图/bom.png
+Enemy	bomb	800	800	1	地牢 2	bomb	基础图或形态	分类素材/敌人/地牢 2/bomb/基础图或形态/原始贴图/bomb.png
+Enemy	bombCoverer	800	800	1	地牢 4	bombCoverer	基础图或形态	分类素材/敌人/地牢 4/bombCoverer/基础图或形态/原始贴图/bombCoverer.png
+Enemy	bombringer	800	800	1	地牢 4	bombringer	基础图或形态	分类素材/敌人/地牢 4/bombringer/基础图或形态/原始贴图/bombringer.png
+Enemy	buffAttacker	800	800	1	地牢 3	buffAttacker	基础图或形态	分类素材/敌人/地牢 3/buffAttacker/基础图或形态/原始贴图/buffAttacker.png
+Enemy	buffAttacker_d4	800	800	1	地牢 4	buffAttacker	四层变体	分类素材/敌人/地牢 4/buffAttacker/四层变体/原始贴图/buffAttacker_d4.png
+Enemy	buffer	800	800	1	地牢 3	buffer	基础图或形态	分类素材/敌人/地牢 3/buffer/基础图或形态/原始贴图/buffer.png
+Enemy	buffer_d4	800	800	1	地牢 4	buffer	四层变体	分类素材/敌人/地牢 4/buffer/四层变体/原始贴图/buffer_d4.png
+Enemy	buffKiller	800	800	1	地牢 3	buffKiller	基础图或形态	分类素材/敌人/地牢 3/buffKiller/基础图或形态/原始贴图/buffKiller.png
+Enemy	buffKiller_d4	800	800	1	地牢 4	buffKiller	四层变体	分类素材/敌人/地牢 4/buffKiller/四层变体/原始贴图/buffKiller_d4.png
+Enemy	butler	800	800	1	地牢 2	butler	基础图或形态	分类素材/敌人/地牢 2/butler/基础图或形态/原始贴图/butler.png
+Enemy	chandelien	800	800	1	地牢 2	chandelien	基础图或形态	分类素材/敌人/地牢 2/chandelien/基础图或形态/原始贴图/chandelien.png
+Enemy	commander	1101	1038	1	地牢 4	commander	基础图或形态	分类素材/敌人/地牢 4/commander/基础图或形态/原始贴图/commander.png
+Enemy	copyPaster	800	800	1	地牢 4	copyPaster	基础图或形态	分类素材/敌人/地牢 4/copyPaster/基础图或形态/原始贴图/copyPaster.png
+Enemy	curseChainer	800	800	1	地牢 3	curseChainer	基础图或形态	分类素材/敌人/地牢 3/curseChainer/基础图或形态/原始贴图/curseChainer.png
+Enemy	curseChainer_d4	800	800	1	地牢 4	curseChainer	四层变体	分类素材/敌人/地牢 4/curseChainer/四层变体/原始贴图/curseChainer_d4.png
+Enemy	cursedPainting	800	800	1	地牢 2	cursedPainting	基础图或形态	分类素材/敌人/地牢 2/cursedPainting/基础图或形态/原始贴图/cursedPainting.png
+Enemy	damageGuardDown	800	800	1	地牢 3	damageGuardDown	基础图或形态	分类素材/敌人/地牢 3/damageGuardDown/基础图或形态/原始贴图/damageGuardDown.png
+Enemy	damagePower	800	800	1	地牢 3	damagePower	基础图或形态	分类素材/敌人/地牢 3/damagePower/基础图或形态/原始贴图/damagePower.png
+Enemy	damagePower_d4	800	800	1	地牢 4	damagePower	四层变体	分类素材/敌人/地牢 4/damagePower/四层变体/原始贴图/damagePower_d4.png
+Enemy	darkLance	800	800	1	地牢 4	darkLance	基础图或形态	分类素材/敌人/地牢 4/darkLance/基础图或形态/原始贴图/darkLance.png
+Enemy	dealer	1839	1827	1	地牢 2	dealer	基础图或形态	分类素材/敌人/地牢 2/dealer/基础图或形态/原始贴图/dealer.png
+Enemy	dealer_attack	1839	1827	1	地牢 2	dealer	攻击	分类素材/敌人/地牢 2/dealer/攻击/原始贴图/dealer_attack.png
+Enemy	dealer_damage	1839	1827	1	地牢 2	dealer	受伤	分类素材/敌人/地牢 2/dealer/受伤/原始贴图/dealer_damage.png
+Enemy	dealer_prepare	1839	1827	1	地牢 2	dealer	准备	分类素材/敌人/地牢 2/dealer/准备/原始贴图/dealer_prepare.png
+Enemy	dealerHandLance	1839	1827	1	地牢 2	dealer	基础图或形态	分类素材/敌人/地牢 2/dealer/基础图或形态/原始贴图/dealerHandLance.png
+Enemy	dealerHandLance_attack	1839	1827	1	地牢 2	dealer	攻击	分类素材/敌人/地牢 2/dealer/攻击/原始贴图/dealerHandLance_attack.png
+Enemy	dealerHandLance_prepare	1839	1827	1	地牢 2	dealer	准备	分类素材/敌人/地牢 2/dealer/准备/原始贴图/dealerHandLance_prepare.png
+Enemy	dealerHandLance2	1839	1827	1	地牢 2	dealer	基础图或形态	分类素材/敌人/地牢 2/dealer/基础图或形态/原始贴图/dealerHandLance2.png
+Enemy	dealerHandLance2_attack	1839	1827	1	地牢 2	dealer	攻击	分类素材/敌人/地牢 2/dealer/攻击/原始贴图/dealerHandLance2_attack.png
+Enemy	dealerHandLance2_prepare	1839	1827	1	地牢 2	dealer	准备	分类素材/敌人/地牢 2/dealer/准备/原始贴图/dealerHandLance2_prepare.png
+Enemy	dealerHandShield	1839	1827	1	地牢 2	dealer	基础图或形态	分类素材/敌人/地牢 2/dealer/基础图或形态/原始贴图/dealerHandShield.png
+Enemy	dealerHandShield_guard	1839	1827	1	地牢 2	dealer	防御	分类素材/敌人/地牢 2/dealer/防御/原始贴图/dealerHandShield_guard.png
+Enemy	dealerHandShield2	1839	1827	1	地牢 2	dealer	基础图或形态	分类素材/敌人/地牢 2/dealer/基础图或形态/原始贴图/dealerHandShield2.png
+Enemy	dealerHandShield2_guard	1839	1827	1	地牢 2	dealer	防御	分类素材/敌人/地牢 2/dealer/防御/原始贴图/dealerHandShield2_guard.png
+Enemy	dealerHandSword	1839	1827	1	地牢 2	dealer	基础图或形态	分类素材/敌人/地牢 2/dealer/基础图或形态/原始贴图/dealerHandSword.png
+Enemy	dealerHandSword_attack	1839	1827	1	地牢 2	dealer	攻击	分类素材/敌人/地牢 2/dealer/攻击/原始贴图/dealerHandSword_attack.png
+Enemy	dealerHandSword_prepare	1839	1827	1	地牢 2	dealer	准备	分类素材/敌人/地牢 2/dealer/准备/原始贴图/dealerHandSword_prepare.png
+Enemy	dealerHandSword2	1839	1827	1	地牢 2	dealer	基础图或形态	分类素材/敌人/地牢 2/dealer/基础图或形态/原始贴图/dealerHandSword2.png
+Enemy	dealerHandSword2_attack	1839	1827	1	地牢 2	dealer	攻击	分类素材/敌人/地牢 2/dealer/攻击/原始贴图/dealerHandSword2_attack.png
+Enemy	dealerHandSword2_prepare	1839	1827	1	地牢 2	dealer	准备	分类素材/敌人/地牢 2/dealer/准备/原始贴图/dealerHandSword2_prepare.png
+Enemy	dealerHandTea	1839	1827	1	地牢 2	dealer	基础图或形态	分类素材/敌人/地牢 2/dealer/基础图或形态/原始贴图/dealerHandTea.png
+Enemy	dealerHandTea2	1839	1827	1	地牢 2	dealer	基础图或形态	分类素材/敌人/地牢 2/dealer/基础图或形态/原始贴图/dealerHandTea2.png
+Enemy	deathNesting	800	800	1	地牢 2	deathNesting	基础图或形态	分类素材/敌人/地牢 2/deathNesting/基础图或形态/原始贴图/deathNesting.png
+Enemy	demonLordForm3	2048	1282	1	路线专属	demonLord	基础图或形态	分类素材/敌人/路线专属/demonLord/基础图或形态/原始贴图/demonLordForm3.png
+Enemy	demonLordForm3_attack	2048	1282	1	路线专属	demonLord	攻击	分类素材/敌人/路线专属/demonLord/攻击/原始贴图/demonLordForm3_attack.png
+Enemy	demonLordForm3_damage	2048	1282	1	路线专属	demonLord	受伤	分类素材/敌人/路线专属/demonLord/受伤/原始贴图/demonLordForm3_damage.png
+Enemy	demonLordForm3_prepare	2048	1282	1	路线专属	demonLord	准备	分类素材/敌人/路线专属/demonLord/准备/原始贴图/demonLordForm3_prepare.png
+Enemy	demonLordForm4	2048	1402	1	路线专属	demonLord	基础图或形态	分类素材/敌人/路线专属/demonLord/基础图或形态/原始贴图/demonLordForm4.png
+Enemy	demonLordForm4_attack	2048	1402	1	路线专属	demonLord	攻击	分类素材/敌人/路线专属/demonLord/攻击/原始贴图/demonLordForm4_attack.png
+Enemy	demonLordForm4_damage	2048	1402	1	路线专属	demonLord	受伤	分类素材/敌人/路线专属/demonLord/受伤/原始贴图/demonLordForm4_damage.png
+Enemy	doll	800	800	1	地牢 2	doll	基础图或形态	分类素材/敌人/地牢 2/doll/基础图或形态/原始贴图/doll.png
+Enemy	dragon	800	800	1	地牢 4	dragon	基础图或形态	分类素材/敌人/地牢 4/dragon/基础图或形态/原始贴图/dragon.png
+Enemy	dropout	1215	1560	1	地牢 3	Dropout	基础图或形态	分类素材/敌人/地牢 3/Dropout/基础图或形态/原始贴图/dropout.png
+Enemy	dropout_attack	1215	1560	1	地牢 3	Dropout	攻击	分类素材/敌人/地牢 3/Dropout/攻击/原始贴图/dropout_attack.png
+Enemy	dropout_damage	1215	1560	1	地牢 3	Dropout	受伤	分类素材/敌人/地牢 3/Dropout/受伤/原始贴图/dropout_damage.png
+Enemy	dropout_taunt	1215	1560	1	地牢 3	Dropout	挑衅	分类素材/敌人/地牢 3/Dropout/挑衅/原始贴图/dropout_taunt.png
+Enemy	dropout3	800	800	1	地牢 3	Dropout	基础图或形态	分类素材/敌人/地牢 3/Dropout/基础图或形态/原始贴图/dropout3.png
+Enemy	dropoutForm2	2011	2048	1	地牢 3	Dropout	基础图或形态	分类素材/敌人/地牢 3/Dropout/基础图或形态/原始贴图/dropoutForm2.png
+Enemy	dropoutForm2_attack	2011	2048	1	地牢 3	Dropout	攻击	分类素材/敌人/地牢 3/Dropout/攻击/原始贴图/dropoutForm2_attack.png
+Enemy	dropoutForm2_damage	2011	2048	1	地牢 3	Dropout	受伤	分类素材/敌人/地牢 3/Dropout/受伤/原始贴图/dropoutForm2_damage.png
+Enemy	dropoutForm2_prepare	2011	2048	1	地牢 3	Dropout	准备	分类素材/敌人/地牢 3/Dropout/准备/原始贴图/dropoutForm2_prepare.png
+Enemy	dropper	800	800	1	地牢 3	dropper	基础图或形态	分类素材/敌人/地牢 3/dropper/基础图或形态/原始贴图/dropper.png
+Enemy	electricJerryfish	800	800	1	地牢 3	electricJerryfish	基础图或形态	分类素材/敌人/地牢 3/electricJerryfish/基础图或形态/原始贴图/electricJerryfish.png
+Enemy	enemyBom	800	800	1	共通敌人	enemyBom	基础图或形态	分类素材/敌人/共通敌人/enemyBom/基础图或形态/原始贴图/enemyBom.png
+Enemy	evener	800	800	1	地牢 4	evener	基础图或形态	分类素材/敌人/地牢 4/evener/基础图或形态/原始贴图/evener.png
+Enemy	evilGodLimb_x6	6606	1038	6	地牢 5	evilGod	基础图或形态	分类素材/敌人/地牢 5/evilGod/基础图或形态/原始贴图/evilGodLimb_x6.png
+Enemy	evilGodLimbSmall_x6	5298	832	6	地牢 5	evilGod	基础图或形态	分类素材/敌人/地牢 5/evilGod/基础图或形态/原始贴图/evilGodLimbSmall_x6.png
+Enemy	fireGem	800	800	1	地牢 3	fireGem	基础图或形态	分类素材/敌人/地牢 3/fireGem/基础图或形态/原始贴图/fireGem.png
+Enemy	fireGem2	800	800	1	地牢 3	fireGem2	基础图或形态	分类素材/敌人/地牢 3/fireGem2/基础图或形态/原始贴图/fireGem2.png
+Enemy	fireGem3	800	800	1	地牢 3	fireGem3	基础图或形态	分类素材/敌人/地牢 3/fireGem3/基础图或形态/原始贴图/fireGem3.png
+Enemy	flameArcher	800	800	1	地牢 2	flameArcher	基础图或形态	分类素材/敌人/地牢 2/flameArcher/基础图或形态/原始贴图/flameArcher.png
+Enemy	flower	800	800	1	地牢 2	flower	基础图或形态	分类素材/敌人/地牢 2/flower/基础图或形态/原始贴图/flower.png
+Enemy	flower_d4	800	800	1	地牢 4	flower	四层变体	分类素材/敌人/地牢 4/flower/四层变体/原始贴图/flower_d4.png
+Enemy	ghostArcher	800	800	1	地牢 2	ghostArcher	基础图或形态	分类素材/敌人/地牢 2/ghostArcher/基础图或形态/原始贴图/ghostArcher.png
+Enemy	giant	770	2048	1	地牢 4	giant	基础图或形态	分类素材/敌人/地牢 4/giant/基础图或形态/原始贴图/giant.png
+Enemy	giantHand	3319	4049	1	地牢 4	giant	基础图或形态	分类素材/敌人/地牢 4/giant/基础图或形态/原始贴图/giantHand.png
+Enemy	giantHand_attack	3319	4049	1	地牢 4	giant	攻击	分类素材/敌人/地牢 4/giant/攻击/原始贴图/giantHand_attack.png
+Enemy	giantHand_prepare	3319	4049	1	地牢 4	giant	准备	分类素材/敌人/地牢 4/giant/准备/原始贴图/giantHand_prepare.png
+Enemy	giantHand2	3319	4049	1	地牢 4	giant	基础图或形态	分类素材/敌人/地牢 4/giant/基础图或形态/原始贴图/giantHand2.png
+Enemy	giantHand2_attack	3319	4049	1	地牢 4	giant	攻击	分类素材/敌人/地牢 4/giant/攻击/原始贴图/giantHand2_attack.png
+Enemy	giantHand2_prepare	3319	4049	1	地牢 4	giant	准备	分类素材/敌人/地牢 4/giant/准备/原始贴图/giantHand2_prepare.png
+Enemy	giantHead	1396	1585	1	地牢 4	giant	基础图或形态	分类素材/敌人/地牢 4/giant/基础图或形态/原始贴图/giantHead.png
+Enemy	giantHeadMe1	1920	2504	1	地牢 4	giant	基础图或形态	分类素材/敌人/地牢 4/giant/基础图或形态/原始贴图/giantHeadMe1.png
+Enemy	giantHeadMe1_attack	1920	2504	1	地牢 4	giant	攻击	分类素材/敌人/地牢 4/giant/攻击/原始贴图/giantHeadMe1_attack.png
+Enemy	giantHeadMe1_prepare	1920	2504	1	地牢 4	giant	准备	分类素材/敌人/地牢 4/giant/准备/原始贴图/giantHeadMe1_prepare.png
+Enemy	giantHeadMe2	1920	2504	1	地牢 4	giant	基础图或形态	分类素材/敌人/地牢 4/giant/基础图或形态/原始贴图/giantHeadMe2.png
+Enemy	giantHeadMe2_attack	1920	2504	1	地牢 4	giant	攻击	分类素材/敌人/地牢 4/giant/攻击/原始贴图/giantHeadMe2_attack.png
+Enemy	giantHeadMe2_prepare	1920	2504	1	地牢 4	giant	准备	分类素材/敌人/地牢 4/giant/准备/原始贴图/giantHeadMe2_prepare.png
+Enemy	giantSpider	800	800	1	共通敌人	giantSpider	基础图或形态	分类素材/敌人/共通敌人/giantSpider/基础图或形态/原始贴图/giantSpider.png
+Enemy	goblin	511	481	1	共通敌人	goblin	基础图或形态	分类素材/敌人/共通敌人/goblin/基础图或形态/原始贴图/goblin.png
+Enemy	goblin_old	800	800	1	共通敌人	goblin	基础图或形态	分类素材/敌人/共通敌人/goblin/基础图或形态/原始贴图/goblin_old.png
+Enemy	goblinLancer	800	800	1	地牢 2	goblinLancer	基础图或形态	分类素材/敌人/地牢 2/goblinLancer/基础图或形态/原始贴图/goblinLancer.png
+Enemy	goblinLord	800	800	1	地牢 4	goblinLord	基础图或形态	分类素材/敌人/地牢 4/goblinLord/基础图或形态/原始贴图/goblinLord.png
+Enemy	golem	800	800	1	共通敌人	golem	基础图或形态	分类素材/敌人/共通敌人/golem/基础图或形态/原始贴图/golem.png
+Enemy	golem_d4	800	800	1	地牢 4	golem	四层变体	分类素材/敌人/地牢 4/golem/四层变体/原始贴图/golem_d4.png
+Enemy	greaterBat	800	800	1	地牢 4	greaterBat	基础图或形态	分类素材/敌人/地牢 4/greaterBat/基础图或形态/原始贴图/greaterBat.png
+Enemy	greaterSkeleton	800	800	1	地牢 4	greaterSkeleton	基础图或形态	分类素材/敌人/地牢 4/greaterSkeleton/基础图或形态/原始贴图/greaterSkeleton.png
+Enemy	greaterZombie	800	800	1	地牢 4	greaterZombie	基础图或形态	分类素材/敌人/地牢 4/greaterZombie/基础图或形态/原始贴图/greaterZombie.png
+Enemy	guardianGoblin	800	800	1	地牢 4	guardianGoblin	基础图或形态	分类素材/敌人/地牢 4/guardianGoblin/基础图或形态/原始贴图/guardianGoblin.png
+Enemy	hero	1413	1313	1	路线专属	勇者	基础图或形态	分类素材/敌人/路线专属/勇者/基础图或形态/原始贴图/hero.png
+Enemy	iceGem	800	800	1	地牢 3	iceGem	基础图或形态	分类素材/敌人/地牢 3/iceGem/基础图或形态/原始贴图/iceGem.png
+Enemy	iceGem2	800	800	1	地牢 3	iceGem2	基础图或形态	分类素材/敌人/地牢 3/iceGem2/基础图或形态/原始贴图/iceGem2.png
+Enemy	iceGem3	800	800	1	地牢 3	iceGem3	基础图或形态	分类素材/敌人/地牢 3/iceGem3/基础图或形态/原始贴图/iceGem3.png
+Enemy	ironmaiden	800	800	1	地牢 4	ironmaiden	基础图或形态	分类素材/敌人/地牢 4/ironmaiden/基础图或形态/原始贴图/ironmaiden.png
+Enemy	ironmaiden_guard	800	800	1	地牢 4	ironmaiden	防御	分类素材/敌人/地牢 4/ironmaiden/防御/原始贴图/ironmaiden_guard.png
+Enemy	kari	800	800	1	共通敌人	kari	基础图或形态	分类素材/敌人/共通敌人/kari/基础图或形态/原始贴图/kari.png
+Enemy	knockBacker	800	800	1	地牢 4	knockBacker	基础图或形态	分类素材/敌人/地牢 4/knockBacker/基础图或形态/原始贴图/knockBacker.png
+Enemy	kobold	671	510	1	共通敌人	kobold	基础图或形态	分类素材/敌人/共通敌人/kobold/基础图或形态/原始贴图/kobold.png
+Enemy	kobold_d4	671	510	1	地牢 4	kobold	四层变体	分类素材/敌人/地牢 4/kobold/四层变体/原始贴图/kobold_d4.png
+Enemy	koboldArcher	800	800	1	地牢 2	koboldArcher	基础图或形态	分类素材/敌人/地牢 2/koboldArcher/基础图或形态/原始贴图/koboldArcher.png
+Enemy	koboldLord	800	800	1	地牢 4	koboldLord	基础图或形态	分类素材/敌人/地牢 4/koboldLord/基础图或形态/原始贴图/koboldLord.png
+Enemy	livingSword	800	800	1	共通敌人	livingSword	基础图或形态	分类素材/敌人/共通敌人/livingSword/基础图或形态/原始贴图/livingSword.png
+Enemy	mage	1413	1313	1	路线专属	法师	基础图或形态	分类素材/敌人/路线专属/法师/基础图或形态/原始贴图/mage.png
+Enemy	magicBook	800	800	1	地牢 2	magicBook	基础图或形态	分类素材/敌人/地牢 2/magicBook/基础图或形态/原始贴图/magicBook.png
+Enemy	magicer	800	800	1	地牢 4	magicer	基础图或形态	分类素材/敌人/地牢 4/magicer/基础图或形态/原始贴图/magicer.png
+Enemy	magicSoldier	1101	1038	1	地牢 4	magicSoldier	基础图或形态	分类素材/敌人/地牢 4/magicSoldier/基础图或形态/原始贴图/magicSoldier.png
+Enemy	maid	800	800	1	地牢 2	maid	基础图或形态	分类素材/敌人/地牢 2/maid/基础图或形态/原始贴图/maid.png
+Enemy	mainParts	800	800	1	地牢 3	mainParts	基础图或形态	分类素材/敌人/地牢 3/mainParts/基础图或形态/原始贴图/mainParts.png
+Enemy	mandragora	800	800	1	地牢 2	mandragora	基础图或形态	分类素材/敌人/地牢 2/mandragora/基础图或形态/原始贴图/mandragora.png
+Enemy	mandragora_d4	800	800	1	地牢 4	mandragora	四层变体	分类素材/敌人/地牢 4/mandragora/四层变体/原始贴图/mandragora_d4.png
+Enemy	manEater	800	800	1	共通敌人	manEater	基础图或形态	分类素材/敌人/共通敌人/manEater/基础图或形态/原始贴图/manEater.png
+Enemy	manEater_d4	800	800	1	地牢 4	manEater	四层变体	分类素材/敌人/地牢 4/manEater/四层变体/原始贴图/manEater_d4.png
+Enemy	mimic	800	800	1	共通敌人	mimic	基础图或形态	分类素材/敌人/共通敌人/mimic/基础图或形态/原始贴图/mimic.png
+Enemy	mimic_d4	800	800	1	地牢 4	mimic	四层变体	分类素材/敌人/地牢 4/mimic/四层变体/原始贴图/mimic_d4.png
+Enemy	miniDeathNesting	400	400	1	地牢 2	miniDeathNesting	基础图或形态	分类素材/敌人/地牢 2/miniDeathNesting/基础图或形态/原始贴图/miniDeathNesting.png
+Enemy	mothman	800	800	1	共通敌人	mothman	基础图或形态	分类素材/敌人/共通敌人/mothman/基础图或形态/原始贴图/mothman.png
+Enemy	oak	800	531	1	地牢 2	oak	基础图或形态	分类素材/敌人/地牢 2/oak/基础图或形态/原始贴图/oak.png
+Enemy	odder	800	800	1	地牢 4	odder	基础图或形态	分类素材/敌人/地牢 4/odder/基础图或形态/原始贴图/odder.png
+Enemy	odorigui	800	800	1	地牢 3	odorigui	基础图或形态	分类素材/敌人/地牢 3/odorigui/基础图或形态/原始贴图/odorigui.png
+Enemy	odorigui_d4	800	800	1	地牢 4	odorigui	四层变体	分类素材/敌人/地牢 4/odorigui/四层变体/原始贴图/odorigui_d4.png
+Enemy	ogre	800	800	1	地牢 2	ogre	基础图或形态	分类素材/敌人/地牢 2/ogre/基础图或形态/原始贴图/ogre.png
+Enemy	ogre_d4	800	800	1	地牢 4	ogre	四层变体	分类素材/敌人/地牢 4/ogre/四层变体/原始贴图/ogre_d4.png
+Enemy	oiler	800	800	1	地牢 4	oiler	基础图或形态	分类素材/敌人/地牢 4/oiler/基础图或形态/原始贴图/oiler.png
+Enemy	outcast	1413	1313	1	地牢 1	Outcast	基础图或形态	分类素材/敌人/地牢 1/Outcast/基础图或形态/原始贴图/outcast.png
+Enemy	outcast_attack	1413	1313	1	地牢 1	Outcast	攻击	分类素材/敌人/地牢 1/Outcast/攻击/原始贴图/outcast_attack.png
+Enemy	outcast_avoid	1413	1313	1	地牢 1	Outcast	闪避	分类素材/敌人/地牢 1/Outcast/闪避/原始贴图/outcast_avoid.png
+Enemy	outcast_break	1413	1313	1	地牢 1	Outcast	破防	分类素材/敌人/地牢 1/Outcast/破防/原始贴图/outcast_break.png
+Enemy	outcast_damage	1413	1313	1	地牢 1	Outcast	受伤	分类素材/敌人/地牢 1/Outcast/受伤/原始贴图/outcast_damage.png
+Enemy	outcast_taunt	1413	1313	1	地牢 1	Outcast	挑衅	分类素材/敌人/地牢 1/Outcast/挑衅/原始贴图/outcast_taunt.png
+Enemy	outcast2	1413	1313	1	地牢 1	Outcast	基础图或形态	分类素材/敌人/地牢 1/Outcast/基础图或形态/原始贴图/outcast2.png
+Enemy	outcast2_attack	1413	1313	1	地牢 1	Outcast	攻击	分类素材/敌人/地牢 1/Outcast/攻击/原始贴图/outcast2_attack.png
+Enemy	outcast2_break	1413	1313	1	地牢 1	Outcast	破防	分类素材/敌人/地牢 1/Outcast/破防/原始贴图/outcast2_break.png
+Enemy	painter	800	800	1	地牢 2	painter	基础图或形态	分类素材/敌人/地牢 2/painter/基础图或形态/原始贴图/painter.png
+Enemy	poisoner	800	800	1	地牢 3	poisoner	基础图或形态	分类素材/敌人/地牢 3/poisoner/基础图或形态/原始贴图/poisoner.png
+Enemy	poltergeist	800	646	1	共通敌人	poltergeist	基础图或形态	分类素材/敌人/共通敌人/poltergeist/基础图或形态/原始贴图/poltergeist.png
+Enemy	priest_attack	1101	1038	1	地牢 5	祭司	攻击	分类素材/敌人/地牢 5/祭司/攻击/原始贴图/priest_attack.png
+Enemy	priest_barrier	1101	1038	1	地牢 5	祭司	基础图或形态	分类素材/敌人/地牢 5/祭司/基础图或形态/原始贴图/priest_barrier.png
+Enemy	priest_damage	1101	1038	1	地牢 5	祭司	受伤	分类素材/敌人/地牢 5/祭司/受伤/原始贴图/priest_damage.png
+Enemy	priest_grandMagic	1101	1038	1	地牢 5	祭司	基础图或形态	分类素材/敌人/地牢 5/祭司/基础图或形态/原始贴图/priest_grandMagic.png
+Enemy	priest_prepare	1101	1038	1	地牢 5	祭司	准备	分类素材/敌人/地牢 5/祭司/准备/原始贴图/priest_prepare.png
+Enemy	priest_summon	1101	1038	1	地牢 5	祭司	召唤	分类素材/敌人/地牢 5/祭司/召唤/原始贴图/priest_summon.png
+Enemy	priest_summonAfter	1101	1038	1	地牢 5	祭司	召唤	分类素材/敌人/地牢 5/祭司/召唤/原始贴图/priest_summonAfter.png
+Enemy	priest_x10	11010	1038	10	地牢 5	祭司	基础图或形态	分类素材/敌人/地牢 5/祭司/基础图或形态/原始贴图/priest_x10.png
+Enemy	priestForm1	700	1024	1	地牢 5	祭司	基础图或形态	分类素材/敌人/地牢 5/祭司/基础图或形态/原始贴图/priestForm1.png
+Enemy	priestForm2	1101	1038	1	地牢 5	祭司	基础图或形态	分类素材/敌人/地牢 5/祭司/基础图或形态/原始贴图/priestForm2.png
+Enemy	priestForm3	1101	1038	1	地牢 5	祭司	基础图或形态	分类素材/敌人/地牢 5/祭司/基础图或形态/原始贴图/priestForm3.png
+Enemy	priestForm4	1101	1038	1	地牢 5	祭司	基础图或形态	分类素材/敌人/地牢 5/祭司/基础图或形态/原始贴图/priestForm4.png
+Enemy	priestSlime	2048	1803	1	地牢 5	祭司	基础图或形态	分类素材/敌人/地牢 5/祭司/基础图或形态/原始贴图/priestSlime.png
+Enemy	priestSlime_attack	2048	1803	1	地牢 5	祭司	攻击	分类素材/敌人/地牢 5/祭司/攻击/原始贴图/priestSlime_attack.png
+Enemy	priestSlime_damage	2048	1803	1	地牢 5	祭司	受伤	分类素材/敌人/地牢 5/祭司/受伤/原始贴图/priestSlime_damage.png
+Enemy	priestSlime_prepare	2048	1803	1	地牢 5	祭司	准备	分类素材/敌人/地牢 5/祭司/准备/原始贴图/priestSlime_prepare.png
+Enemy	priestSlime_stealAttack	2048	1803	1	地牢 5	祭司	夺取攻击	分类素材/敌人/地牢 5/祭司/夺取攻击/原始贴图/priestSlime_stealAttack.png
+Enemy	priestSlime_stealPrepare	2048	1803	1	地牢 5	祭司	夺取准备	分类素材/敌人/地牢 5/祭司/夺取准备/原始贴图/priestSlime_stealPrepare.png
+Enemy	priestSlime2	460	460	1	地牢 5	祭司	基础图或形态	分类素材/敌人/地牢 5/祭司/基础图或形态/原始贴图/priestSlime2.png
+Enemy	priestUltimate	2048	1597	1	地牢 5	祭司	基础图或形态	分类素材/敌人/地牢 5/祭司/基础图或形态/原始贴图/priestUltimate.png
+Enemy	priestUltimate_attack	2048	1597	1	地牢 5	祭司	攻击	分类素材/敌人/地牢 5/祭司/攻击/原始贴图/priestUltimate_attack.png
+Enemy	priestUltimate_damage	2048	1597	1	地牢 5	祭司	受伤	分类素材/敌人/地牢 5/祭司/受伤/原始贴图/priestUltimate_damage.png
+Enemy	priestUltimate_grandAttack	2048	1597	1	地牢 5	祭司	大型攻击	分类素材/敌人/地牢 5/祭司/大型攻击/原始贴图/priestUltimate_grandAttack.png
+Enemy	priestUltimateBack	2048	1597	1	地牢 5	祭司	基础图或形态	分类素材/敌人/地牢 5/祭司/基础图或形态/原始贴图/priestUltimateBack.png
+Enemy	priestUltimateBack_guard	2048	1597	1	地牢 5	祭司	防御	分类素材/敌人/地牢 5/祭司/防御/原始贴图/priestUltimateBack_guard.png
+Enemy	priestUltimateBack2	2048	1597	1	地牢 5	祭司	基础图或形态	分类素材/敌人/地牢 5/祭司/基础图或形态/原始贴图/priestUltimateBack2.png
+Enemy	priestUltimateBack2_guard	2048	1597	1	地牢 5	祭司	防御	分类素材/敌人/地牢 5/祭司/防御/原始贴图/priestUltimateBack2_guard.png
+Enemy	priestUltimateBack3	2048	1597	1	地牢 5	祭司	基础图或形态	分类素材/敌人/地牢 5/祭司/基础图或形态/原始贴图/priestUltimateBack3.png
+Enemy	priestUltimateBack3_guard	2048	1597	1	地牢 5	祭司	防御	分类素材/敌人/地牢 5/祭司/防御/原始贴图/priestUltimateBack3_guard.png
+Enemy	priestUltimatePlayerA	1076	1024	1	地牢 5	祭司	基础图或形态	分类素材/敌人/地牢 5/祭司/基础图或形态/原始贴图/priestUltimatePlayerA.png
+Enemy	priestUltimatePlayerB	1092	1024	1	地牢 5	祭司	基础图或形态	分类素材/敌人/地牢 5/祭司/基础图或形态/原始贴图/priestUltimatePlayerB.png
+Enemy	protecter	800	800	1	地牢 4	protecter	基础图或形态	分类素材/敌人/地牢 4/protecter/基础图或形态/原始贴图/protecter.png
+Enemy	sabaWarrior	800	800	1	地牢 3	sabaWarrior	基础图或形态	分类素材/敌人/地牢 3/sabaWarrior/基础图或形态/原始贴图/sabaWarrior.png
+Enemy	sabaWarrior_d4	800	800	1	地牢 4	sabaWarrior	四层变体	分类素材/敌人/地牢 4/sabaWarrior/四层变体/原始贴图/sabaWarrior_d4.png
+Enemy	seaDragon	3048	2440	1	地牢 3	seaDragon	基础图或形态	分类素材/敌人/地牢 3/seaDragon/基础图或形态/原始贴图/seaDragon.png
+Enemy	seaDragon_attack	3048	2440	1	地牢 3	seaDragon	攻击	分类素材/敌人/地牢 3/seaDragon/攻击/原始贴图/seaDragon_attack.png
+Enemy	seaDragon_damage	3048	2440	1	地牢 3	seaDragon	受伤	分类素材/敌人/地牢 3/seaDragon/受伤/原始贴图/seaDragon_damage.png
+Enemy	seaDragon_skillA	3048	2440	1	地牢 3	seaDragon	技能	分类素材/敌人/地牢 3/seaDragon/技能/原始贴图/seaDragon_skillA.png
+Enemy	seaDragon_skillBa	3048	2440	1	地牢 3	seaDragon	技能	分类素材/敌人/地牢 3/seaDragon/技能/原始贴图/seaDragon_skillBa.png
+Enemy	seaDragon_skillBb	3048	2440	1	地牢 3	seaDragon	技能	分类素材/敌人/地牢 3/seaDragon/技能/原始贴图/seaDragon_skillBb.png
+Enemy	seaDragon2	3048	2440	1	地牢 3	seaDragon	基础图或形态	分类素材/敌人/地牢 3/seaDragon/基础图或形态/原始贴图/seaDragon2.png
+Enemy	seaDragon2_attack	3048	2440	1	地牢 3	seaDragon	攻击	分类素材/敌人/地牢 3/seaDragon/攻击/原始贴图/seaDragon2_attack.png
+Enemy	seaDragon2_damage	3048	2440	1	地牢 3	seaDragon	受伤	分类素材/敌人/地牢 3/seaDragon/受伤/原始贴图/seaDragon2_damage.png
+Enemy	seaDragon2_skillA	3048	2440	1	地牢 3	seaDragon	技能	分类素材/敌人/地牢 3/seaDragon/技能/原始贴图/seaDragon2_skillA.png
+Enemy	seaDragon2_skillBa	3048	2440	1	地牢 3	seaDragon	技能	分类素材/敌人/地牢 3/seaDragon/技能/原始贴图/seaDragon2_skillBa.png
+Enemy	seaDragon2_skillBb	3048	2440	1	地牢 3	seaDragon	技能	分类素材/敌人/地牢 3/seaDragon/技能/原始贴图/seaDragon2_skillBb.png
+Enemy	seaDragonPart	4291	1965	1	地牢 3	seaDragon	基础图或形态	分类素材/敌人/地牢 3/seaDragon/基础图或形态/原始贴图/seaDragonPart.png
+Enemy	seaDragonPart_attack	4291	1965	1	地牢 3	seaDragon	攻击	分类素材/敌人/地牢 3/seaDragon/攻击/原始贴图/seaDragonPart_attack.png
+Enemy	seaDragonPart_prepare	4291	1965	1	地牢 3	seaDragon	准备	分类素材/敌人/地牢 3/seaDragon/准备/原始贴图/seaDragonPart_prepare.png
+Enemy	seaMedusa	800	800	1	地牢 3	seaMedusa	基础图或形态	分类素材/敌人/地牢 3/seaMedusa/基础图或形态/原始贴图/seaMedusa.png
+Enemy	seaMedusa_d4	800	800	1	地牢 4	seaMedusa	四层变体	分类素材/敌人/地牢 4/seaMedusa/四层变体/原始贴图/seaMedusa_d4.png
+Enemy	seaSummon	800	800	1	地牢 3	seaSummon	基础图或形态	分类素材/敌人/地牢 3/seaSummon/基础图或形态/原始贴图/seaSummon.png
+Enemy	seaSummoner	800	800	1	地牢 3	seaSummoner	基础图或形态	分类素材/敌人/地牢 3/seaSummoner/基础图或形态/原始贴图/seaSummoner.png
+Enemy	seaSummoner_d4	800	800	1	地牢 4	seaSummoner	四层变体	分类素材/敌人/地牢 4/seaSummoner/四层变体/原始贴图/seaSummoner_d4.png
+Enemy	shieldKnight	800	800	1	地牢 2	shieldKnight	基础图或形态	分类素材/敌人/地牢 2/shieldKnight/基础图或形态/原始贴图/shieldKnight.png
+Enemy	shieldKnight_d4	800	800	1	地牢 4	shieldKnight	四层变体	分类素材/敌人/地牢 4/shieldKnight/四层变体/原始贴图/shieldKnight_d4.png
+Enemy	skeleton	800	666	1	共通敌人	skeleton	基础图或形态	分类素材/敌人/共通敌人/skeleton/基础图或形态/原始贴图/skeleton.png
+Enemy	slavedWarrior	800	800	1	路线专属	slavedWarrior	基础图或形态	分类素材/敌人/路线专属/slavedWarrior/基础图或形态/原始贴图/slavedWarrior.png
+Enemy	slavedWarrior_attack	800	800	1	路线专属	slavedWarrior	攻击	分类素材/敌人/路线专属/slavedWarrior/攻击/原始贴图/slavedWarrior_attack.png
+Enemy	slavedWarrior_damage	800	800	1	路线专属	slavedWarrior	受伤	分类素材/敌人/路线专属/slavedWarrior/受伤/原始贴图/slavedWarrior_damage.png
+Enemy	slime	460	460	1	共通敌人	史莱姆	基础图或形态	分类素材/敌人/共通敌人/史莱姆/基础图或形态/原始贴图/slime.png
+Enemy	slime2	460	460	1	地牢 4	史莱姆	基础图或形态	分类素材/敌人/地牢 4/史莱姆/基础图或形态/原始贴图/slime2.png
+Enemy	slimeForm2Me1	2048	1560	1	地牢 4	史莱姆	基础图或形态	分类素材/敌人/地牢 4/史莱姆/基础图或形态/原始贴图/slimeForm2Me1.png
+Enemy	slimeForm2Me1_attack	2048	1560	1	地牢 4	史莱姆	攻击	分类素材/敌人/地牢 4/史莱姆/攻击/原始贴图/slimeForm2Me1_attack.png
+Enemy	slimeForm2Me1_damage	2048	1560	1	地牢 4	史莱姆	受伤	分类素材/敌人/地牢 4/史莱姆/受伤/原始贴图/slimeForm2Me1_damage.png
+Enemy	slimeForm2Me1_prepare	2048	1560	1	地牢 4	史莱姆	准备	分类素材/敌人/地牢 4/史莱姆/准备/原始贴图/slimeForm2Me1_prepare.png
+Enemy	slimeForm2Me1_stealAttack	2048	1560	1	地牢 4	史莱姆	夺取攻击	分类素材/敌人/地牢 4/史莱姆/夺取攻击/原始贴图/slimeForm2Me1_stealAttack.png
+Enemy	slimeForm2Me1_stealPrepare	2048	1560	1	地牢 4	史莱姆	夺取准备	分类素材/敌人/地牢 4/史莱姆/夺取准备/原始贴图/slimeForm2Me1_stealPrepare.png
+Enemy	slimeForm2Me12	2048	1560	1	地牢 4	史莱姆	基础图或形态	分类素材/敌人/地牢 4/史莱姆/基础图或形态/原始贴图/slimeForm2Me12.png
+Enemy	slimeForm2Me12_attack	2048	1560	1	地牢 4	史莱姆	攻击	分类素材/敌人/地牢 4/史莱姆/攻击/原始贴图/slimeForm2Me12_attack.png
+Enemy	slimeForm2Me12_damage	2048	1560	1	地牢 4	史莱姆	受伤	分类素材/敌人/地牢 4/史莱姆/受伤/原始贴图/slimeForm2Me12_damage.png
+Enemy	slimeForm2Me12_prepare	2048	1560	1	地牢 4	史莱姆	准备	分类素材/敌人/地牢 4/史莱姆/准备/原始贴图/slimeForm2Me12_prepare.png
+Enemy	slimeForm2Me12_stealAttack	2048	1560	1	地牢 4	史莱姆	夺取攻击	分类素材/敌人/地牢 4/史莱姆/夺取攻击/原始贴图/slimeForm2Me12_stealAttack.png
+Enemy	slimeForm2Me12_stealPrepare	2048	1560	1	地牢 4	史莱姆	夺取准备	分类素材/敌人/地牢 4/史莱姆/夺取准备/原始贴图/slimeForm2Me12_stealPrepare.png
+Enemy	slimeForm2Me2	2048	1560	1	地牢 4	史莱姆	基础图或形态	分类素材/敌人/地牢 4/史莱姆/基础图或形态/原始贴图/slimeForm2Me2.png
+Enemy	slimeForm2Me2_attack	2048	1560	1	地牢 4	史莱姆	攻击	分类素材/敌人/地牢 4/史莱姆/攻击/原始贴图/slimeForm2Me2_attack.png
+Enemy	slimeForm2Me2_damage	2048	1560	1	地牢 4	史莱姆	受伤	分类素材/敌人/地牢 4/史莱姆/受伤/原始贴图/slimeForm2Me2_damage.png
+Enemy	slimeForm2Me2_prepare	2048	1560	1	地牢 4	史莱姆	准备	分类素材/敌人/地牢 4/史莱姆/准备/原始贴图/slimeForm2Me2_prepare.png
+Enemy	slimeForm2Me2_stealAttack	2048	1560	1	地牢 4	史莱姆	夺取攻击	分类素材/敌人/地牢 4/史莱姆/夺取攻击/原始贴图/slimeForm2Me2_stealAttack.png
+Enemy	slimeForm2Me2_stealPrepare	2048	1560	1	地牢 4	史莱姆	夺取准备	分类素材/敌人/地牢 4/史莱姆/夺取准备/原始贴图/slimeForm2Me2_stealPrepare.png
+Enemy	slimeForm2Me22	2048	1560	1	地牢 4	史莱姆	基础图或形态	分类素材/敌人/地牢 4/史莱姆/基础图或形态/原始贴图/slimeForm2Me22.png
+Enemy	slimeForm2Me22_attack	2048	1560	1	地牢 4	史莱姆	攻击	分类素材/敌人/地牢 4/史莱姆/攻击/原始贴图/slimeForm2Me22_attack.png
+Enemy	slimeForm2Me22_damage	2048	1560	1	地牢 4	史莱姆	受伤	分类素材/敌人/地牢 4/史莱姆/受伤/原始贴图/slimeForm2Me22_damage.png
+Enemy	slimeForm2Me22_prepare	2048	1560	1	地牢 4	史莱姆	准备	分类素材/敌人/地牢 4/史莱姆/准备/原始贴图/slimeForm2Me22_prepare.png
+Enemy	slimeForm2Me22_stealAttack	2048	1560	1	地牢 4	史莱姆	夺取攻击	分类素材/敌人/地牢 4/史莱姆/夺取攻击/原始贴图/slimeForm2Me22_stealAttack.png
+Enemy	slimeForm2Me22_stealPrepare	2048	1560	1	地牢 4	史莱姆	夺取准备	分类素材/敌人/地牢 4/史莱姆/夺取准备/原始贴图/slimeForm2Me22_stealPrepare.png
+Enemy	slimeForm3Me1	2048	1560	1	地牢 4	史莱姆	基础图或形态	分类素材/敌人/地牢 4/史莱姆/基础图或形态/原始贴图/slimeForm3Me1.png
+Enemy	slimeForm3Me1_attack	2048	1560	1	地牢 4	史莱姆	攻击	分类素材/敌人/地牢 4/史莱姆/攻击/原始贴图/slimeForm3Me1_attack.png
+Enemy	slimeForm3Me1_damage	2048	1560	1	地牢 4	史莱姆	受伤	分类素材/敌人/地牢 4/史莱姆/受伤/原始贴图/slimeForm3Me1_damage.png
+Enemy	slimeForm3Me1_prepare	2048	1560	1	地牢 4	史莱姆	准备	分类素材/敌人/地牢 4/史莱姆/准备/原始贴图/slimeForm3Me1_prepare.png
+Enemy	slimeForm3Me2	2048	1560	1	地牢 4	史莱姆	基础图或形态	分类素材/敌人/地牢 4/史莱姆/基础图或形态/原始贴图/slimeForm3Me2.png
+Enemy	slimeForm3Me2_attack	2048	1560	1	地牢 4	史莱姆	攻击	分类素材/敌人/地牢 4/史莱姆/攻击/原始贴图/slimeForm3Me2_attack.png
+Enemy	slimeForm3Me2_damage	2048	1560	1	地牢 4	史莱姆	受伤	分类素材/敌人/地牢 4/史莱姆/受伤/原始贴图/slimeForm3Me2_damage.png
+Enemy	slimeForm3Me2_prepare	2048	1560	1	地牢 4	史莱姆	准备	分类素材/敌人/地牢 4/史莱姆/准备/原始贴图/slimeForm3Me2_prepare.png
+Enemy	slimeMe1	2048	1560	1	地牢 4	史莱姆	基础图或形态	分类素材/敌人/地牢 4/史莱姆/基础图或形态/原始贴图/slimeMe1.png
+Enemy	slimeMe1_charge	2048	1560	1	地牢 4	史莱姆	蓄力	分类素材/敌人/地牢 4/史莱姆/蓄力/原始贴图/slimeMe1_charge.png
+Enemy	slimeMe1_chargeAttack	2048	1560	1	地牢 4	史莱姆	蓄力攻击	分类素材/敌人/地牢 4/史莱姆/蓄力攻击/原始贴图/slimeMe1_chargeAttack.png
+Enemy	slimeMe1_damage	2048	1560	1	地牢 4	史莱姆	受伤	分类素材/敌人/地牢 4/史莱姆/受伤/原始贴图/slimeMe1_damage.png
+Enemy	slimeMe2	2048	1560	1	地牢 4	史莱姆	基础图或形态	分类素材/敌人/地牢 4/史莱姆/基础图或形态/原始贴图/slimeMe2.png
+Enemy	slimeMe2_charge	2048	1560	1	地牢 4	史莱姆	蓄力	分类素材/敌人/地牢 4/史莱姆/蓄力/原始贴图/slimeMe2_charge.png
+Enemy	slimeMe2_chargeAttack	2048	1560	1	地牢 4	史莱姆	蓄力攻击	分类素材/敌人/地牢 4/史莱姆/蓄力攻击/原始贴图/slimeMe2_chargeAttack.png
+Enemy	slimeMe2_damage	2048	1560	1	地牢 4	史莱姆	受伤	分类素材/敌人/地牢 4/史莱姆/受伤/原始贴图/slimeMe2_damage.png
+Enemy	slimeMountain	3057	1495	1	路线专属	史莱姆	基础图或形态	分类素材/敌人/路线专属/史莱姆/基础图或形态/原始贴图/slimeMountain.png
+Enemy	slimeMountain_summon_x5	15285	1495	5	路线专属	史莱姆	召唤	分类素材/敌人/路线专属/史莱姆/召唤/原始贴图/slimeMountain_summon_x5.png
+Enemy	slimeMountainPartsA	3057	1495	1	路线专属	史莱姆	基础图或形态	分类素材/敌人/路线专属/史莱姆/基础图或形态/原始贴图/slimeMountainPartsA.png
+Enemy	slimeMountainPartsA_attack	3057	1495	1	路线专属	史莱姆	攻击	分类素材/敌人/路线专属/史莱姆/攻击/原始贴图/slimeMountainPartsA_attack.png
+Enemy	slimeMountainPartsB	3057	2495	1	路线专属	史莱姆	基础图或形态	分类素材/敌人/路线专属/史莱姆/基础图或形态/原始贴图/slimeMountainPartsB.png
+Enemy	slimeMountainPartsB_attack	3057	2495	1	路线专属	史莱姆	攻击	分类素材/敌人/路线专属/史莱姆/攻击/原始贴图/slimeMountainPartsB_attack.png
+Enemy	slimeMountainPartsC	3057	1495	1	路线专属	史莱姆	基础图或形态	分类素材/敌人/路线专属/史莱姆/基础图或形态/原始贴图/slimeMountainPartsC.png
+Enemy	slimeMountainPartsD	3057	1495	1	路线专属	史莱姆	基础图或形态	分类素材/敌人/路线专属/史莱姆/基础图或形态/原始贴图/slimeMountainPartsD.png
+Enemy	slimePiece	600	600	1	地牢 4	史莱姆	基础图或形态	分类素材/敌人/地牢 4/史莱姆/基础图或形态/原始贴图/slimePiece.png
+Enemy	slimePiece_skillA	600	600	1	地牢 4	史莱姆	技能	分类素材/敌人/地牢 4/史莱姆/技能/原始贴图/slimePiece_skillA.png
+Enemy	slimePiece_skillB	600	600	1	地牢 4	史莱姆	技能	分类素材/敌人/地牢 4/史莱姆/技能/原始贴图/slimePiece_skillB.png
+Enemy	soldier	1101	1038	1	地牢 4	soldier	基础图或形态	分类素材/敌人/地牢 4/soldier/基础图或形态/原始贴图/soldier.png
+Enemy	spiker	800	800	1	地牢 2	spiker	基础图或形态	分类素材/敌人/地牢 2/spiker/基础图或形态/原始贴图/spiker.png
+Enemy	spiker_d4	800	800	1	地牢 4	spiker	四层变体	分类素材/敌人/地牢 4/spiker/四层变体/原始贴图/spiker_d4.png
+Enemy	steelGolem	800	800	1	地牢 2	steelGolem	基础图或形态	分类素材/敌人/地牢 2/steelGolem/基础图或形态/原始贴图/steelGolem.png
+Enemy	steelGolem_d4	800	800	1	地牢 4	steelGolem	四层变体	分类素材/敌人/地牢 4/steelGolem/四层变体/原始贴图/steelGolem_d4.png
+Enemy	subCommander	1101	1038	1	地牢 4	subCommander	基础图或形态	分类素材/敌人/地牢 4/subCommander/基础图或形态/原始贴图/subCommander.png
+Enemy	subParts	800	800	1	地牢 3	subParts	基础图或形态	分类素材/敌人/地牢 3/subParts/基础图或形态/原始贴图/subParts.png
+Enemy	targetLastDamaged	800	800	1	地牢 3	targetLastDamaged	基础图或形态	分类素材/敌人/地牢 3/targetLastDamaged/基础图或形态/原始贴图/targetLastDamaged.png
+Enemy	thunderGem	800	800	1	地牢 3	thunderGem	基础图或形态	分类素材/敌人/地牢 3/thunderGem/基础图或形态/原始贴图/thunderGem.png
+Enemy	thunderGem2	800	800	1	地牢 3	thunderGem2	基础图或形态	分类素材/敌人/地牢 3/thunderGem2/基础图或形态/原始贴图/thunderGem2.png
+Enemy	thunderGem3	800	800	1	地牢 3	thunderGem3	基础图或形态	分类素材/敌人/地牢 3/thunderGem3/基础图或形态/原始贴图/thunderGem3.png
+Enemy	togeBomb	800	800	1	地牢 3	togeBomb	基础图或形态	分类素材/敌人/地牢 3/togeBomb/基础图或形态/原始贴图/togeBomb.png
+Enemy	tuihousya_battle	800	800	1	共通敌人	tuihousya	基础图或形态	分类素材/敌人/共通敌人/tuihousya/基础图或形态/原始贴图/tuihousya_battle.png
+Enemy	tunaWarrior	800	800	1	共通敌人	tunaWarrior	基础图或形态	分类素材/敌人/共通敌人/tunaWarrior/基础图或形态/原始贴图/tunaWarrior.png
+Enemy	tutorialMonster	511	481	1	共通敌人	tutorialMonster	基础图或形态	分类素材/敌人/共通敌人/tutorialMonster/基础图或形态/原始贴图/tutorialMonster.png
+Enemy	villainess	1394	925	1	地牢 2	Villainess	基础图或形态	分类素材/敌人/地牢 2/Villainess/基础图或形态/原始贴图/villainess.png
+Enemy	villainess_attack	1394	925	1	地牢 2	Villainess	攻击	分类素材/敌人/地牢 2/Villainess/攻击/原始贴图/villainess_attack.png
+Enemy	villainess_break	1394	925	1	地牢 2	Villainess	破防	分类素材/敌人/地牢 2/Villainess/破防/原始贴图/villainess_break.png
+Enemy	villainess_damage	1394	925	1	地牢 2	Villainess	受伤	分类素材/敌人/地牢 2/Villainess/受伤/原始贴图/villainess_damage.png
+Enemy	villainess_heal	800	800	1	地牢 2	Villainess	治疗	分类素材/敌人/地牢 2/Villainess/治疗/原始贴图/villainess_heal.png
+Enemy	villainess2	1394	925	1	地牢 2	Villainess	基础图或形态	分类素材/敌人/地牢 2/Villainess/基础图或形态/原始贴图/villainess2.png
+Enemy	villainess2_break	1394	925	1	地牢 2	Villainess	破防	分类素材/敌人/地牢 2/Villainess/破防/原始贴图/villainess2_break.png
+Enemy	villainess2_damage	1394	925	1	地牢 2	Villainess	受伤	分类素材/敌人/地牢 2/Villainess/受伤/原始贴图/villainess2_damage.png
+Enemy	villainessWithDoll	994	925	1	地牢 2	Villainess	基础图或形态	分类素材/敌人/地牢 2/Villainess/基础图或形态/原始贴图/villainessWithDoll.png
+Enemy	villainessWithDoll_break	994	925	1	地牢 2	Villainess	破防	分类素材/敌人/地牢 2/Villainess/破防/原始贴图/villainessWithDoll_break.png
+Enemy	villainessWithDoll_charge	800	925	1	地牢 2	Villainess	蓄力	分类素材/敌人/地牢 2/Villainess/蓄力/原始贴图/villainessWithDoll_charge.png
+Enemy	villainessWithDoll_chargeAttack	800	925	1	地牢 2	Villainess	蓄力攻击	分类素材/敌人/地牢 2/Villainess/蓄力攻击/原始贴图/villainessWithDoll_chargeAttack.png
+Enemy	villainessWithDoll2	994	925	1	地牢 2	Villainess	基础图或形态	分类素材/敌人/地牢 2/Villainess/基础图或形态/原始贴图/villainessWithDoll2.png
+Enemy	villainessWithDoll2_charge	800	925	1	地牢 2	Villainess	蓄力	分类素材/敌人/地牢 2/Villainess/蓄力/原始贴图/villainessWithDoll2_charge.png
+Enemy	villainessWithDoll2_chargeAttack	800	925	1	地牢 2	Villainess	蓄力攻击	分类素材/敌人/地牢 2/Villainess/蓄力攻击/原始贴图/villainessWithDoll2_chargeAttack.png
+Enemy	warriorFinal	2048	1626	1	路线专属	warriorFinal	基础图或形态	分类素材/敌人/路线专属/warriorFinal/基础图或形态/原始贴图/warriorFinal.png
+Enemy	warriorFinal_attack	2048	1626	1	路线专属	warriorFinal	攻击	分类素材/敌人/路线专属/warriorFinal/攻击/原始贴图/warriorFinal_attack.png
+Enemy	warriorFinal_charge	2048	1807	1	路线专属	warriorFinal	蓄力	分类素材/敌人/路线专属/warriorFinal/蓄力/原始贴图/warriorFinal_charge.png
+Enemy	warriorFinal_charge2	2048	1626	1	路线专属	warriorFinal	蓄力	分类素材/敌人/路线专属/warriorFinal/蓄力/原始贴图/warriorFinal_charge2.png
+Enemy	warriorFinal_chargeAttack	2048	1807	1	路线专属	warriorFinal	蓄力攻击	分类素材/敌人/路线专属/warriorFinal/蓄力攻击/原始贴图/warriorFinal_chargeAttack.png
+Enemy	warriorFinal_cureBreak3	2048	1626	1	路线专属	warriorFinal	基础图或形态	分类素材/敌人/路线专属/warriorFinal/基础图或形态/原始贴图/warriorFinal_cureBreak3.png
+Enemy	warriorFinal_damage	2048	1626	1	路线专属	warriorFinal	受伤	分类素材/敌人/路线专属/warriorFinal/受伤/原始贴图/warriorFinal_damage.png
+Enemy	warriorFinal_overTex1	824	312	1	路线专属	warriorFinal	基础图或形态	分类素材/敌人/路线专属/warriorFinal/基础图或形态/原始贴图/warriorFinal_overTex1.png
+Enemy	warriorFinal_overTex2	824	312	1	路线专属	warriorFinal	基础图或形态	分类素材/敌人/路线专属/warriorFinal/基础图或形态/原始贴图/warriorFinal_overTex2.png
+Enemy	warriorFinal_overTex3	824	312	1	路线专属	warriorFinal	基础图或形态	分类素材/敌人/路线专属/warriorFinal/基础图或形态/原始贴图/warriorFinal_overTex3.png
+Enemy	warriorFinal_skillA	2048	1626	1	路线专属	warriorFinal	技能	分类素材/敌人/路线专属/warriorFinal/技能/原始贴图/warriorFinal_skillA.png
+Enemy	warriorFinal2	2048	1626	1	路线专属	warriorFinal2	基础图或形态	分类素材/敌人/路线专属/warriorFinal2/基础图或形态/原始贴图/warriorFinal2.png
+Enemy	warriorFinal2_attack	2048	1626	1	路线专属	warriorFinal2	攻击	分类素材/敌人/路线专属/warriorFinal2/攻击/原始贴图/warriorFinal2_attack.png
+Enemy	warriorFinal2_charge	2048	1807	1	路线专属	warriorFinal2	蓄力	分类素材/敌人/路线专属/warriorFinal2/蓄力/原始贴图/warriorFinal2_charge.png
+Enemy	warriorFinal2_chargeAttack	2048	1807	1	路线专属	warriorFinal2	蓄力攻击	分类素材/敌人/路线专属/warriorFinal2/蓄力攻击/原始贴图/warriorFinal2_chargeAttack.png
+Enemy	warriorFinal2_cureBreak	2048	1626	1	路线专属	warriorFinal2	基础图或形态	分类素材/敌人/路线专属/warriorFinal2/基础图或形态/原始贴图/warriorFinal2_cureBreak.png
+Enemy	warriorFinal2_cureBreak2	2048	1626	1	路线专属	warriorFinal2	基础图或形态	分类素材/敌人/路线专属/warriorFinal2/基础图或形态/原始贴图/warriorFinal2_cureBreak2.png
+Enemy	warriorFinal2_cureBreak3	2048	1626	1	路线专属	warriorFinal2	基础图或形态	分类素材/敌人/路线专属/warriorFinal2/基础图或形态/原始贴图/warriorFinal2_cureBreak3.png
+Enemy	warriorFinal2_damage	2048	1626	1	路线专属	warriorFinal2	受伤	分类素材/敌人/路线专属/warriorFinal2/受伤/原始贴图/warriorFinal2_damage.png
+Enemy	warriorFinal2_skillA	2048	1626	1	路线专属	warriorFinal2	技能	分类素材/敌人/路线专属/warriorFinal2/技能/原始贴图/warriorFinal2_skillA.png
+Enemy	warriorFinal3	2048	1626	1	路线专属	warriorFinal3	基础图或形态	分类素材/敌人/路线专属/warriorFinal3/基础图或形态/原始贴图/warriorFinal3.png
+Enemy	warriorFinal3_attack	2048	1626	1	路线专属	warriorFinal3	攻击	分类素材/敌人/路线专属/warriorFinal3/攻击/原始贴图/warriorFinal3_attack.png
+Enemy	warriorFinal3_charge	2048	1626	1	路线专属	warriorFinal3	蓄力	分类素材/敌人/路线专属/warriorFinal3/蓄力/原始贴图/warriorFinal3_charge.png
+Enemy	warriorFinal3_chargeAttack	2048	1626	1	路线专属	warriorFinal3	蓄力攻击	分类素材/敌人/路线专属/warriorFinal3/蓄力攻击/原始贴图/warriorFinal3_chargeAttack.png
+Enemy	warriorFinal3_cureBreak	2048	1626	1	路线专属	warriorFinal3	基础图或形态	分类素材/敌人/路线专属/warriorFinal3/基础图或形态/原始贴图/warriorFinal3_cureBreak.png
+Enemy	warriorFinal3_cureBreak2	2048	1626	1	路线专属	warriorFinal3	基础图或形态	分类素材/敌人/路线专属/warriorFinal3/基础图或形态/原始贴图/warriorFinal3_cureBreak2.png
+Enemy	warriorFinal3_damage	2048	1626	1	路线专属	warriorFinal3	受伤	分类素材/敌人/路线专属/warriorFinal3/受伤/原始贴图/warriorFinal3_damage.png
+Enemy	warriorFinal3_skillA	2048	1626	1	路线专属	warriorFinal3	技能	分类素材/敌人/路线专属/warriorFinal3/技能/原始贴图/warriorFinal3_skillA.png
+Enemy	warriorHydraIllusion	1920	1080	1	路线专属	warriorHydraIllusion	基础图或形态	分类素材/敌人/路线专属/warriorHydraIllusion/基础图或形态/原始贴图/warriorHydraIllusion.png
+Enemy	warriorIllusionA	850	500	1	路线专属	warriorIllusionA	基础图或形态	分类素材/敌人/路线专属/warriorIllusionA/基础图或形态/原始贴图/warriorIllusionA.png
+Enemy	warriorIllusionA_attack	850	500	1	路线专属	warriorIllusionA	攻击	分类素材/敌人/路线专属/warriorIllusionA/攻击/原始贴图/warriorIllusionA_attack.png
+Enemy	warriorIllusionA_prepare	850	500	1	路线专属	warriorIllusionA	准备	分类素材/敌人/路线专属/warriorIllusionA/准备/原始贴图/warriorIllusionA_prepare.png
+Enemy	warriorIllusionB	850	500	1	路线专属	warriorIllusionB	基础图或形态	分类素材/敌人/路线专属/warriorIllusionB/基础图或形态/原始贴图/warriorIllusionB.png
+Enemy	warriorIllusionB_attack	850	500	1	路线专属	warriorIllusionB	攻击	分类素材/敌人/路线专属/warriorIllusionB/攻击/原始贴图/warriorIllusionB_attack.png
+Enemy	warriorIllusionB_prepare	850	500	1	路线专属	warriorIllusionB	准备	分类素材/敌人/路线专属/warriorIllusionB/准备/原始贴图/warriorIllusionB_prepare.png
+Enemy	warriorIllusionC	850	500	1	路线专属	warriorIllusionC	基础图或形态	分类素材/敌人/路线专属/warriorIllusionC/基础图或形态/原始贴图/warriorIllusionC.png
+Enemy	warriorIllusionC_attack	850	500	1	路线专属	warriorIllusionC	攻击	分类素材/敌人/路线专属/warriorIllusionC/攻击/原始贴图/warriorIllusionC_attack.png
+Enemy	warriorIllusionC_prepare	850	500	1	路线专属	warriorIllusionC	准备	分类素材/敌人/路线专属/warriorIllusionC/准备/原始贴图/warriorIllusionC_prepare.png
+Enemy	warriorLv1	850	500	1	路线专属	warriorLv1	基础图或形态	分类素材/敌人/路线专属/warriorLv1/基础图或形态/原始贴图/warriorLv1.png
+Enemy	warriorLv1_attack	850	500	1	路线专属	warriorLv1	攻击	分类素材/敌人/路线专属/warriorLv1/攻击/原始贴图/warriorLv1_attack.png
+Enemy	warriorLv1_damage	850	500	1	路线专属	warriorLv1	受伤	分类素材/敌人/路线专属/warriorLv1/受伤/原始贴图/warriorLv1_damage.png
+Enemy	warriorLv1_prepare	850	500	1	路线专属	warriorLv1	准备	分类素材/敌人/路线专属/warriorLv1/准备/原始贴图/warriorLv1_prepare.png
+Enemy	warriorMagicSword	1784	1038	1	路线专属	warriorMagicSword	基础图或形态	分类素材/敌人/路线专属/warriorMagicSword/基础图或形态/原始贴图/warriorMagicSword.png
+Enemy	weakPointer	800	800	1	地牢 3	weakPointer	基础图或形态	分类素材/敌人/地牢 3/weakPointer/基础图或形态/原始贴图/weakPointer.png
+Enemy	wyvern	800	638	1	地牢 2	wyvern	基础图或形态	分类素材/敌人/地牢 2/wyvern/基础图或形态/原始贴图/wyvern.png
+Enemy	zombie	800	800	1	共通敌人	zombie	基础图或形态	分类素材/敌人/共通敌人/zombie/基础图或形态/原始贴图/zombie.png
+Item	10tHammer	65	65	1	长柄、重型与钝器			分类素材/物品/武器/长柄、重型与钝器/原始贴图/10tHammer.png
+Item	assasinDagger	65	65	1	匕首与短刃			分类素材/物品/武器/匕首与短刃/原始贴图/assasinDagger.png
+Item	barrierWand	65	65	1	法杖与魔导器			分类素材/物品/武器/法杖与魔导器/原始贴图/barrierWand.png
+Item	blackKnightSword	65	65	1	剑与刀			分类素材/物品/武器/剑与刀/原始贴图/blackKnightSword.png
+Item	bloodMagicSword	65	65	1	剑与刀			分类素材/物品/武器/剑与刀/原始贴图/bloodMagicSword.png
+Item	bloodyWeapon	65	65	1	剑与刀			分类素材/物品/武器/剑与刀/原始贴图/bloodyWeapon.png
+Item	boneBlade	65	65	1	剑与刀			分类素材/物品/武器/剑与刀/原始贴图/boneBlade.png
+Item	boneWand	65	65	1	法杖与魔导器			分类素材/物品/武器/法杖与魔导器/原始贴图/boneWand.png
+Item	breakRod	65	65	1	法杖与魔导器			分类素材/物品/武器/法杖与魔导器/原始贴图/breakRod.png
+Item	busteredSword	65	65	1	剑与刀			分类素材/物品/武器/剑与刀/原始贴图/busteredSword.png
+Item	busterSword	65	65	1	剑与刀			分类素材/物品/武器/剑与刀/原始贴图/busterSword.png
+Item	chain	65	65	1	长柄、重型与钝器			分类素材/物品/武器/长柄、重型与钝器/原始贴图/chain.png
+Item	club	65	65	1	长柄、重型与钝器			分类素材/物品/武器/长柄、重型与钝器/原始贴图/club.png
+Item	comboSaber	65	65	1	剑与刀			分类素材/物品/武器/剑与刀/原始贴图/comboSaber.png
+Item	commanderSword	65	65	1	剑与刀			分类素材/物品/武器/剑与刀/原始贴图/commanderSword.png
+Item	copyRod	65	65	1	法杖与魔导器			分类素材/物品/武器/法杖与魔导器/原始贴图/copyRod.png
+Item	corrosionStiletto	65	65	1	匕首与短刃			分类素材/物品/武器/匕首与短刃/原始贴图/corrosionStiletto.png
+Item	cursedStaff	65	65	1	法杖与魔导器			分类素材/物品/武器/法杖与魔导器/原始贴图/cursedStaff.png
+Item	cursedSword	65	65	1	剑与刀			分类素材/物品/武器/剑与刀/原始贴图/cursedSword.png
+Item	debriSpear	65	65	1	长柄、重型与钝器			分类素材/物品/武器/长柄、重型与钝器/原始贴图/debriSpear.png
+Item	destructionAxe	65	65	1	长柄、重型与钝器			分类素材/物品/武器/长柄、重型与钝器/原始贴图/destructionAxe.png
+Item	destructionMagicSword	65	65	1	剑与刀			分类素材/物品/武器/剑与刀/原始贴图/destructionMagicSword.png
+Item	dominationWand	65	65	1	法杖与魔导器			分类素材/物品/武器/法杖与魔导器/原始贴图/dominationWand.png
+Item	dragonEye	65	65	1	生物部位与掉落物			分类素材/物品/材料与掉落/生物部位与掉落物/原始贴图/dragonEye.png
+Item	drill	65	65	1	长柄、重型与钝器			分类素材/物品/武器/长柄、重型与钝器/原始贴图/drill.png
+Item	dualBlades	65	65	1	剑与刀			分类素材/物品/武器/剑与刀/原始贴图/dualBlades.png
+Item	elementalDagger	65	65	1	匕首与短刃			分类素材/物品/武器/匕首与短刃/原始贴图/elementalDagger.png
+Item	explosionWand	65	65	1	法杖与魔导器			分类素材/物品/武器/法杖与魔导器/原始贴图/explosionWand.png
+Item	fakeSword	65	65	1	剑与刀			分类素材/物品/武器/剑与刀/原始贴图/fakeSword.png
+Item	fireRod	65	65	1	法杖与魔导器			分类素材/物品/武器/法杖与魔导器/原始贴图/fireRod.png
+Item	frisbee	65	65	1	远程与投掷			分类素材/物品/武器/远程与投掷/原始贴图/frisbee.png
+Item	giantSword	65	65	1	剑与刀			分类素材/物品/武器/剑与刀/原始贴图/giantSword.png
+Item	gravityWand	65	65	1	法杖与魔导器			分类素材/物品/武器/法杖与魔导器/原始贴图/gravityWand.png
+Item	heavyBowgun	65	65	1	远程与投掷			分类素材/物品/武器/远程与投掷/原始贴图/heavyBowgun.png
+Item	heroSword	65	65	1	剑与刀			分类素材/物品/武器/剑与刀/原始贴图/heroSword.png
+Item	hunterBow	65	65	1	远程与投掷			分类素材/物品/武器/远程与投掷/原始贴图/hunterBow.png
+Item	hunterDagger	65	65	1	匕首与短刃			分类素材/物品/武器/匕首与短刃/原始贴图/hunterDagger.png
+Item	iceRod	65	65	1	法杖与魔导器			分类素材/物品/武器/法杖与魔导器/原始贴图/iceRod.png
+Item	ironSword	65	65	1	剑与刀			分类素材/物品/武器/剑与刀/原始贴图/ironSword.png
+Item	junkHammer	65	65	1	长柄、重型与钝器			分类素材/物品/武器/长柄、重型与钝器/原始贴图/junkHammer.png
+Item	karambit	65	65	1	匕首与短刃			分类素材/物品/武器/匕首与短刃/原始贴图/karambit.png
+Item	katamina	65	65	1	剑与刀			分类素材/物品/武器/剑与刀/原始贴图/katamina.png
+Item	katana	65	65	1	剑与刀			分类素材/物品/武器/剑与刀/原始贴图/katana.png
+Item	kingClub	65	65	1	长柄、重型与钝器			分类素材/物品/武器/长柄、重型与钝器/原始贴图/kingClub.png
+Item	kingTailBlade	65	65	1	剑与刀			分类素材/物品/武器/剑与刀/原始贴图/kingTailBlade.png
+Item	lasorSword	65	65	1	剑与刀			分类素材/物品/武器/剑与刀/原始贴图/lasorSword.png
+Item	lifelessLance	65	65	1	长柄、重型与钝器			分类素材/物品/武器/长柄、重型与钝器/原始贴图/lifelessLance.png
+Item	lifelessSword	65	65	1	剑与刀			分类素材/物品/武器/剑与刀/原始贴图/lifelessSword.png
+Item	lightingRod	65	65	1	法杖与魔导器			分类素材/物品/武器/法杖与魔导器/原始贴图/lightingRod.png
+Item	mageRod	65	65	1	法杖与魔导器			分类素材/物品/武器/法杖与魔导器/原始贴图/mageRod.png
+Item	mageRodMagic	65	65	1	法杖与魔导器			分类素材/物品/武器/法杖与魔导器/原始贴图/mageRodMagic.png
+Item	magiaTakt	65	65	1	法杖与魔导器			分类素材/物品/武器/法杖与魔导器/原始贴图/magiaTakt.png
+Item	magicRod	65	65	1	法杖与魔导器			分类素材/物品/武器/法杖与魔导器/原始贴图/magicRod.png
+Item	muramasa	65	65	1	剑与刀			分类素材/物品/武器/剑与刀/原始贴图/muramasa.png
+Item	necroWand	65	65	1	法杖与魔导器			分类素材/物品/武器/法杖与魔导器/原始贴图/necroWand.png
+Item	nuckleDuster	65	65	1	长柄、重型与钝器			分类素材/物品/武器/长柄、重型与钝器/原始贴图/nuckleDuster.png
+Item	parryingDagger	65	65	1	匕首与短刃			分类素材/物品/武器/匕首与短刃/原始贴图/parryingDagger.png
+Item	pikapikaSword	128	128	1	剑与刀			分类素材/物品/武器/剑与刀/原始贴图/pikapikaSword.png
+Item	poleSpear	65	65	1	长柄、重型与钝器			分类素材/物品/武器/长柄、重型与钝器/原始贴图/poleSpear.png
+Item	protectWand	65	65	1	法杖与魔导器			分类素材/物品/武器/法杖与魔导器/原始贴图/protectWand.png
+Item	rance	65	65	1	长柄、重型与钝器			分类素材/物品/武器/长柄、重型与钝器/原始贴图/rance.png
+Item	rapier	65	65	1	剑与刀			分类素材/物品/武器/剑与刀/原始贴图/rapier.png
+Item	rebirthSpear	65	65	1	长柄、重型与钝器			分类素材/物品/武器/长柄、重型与钝器/原始贴图/rebirthSpear.png
+Item	rustedMagicSword	65	65	1	剑与刀			分类素材/物品/武器/剑与刀/原始贴图/rustedMagicSword.png
+Item	scythe	65	65	1	长柄、重型与钝器			分类素材/物品/武器/长柄、重型与钝器/原始贴图/scythe.png
+Item	shotBow	65	65	1	远程与投掷			分类素材/物品/武器/远程与投掷/原始贴图/shotBow.png
+Item	soldierSword	65	65	1	剑与刀			分类素材/物品/武器/剑与刀/原始贴图/soldierSword.png
+Item	spaceSlicer	65	65	1	剑与刀			分类素材/物品/武器/剑与刀/原始贴图/spaceSlicer.png
+Item	spellBook	65	65	1	法杖与魔导器			分类素材/物品/武器/法杖与魔导器/原始贴图/spellBook.png
+Item	spikeBlade	65	65	1	剑与刀			分类素材/物品/武器/剑与刀/原始贴图/spikeBlade.png
+Item	stiletto	65	65	1	匕首与短刃			分类素材/物品/武器/匕首与短刃/原始贴图/stiletto.png
+Item	tailWhip	65	65	1	长柄、重型与钝器			分类素材/物品/武器/长柄、重型与钝器/原始贴图/tailWhip.png
+Item	thunderRod	65	65	1	法杖与魔导器			分类素材/物品/武器/法杖与魔导器/原始贴图/thunderRod.png
+Item	virtualSword	65	65	1	剑与刀			分类素材/物品/武器/剑与刀/原始贴图/virtualSword.png
+Item	warriorDoubleBladeMirror	65	65	1	剑与刀			分类素材/物品/武器/剑与刀/原始贴图/warriorDoubleBladeMirror.png
+Item	warriorDoubleBladeStrong	65	65	1	剑与刀			分类素材/物品/武器/剑与刀/原始贴图/warriorDoubleBladeStrong.png
+Item	warriorDoubleSword	65	65	1	剑与刀			分类素材/物品/武器/剑与刀/原始贴图/warriorDoubleSword.png
