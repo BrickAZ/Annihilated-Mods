@@ -1,0 +1,29 @@
+name: Logic checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  logic-checks:
+    name: Game-independent logic checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@v6.1.0
+        with:
+          dotnet-version: '8.0.x'
+      - name: Cup
+        run: dotnet run --project CupMod/Checks/Checks.csproj --configuration Release
+      - name: Room Retry
+        run: dotnet run --project RoomRetryMod/tests/RoomRetry.Tests.csproj --configuration Release
+      - name: Enemy Intent
+        run: dotnet run --project EnemyIntentMod/tests/Rows/Rows.csproj --configuration Release
