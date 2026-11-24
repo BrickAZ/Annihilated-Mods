@@ -29,13 +29,13 @@
 
 [下载三名可玩角色 v0.1.16](https://github.com/BrickAZ/Annihilated-Mods/releases/tag/playable-rivals-v0.1.16) · [中文说明](PlayableRivalsMod/README.zh-CN.md) · [English guide](PlayableRivalsMod/README.md)
 
-这是独立发布的**手动 DLL 安装包**：先配置 MelonLoader 0.7.3，将 ZIP 解压到游戏根目录，再开新存档选人。它不包含下文的一键安装器，适用 Steam Build `26845264`。
+推荐下载[三人角色一键安装包](https://github.com/BrickAZ/Annihilated-Mods/releases/download/playable-rivals-v0.1.16/Annihilated-PlayableRivals-v0.1.16-Build26845264-Online.zip)，完整解压后双击 `一键安装.cmd`，自动安装缺失前置并备份旧 DLL，再开新存档选人。适用 Steam Build `26845264`；同一 Release 中也保留手动 DLL 包。
 
 ### PNG 换皮 Mod 与贴图编辑器
 
 - 可以用 PNG 替换怪物的战斗立绘和受支持的物品图标。编辑器支持逐帧替换和恢复原图。 [换皮 Mod 与贴图编辑器 v1.1.2（ZIP）](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-TextureOverride-Editor-Build26845264-Online.zip)
 - 单独打开编辑器并选好游戏目录后，它会补齐缺少的换皮 Mod 和前置。预览和导出原图时需要本机已有的美术资源目录。 [贴图编辑器 v1.1.2（独立 EXE）](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/AnnihilatedTextureEditor-v1.1.2.exe) · [使用说明](TextureOverrideMod/README.md)
-- 想直接换成奶龙，用这个包替换龙的立绘和龙之眼图标。 [奶龙换皮（ZIP）](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-DragonSkin-Build26845264-Online.zip)
+- 想直接换成奶龙，用这个包替换龙的立绘和龙之眼图标。 [奶龙换皮（ZIP）](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-DragonSkin-Build26845264-Installer2-Online.zip)
 
 ### 杯赛、攻略与资料
 
@@ -83,7 +83,7 @@ $gameRoot = (Read-Host '游戏文件夹路径').Trim().Trim('"')
 ./scripts/Build-Releases.ps1 -GameRoot $gameRoot
 ```
 
-脚本默认构建六个游戏内 Mod 项目和贴图编辑器，在 `dist/` 生成七个安装包和 `SHA256SUMS.txt`。存档扩容包使用仓库内获授权的适配 DLL。要一起构建奶龙和独立火堆合成包，用 `-DragonSkinArchive` 传入已发布的奶龙手动安装 ZIP，用 `-BonfireDll` 传入已发布的独立火堆合成 DLL。脚本会校验这两个输入的 SHA-256。
+脚本默认构建七个游戏内 Mod 项目和贴图编辑器，在 `dist/` 生成八个安装包和 `SHA256SUMS.txt`。存档扩容包使用仓库内获授权的适配 DLL。要一起构建奶龙和独立火堆合成包，用 `-DragonSkinArchive` 传入已发布的奶龙手动安装 ZIP，用 `-BonfireDll` 传入已发布的独立火堆合成 DLL。脚本会校验这两个输入的 SHA-256。
 
 可以用同一个窗口里的 `$gameRoot` 单独构建杯赛。
 

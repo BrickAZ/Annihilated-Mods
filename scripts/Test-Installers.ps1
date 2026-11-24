@@ -29,11 +29,12 @@ $payloads = [ordered]@{
     AttackModeSwitch = @('Mods/AnnihilatedAttackModeSwitch.dll')
     SaveSlotUnlimiter = @('Mods/SaveSlotUnlimiter.dll')
     EnemyIntent = @('Mods/AnnihilatedEnemyIntent.dll')
+    PlayableRivals = @('Mods/AnnihilatedPlayableRivals.dll')
     'TextureOverride-Editor' = @('Mods/AnnihilatedTextureOverride.dll', 'AnnihilatedTextureEditor.exe')
     DragonSkin = @('Mods/AnnihilatedTextureOverride.dll', 'UserData/TextureOverrides/Enemy/dragon.png', 'UserData/TextureOverrides/Item/dragonEye.png')
     BonfireFusion = @('Mods/BonfireFusion.dll')
 }
-$native = @('Cup', 'Gallery', 'SaveSlotUnlimiter')
+$native = @('Cup', 'Gallery', 'SaveSlotUnlimiter', 'PlayableRivals')
 $expectedDependencies = @{
     'version.dll' = '0CE7A4E530C7F83F172A2C44AED45EEDB3BDCF06B83760F143A0FBA6885FA929'
     'MelonLoader/net6/MelonLoader.dll' = 'BDD43DC0F3893C208C95389B863AB61C967AE14204DA0DD8051647E754C8709B'
@@ -77,6 +78,14 @@ try {
         $fixture = Join-Path $fixtures "$id game"
         New-TestGame $fixture
 
+        # A neighboring Steam manifest is diagnostic only: altered files must still fail.
+        if ($id -eq 'PlayableRivals') {
+            $fixture = Join-Path $fixtures 'Steam library/steamapps/common/角色 game'
+            New-TestGame $fixture
+            [IO.File]::WriteAllText((Join-Path $fixtures 'Steam library/steamapps/appmanifest_2638080.acf'),
+                '"AppState" { "appid" "2638080" "installdir" "角色 game" "buildid" "26845264" }')
+        }
+
         $metadataFile = Join-Path $fixture $metadata
         [IO.File]::WriteAllText($metadataFile, 'invalid')
         Run-Installer $extracted $fixture '一键安装.cmd' $false 'global-metadata\.dat.*Steam'
@@ -85,6 +94,15 @@ try {
             $catalogFile = Join-Path $fixture $catalog
             [IO.File]::WriteAllText($catalogFile, ('0' * 32))
             Run-Installer $extracted $fixture '一键安装.cmd' $false '26845264'
+            if ($id -eq 'PlayableRivals') {
+                $manifestFile = Join-Path $fixtures 'Steam library/steamapps/appmanifest_2638080.acf'
+                [IO.File]::WriteAllText($manifestFile,
+                    '"AppState" { "appid" "2638080" "installdir" "角色 game" "buildid" "26705080" }')
+                Run-Installer $extracted $fixture 'Install.cmd' $false '26845264.*26705080.*SHA-256'
+                if (Test-Path -LiteralPath (Join-Path $fixture 'Mods/AnnihilatedPlayableRivals.dll')) {
+                    throw 'An incompatible game received the Playable Rivals payload.'
+                }
+            }
             Copy-Item -LiteralPath (Join-Path $game $catalog) -Destination $catalogFile -Force
         }
         if (Test-Path -LiteralPath (Join-Path $fixture 'version.dll')) { throw 'Preflight installed a loader.' }
@@ -125,6 +143,9 @@ try {
         $previousHash = (Get-FileHash -LiteralPath $target).Hash
         $unrelated = Join-Path $fixture 'Mods/Unrelated.dll'
         [IO.File]::WriteAllText($unrelated, 'unrelated mod')
+        $save = Join-Path $fixture 'UserData/preserve-this-save.nson'
+        $null = [IO.Directory]::CreateDirectory((Split-Path -Parent $save))
+        [IO.File]::WriteAllText($save, 'existing save data')
         Run-Installer $extracted $fixture 'Install.cmd' $true
         Assert-Hash $cppPath $expectedDependencies[$cpp]
         Assert-Hash $coreClrPath $expectedDependencies[$coreClr]
@@ -134,12 +155,20 @@ try {
         if ($backup.Count -ne 1) { throw "$id did not back up exactly one replaced DLL." }
         Assert-Hash $backup[0].FullName $previousHash
         if ([IO.File]::ReadAllText($unrelated) -ne 'unrelated mod') { throw "$id replaced another mod." }
+        if ([IO.File]::ReadAllText($save) -ne 'existing save data') { throw "$id replaced a save." }
 
         [IO.File]::SetLastWriteTimeUtc($cppPath, $retainedWriteTime)
         [IO.File]::SetLastWriteTimeUtc($coreClrPath, $retainedWriteTime)
         Run-Installer $extracted $fixture 'Install.cmd' $true
         if ([IO.File]::GetLastWriteTimeUtc($cppPath) -ne $retainedWriteTime) { throw "$id rewrote a good Cpp2IL." }
         if ([IO.File]::GetLastWriteTimeUtc($coreClrPath) -ne $retainedWriteTime) { throw "$id rewrote a good .NET runtime file." }
+        # Test the no-argument CMD from an unrelated working directory. Installing the
+        # extracted package in the fixture exercises its local-game autodetection.
+        foreach ($item in Get-ChildItem -LiteralPath $extracted) {
+            Copy-Item -LiteralPath $item.FullName -Destination $fixture -Recurse -Force
+        }
+        Push-Location $fixtures
+        try { Run-Installer $fixture '' '一键安装.cmd' $true } finally { Pop-Location }
         Write-Host "$id passed package install, upgrade backup, dependency repair, and repeated run."
     }
 

@@ -10,10 +10,16 @@
 
 ## 安装与选人
 
-1. 先为游戏配置 MelonLoader 0.7.3，并确认可以进入标题界面。已有本仓库模组环境的玩家可沿用前置。
-2. 退出游戏，从 Release 的 Assets 下载 `Annihilated-PlayableRivals-v0.1.16.zip`。这是手动安装包，包含 `Mods/AnnihilatedPlayableRivals.dll` 和 `README.md`，没有一键安装器，也不附带加载器。
-3. 解压到含 `Annihilated.exe` 的游戏根目录，让 DLL 位于游戏的 `Mods` 文件夹。升级前备份旧的同名 DLL。
-4. 正常启动游戏，新开一个存档。序章选人时，勇者的位置是放逐者，战士的位置是反派千金，魔法师的位置是落选者；僧侣保留原版。
+1. 退出游戏，下载 [一键安装包](https://github.com/BrickAZ/Annihilated-Mods/releases/download/playable-rivals-v0.1.16/Annihilated-PlayableRivals-v0.1.16-Build26845264-Online.zip)。
+2. 将 ZIP **完整解压**到一个文件夹，双击 `一键安装.cmd`（`Install.cmd` 是相同的英文入口）。不需要先手动安装 MelonLoader。
+3. 安装器会自动查找 Steam 游戏目录；找不到时选择含 `Annihilated.exe` 的文件夹，也可把游戏文件夹拖到 CMD 上。首次安装需联网，缺少的 MelonLoader 0.7.3、便携 .NET 6、Cpp2IL 与 Unity 依赖会从上游下载并校验。
+4. 提示安装完成后，正常启动游戏，首次启动等到标题画面。新开一个存档：勇者的位置是放逐者，战士的位置是反派千金，魔法师的位置是落选者；僧侣保留原版。
+
+安装器保留其他模组和存档，被替换的同名旧 DLL 备份到 `UserData/AnnihilatedModsInstaller/backups/`。已有合格前置会复用。
+
+手动安装包 `Annihilated-PlayableRivals-v0.1.16.zip` 仍保留：适合已经配置好 MelonLoader 的玩家，退出游戏后把其中 `Mods` 文件夹合并到游戏目录。两种包的角色 DLL 完全相同。不要下载 GitHub 的 Source code ZIP 作为安装包。
+
+若提示版本不匹配，核对报错中的“安装包支持版本”和“本机 Steam 清单”。本模组包适配 Build `26845264`，同时校验游戏程序集与资源目录指纹。旧包要求 `26705080` 并不表示 Steam 游戏需要降级，应换用对应版本的安装包；如果版本号一致但指纹不同，再用 Steam 验证游戏文件完整性。
 
 已有原版存档不会自动变成新角色。已有本模组存档可以继续使用；卸载前保留备份，继续原版游玩时使用原版角色存档。卸载时退出游戏，移走 `Mods/AnnihilatedPlayableRivals.dll`。
 

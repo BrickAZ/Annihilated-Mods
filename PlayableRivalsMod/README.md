@@ -10,10 +10,16 @@ Supported setup: Windows x64, Steam Build `26845264`, and MelonLoader `0.7.3`. T
 
 ## Install and choose a character
 
-1. Install MelonLoader 0.7.3 and confirm the game reaches its title screen. An existing working mod setup can be reused.
-2. Close the game and download `Annihilated-PlayableRivals-v0.1.16.zip` from the release assets. This is a manual package containing `Mods/AnnihilatedPlayableRivals.dll` and `README.md`; it does not include an installer or loader.
-3. Extract it into the game folder containing `Annihilated.exe`. The DLL belongs in the game's `Mods` folder. Back up the previous DLL before upgrading.
-4. Start a new save. The Hero choice becomes Outcast, Warrior becomes Villainess, and Mage becomes Dropout. Priest keeps the original behavior.
+1. Close the game and download the [one-click installer ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/playable-rivals-v0.1.16/Annihilated-PlayableRivals-v0.1.16-Build26845264-Online.zip).
+2. **Extract the entire ZIP** to a folder and double-click `Install.cmd` (identical to `一键安装.cmd`). You do not need to install MelonLoader manually first.
+3. The installer finds the Steam library automatically. If needed, select the folder containing `Annihilated.exe`, or drag that folder onto the CMD. Missing MelonLoader 0.7.3, portable .NET 6, Cpp2IL, and Unity dependencies are downloaded from upstream sources and checksum-verified; first installation needs internet access.
+4. After installation succeeds, start the game normally and wait for the title screen on first launch. Start a new save: Hero becomes Outcast, Warrior becomes Villainess, and Mage becomes Dropout. Priest keeps the original behavior.
+
+Other mods and saves are preserved. Replaced versions of the same DLL are backed up under `UserData/AnnihilatedModsInstaller/backups/`. Healthy prerequisites are reused.
+
+The manual package `Annihilated-PlayableRivals-v0.1.16.zip` remains available for existing MelonLoader setups: close the game and merge its `Mods` folder into the game directory. Both packages contain the same mod DLL. GitHub's Source code ZIP is not an installation package.
+
+For a version mismatch, compare the supported build and the detected Steam manifest build in the error. This package supports Build `26845264` and verifies both the game assembly and resource catalog fingerprints. An old installer asking for `26705080` calls for a matching installer, not a game downgrade. If the build numbers match but fingerprints differ, verify game files through Steam.
 
 Existing vanilla saves are not automatically converted. Existing Playable Rivals saves can continue. Keep a backup before uninstalling and use a vanilla-character save for vanilla play. To uninstall, close the game and remove `Mods/AnnihilatedPlayableRivals.dll`.
 

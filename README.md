@@ -29,13 +29,13 @@ Play as the Outcast, Villainess, or Dropout in the Hero, Warrior, and Mage compa
 
 [Download Playable Rivals v0.1.16](https://github.com/BrickAZ/Annihilated-Mods/releases/tag/playable-rivals-v0.1.16) · [English guide](PlayableRivalsMod/README.md) · [中文说明](PlayableRivalsMod/README.zh-CN.md)
 
-This separate release uses a **manual DLL package**: install MelonLoader 0.7.3 first, extract the ZIP into the game folder, then start a new save. It does not include the one-click installer described below. Mod-added text is currently Chinese. It targets the same Steam Build `26845264`.
+Use the [Playable Rivals one-click ZIP](https://github.com/BrickAZ/Annihilated-Mods/releases/download/playable-rivals-v0.1.16/Annihilated-PlayableRivals-v0.1.16-Build26845264-Online.zip): extract it fully, run `Install.cmd`, then start a new save. Missing prerequisites are installed automatically and replaced DLLs are backed up. Supports Steam Build `26845264`; the manual DLL package is also available. Mod-added text is currently Chinese.
 
 ### PNG Texture Override and Texture Editor
 
 - Replace enemy battle sprites and supported item icons with PNGs. The editor lets you edit individual frames and restore the original texture. [Texture Override and Texture Editor v1.1.2 (ZIP)](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-TextureOverride-Editor-Build26845264-Online.zip)
 - The standalone editor installs the texture mod and any missing prerequisites after you select the game folder. Previewing or exporting original textures requires the local art export folder. [Texture Editor v1.1.2 (standalone EXE)](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/AnnihilatedTextureEditor-v1.1.2.exe) · [Chinese guide](TextureOverrideMod/README.md)
-- Install the ready-made replacement for the dragon sprite and Dragon Eye icon. [Nailong Skin (ZIP)](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-DragonSkin-Build26845264-Online.zip)
+- Install the ready-made replacement for the dragon sprite and Dragon Eye icon. [Nailong Skin (ZIP)](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-DragonSkin-Build26845264-Installer2-Online.zip)
 
 ### Cup and reference files
 
@@ -83,7 +83,7 @@ $gameRoot = (Read-Host 'Path to the game folder').Trim().Trim('"')
 ./scripts/Build-Releases.ps1 -GameRoot $gameRoot
 ```
 
-By default the script builds six in-game mod projects and the texture editor, then writes seven installers and `SHA256SUMS.txt` to `dist/`. The save-slot package uses the authorized adapted DLL in this repository. To include the Nailong and standalone Bonfire packages, pass the published manual skin ZIP as `-DragonSkinArchive` and the standalone Bonfire DLL as `-BonfireDll`. The script verifies both inputs by SHA-256.
+By default the script builds seven in-game mod projects and the texture editor, then writes eight installers and `SHA256SUMS.txt` to `dist/`. The save-slot package uses the authorized adapted DLL in this repository. To include the Nailong and standalone Bonfire packages, pass the published manual skin ZIP as `-DragonSkinArchive` and the standalone Bonfire DLL as `-BonfireDll`. The script verifies both inputs by SHA-256.
 
 To build only the Cup, use `$gameRoot` from the same PowerShell window.
 

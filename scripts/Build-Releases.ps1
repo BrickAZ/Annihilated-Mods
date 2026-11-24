@@ -7,7 +7,7 @@ param(
     [string]$Dotnet = 'dotnet',
     [string]$DragonSkinArchive,
     [string]$BonfireDll,
-    [ValidateSet('cup', 'gallery', 'room-retry', 'attack-mode', 'save-slot', 'enemy-intent', 'texture-override', 'dragon-skin', 'bonfire-fusion')]
+    [ValidateSet('cup', 'gallery', 'room-retry', 'attack-mode', 'save-slot', 'enemy-intent', 'playable-rivals', 'texture-override', 'dragon-skin', 'bonfire-fusion')]
     [string[]]$Package,
     [switch]$UseBuiltArtifacts,
     [switch]$SaveSlotOnly
@@ -32,6 +32,7 @@ $projectPaths = @{
     retry = 'RoomRetryMod/src/AnnihilatedRoomRetry.csproj'
     attack = 'AttackModeSwitchMod/src/AnnihilatedAttackModeSwitch.csproj'
     intent = 'EnemyIntentMod/src/AnnihilatedEnemyIntent.csproj'
+    rivals = 'PlayableRivalsMod/src/AnnihilatedPlayableRivals.csproj'
     texture = 'TextureOverrideMod/src/AnnihilatedTextureOverride.csproj'
 }
 
@@ -82,6 +83,16 @@ $packages = [ordered]@{
     'enemy-intent' = @{
         Name = 'EnemyIntent'; Projects = @('intent')
         Files = [ordered]@{ 'Mods/AnnihilatedEnemyIntent.dll' = "$artifacts/intent/AnnihilatedEnemyIntent.dll" }
+    }
+    'playable-rivals' = @{
+        Name = 'PlayableRivals'; Projects = @('rivals'); Native = $true
+        Files = [ordered]@{
+            'Mods/AnnihilatedPlayableRivals.dll' = "$artifacts/rivals/AnnihilatedPlayableRivals.dll"
+            'README.md' = "$repo/PlayableRivalsMod/README.md"
+            'README.zh-CN.md' = "$repo/PlayableRivalsMod/README.zh-CN.md"
+            'CHANGELOG.zh-CN.md' = "$repo/PlayableRivalsMod/CHANGELOG.zh-CN.md"
+            'docs/verification-v0.1.16.md' = "$repo/PlayableRivalsMod/docs/verification-v0.1.16.md"
+        }
     }
     'texture-override' = @{
         Name = 'TextureOverride-Editor'; Projects = @('texture')
@@ -147,6 +158,7 @@ $featureNotes = @{
     'attack-mode' = '在游戏设置中切换战斗攻击方式。'
     'save-slot' = '存读档菜单扩展到 300 槽。原生版本的存档槽较少，高位存档需继续通过适配版 Mod 读取。'
     'enemy-intent' = '敌人头顶显示即将执行的行动。悬停可查看其行动列表。同类连续攻击会合并显示次数。'
+    'playable-rivals' = '三名可玩角色 v0.1.16。新开存档，在勇者、战士、魔法师位置分别选择放逐者、反派千金、落选者。升级会备份同名旧 DLL，其他模组和存档保留。'
     'texture-override' = '游戏目录内的 AnnihilatedTextureEditor.exe 可编辑 PNG 换皮。更换贴图后重新启动游戏。'
     'dragon-skin' = '替换四层黄龙与其龙眼的贴图。'
     'bonfire-fusion' = '独立版 v1.0.0。在有合格材料的火堆预留一个武器合成选项。杯赛自带独立的合成规则，比赛配置请只启用杯赛的合成规则。'

@@ -26,13 +26,13 @@ function Find-GameDirectory {
         $libraries = @($steamRoot)
         $folders = Join-Path $steamRoot 'steamapps/libraryfolders.vdf'
         if (Test-Path -LiteralPath $folders -PathType Leaf) {
-            $libraries += [regex]::Matches((Get-Content -LiteralPath $folders -Raw), '"path"\s+"([^"\r\n]+)"') |
+            $libraries += [regex]::Matches((Get-Content -LiteralPath $folders -Raw -Encoding UTF8), '"path"\s+"([^"\r\n]+)"') |
                 ForEach-Object { $_.Groups[1].Value.Replace('\\', '\') }
         }
         foreach ($library in $libraries) {
             $manifest = Join-Path $library 'steamapps/appmanifest_2638080.acf'
             if (!(Test-Path -LiteralPath $manifest -PathType Leaf)) { continue }
-            $name = [regex]::Match((Get-Content -LiteralPath $manifest -Raw), '"installdir"\s+"([^"\\/:\r\n]+)"')
+            $name = [regex]::Match((Get-Content -LiteralPath $manifest -Raw -Encoding UTF8), '"installdir"\s+"([^"\\/:\r\n]+)"')
             if (!$name.Success -or $name.Groups[1].Value -in @('.', '..')) { continue }
             $path = Join-Path (Join-Path $library 'steamapps/common') $name.Groups[1].Value
             if (Test-GameDirectory $path) { return $path }
@@ -95,7 +95,18 @@ function Assert-SupportedBuild([string]$Game) {
         $_.GameAssemblySha256 -eq $actualAssembly -and $_.CatalogHash -eq $actualCatalog
     } | Select-Object -First 1
     if (!$match) {
-        throw "此安装包支持 Steam Build $($profiles.Build -join '、')。当前游戏版本不匹配。"
+        $installedBuild = '未知（未找到对应 Steam 清单）'
+        $manifest = Join-Path (Split-Path -Parent (Split-Path -Parent $Game)) 'appmanifest_2638080.acf'
+        if (Test-Path -LiteralPath $manifest -PathType Leaf) {
+            $manifestText = Get-Content -LiteralPath $manifest -Raw -Encoding UTF8
+            $installDir = [regex]::Match($manifestText, '"installdir"\s+"([^"\r\n]+)"')
+            $buildId = [regex]::Match($manifestText, '"buildid"\s+"(\d+)"')
+            if ($installDir.Success -and $buildId.Success -and
+                $installDir.Groups[1].Value -eq (Split-Path -Leaf $Game)) {
+                $installedBuild = $buildId.Groups[1].Value
+            }
+        }
+        throw "此安装包支持 Steam Build $($profiles.Build -join '、')；本机 Steam 清单：$installedBuild。游戏文件指纹不匹配（GameAssembly SHA-256：$actualAssembly；资源目录哈希：$actualCatalog）。请使用与游戏版本匹配的安装包：https://github.com/BrickAZ/Annihilated-Mods/releases 。如果版本号相同，请在 Steam 验证游戏文件完整性。"
     }
     Write-Host "游戏版本校验通过 Steam Build $($match.Build)"
 }
@@ -153,6 +164,7 @@ try {
         'attack-mode' { 'Mods/AnnihilatedAttackModeSwitch.dll' }
         'save-slot' { 'Mods/SaveSlotUnlimiter.dll' }
         'enemy-intent' { 'Mods/AnnihilatedEnemyIntent.dll' }
+        'playable-rivals' { 'Mods/AnnihilatedPlayableRivals.dll' }
         'texture-override' { 'Mods/AnnihilatedTextureOverride.dll'; 'AnnihilatedTextureEditor.exe' }
         'texture-runtime' { 'Mods/AnnihilatedTextureOverride.dll' }
         'dragon-skin' { 'Mods/AnnihilatedTextureOverride.dll'; 'UserData/TextureOverrides/Enemy/dragon.png'; 'UserData/TextureOverrides/Item/dragonEye.png' }
@@ -176,7 +188,7 @@ try {
     Assert-GameFiles $game
     Write-Host '游戏文件检查通过。'
 
-    if ($package -in @('cup', 'gallery', 'save-slot')) {
+    if ($package -in @('cup', 'gallery', 'save-slot', 'playable-rivals')) {
         Assert-SupportedBuild $game
     }
 
