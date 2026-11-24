@@ -23,6 +23,14 @@ The [v1.0.6](https://github.com/BrickAZ/Annihilated-Mods/releases/tag/v1.0.6) ga
 
 Story replays use separate saves and let you choose the protagonist's appearance first. SaveSlotUnlimiter also supports Build `26705080`. Its installer backs up the previous DLL when upgrading.
 
+### Playable Rivals
+
+Play as the Outcast, Villainess, or Dropout in the Hero, Warrior, and Mage companion slots, with signature weapons, floor-unlocked skills, portraits, and battle art. Version 0.1.16 adds the Outcast's 30-point direct-damage cap until the possessed-soldier boss is defeated.
+
+[Download Playable Rivals v0.1.16](https://github.com/BrickAZ/Annihilated-Mods/releases/tag/playable-rivals-v0.1.16) · [English guide](PlayableRivalsMod/README.md) · [中文说明](PlayableRivalsMod/README.zh-CN.md)
+
+This separate release uses a **manual DLL package**: install MelonLoader 0.7.3 first, extract the ZIP into the game folder, then start a new save. It does not include the one-click installer described below. Mod-added text is currently Chinese. It targets the same Steam Build `26845264`.
+
 ### PNG Texture Override and Texture Editor
 
 - Replace enemy battle sprites and supported item icons with PNGs. The editor lets you edit individual frames and restore the original texture. [Texture Override and Texture Editor v1.1.2 (ZIP)](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-TextureOverride-Editor-Build26845264-Online.zip)

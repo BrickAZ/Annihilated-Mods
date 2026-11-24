@@ -23,6 +23,14 @@
 
 剧情回放使用独立存档，开始前可选主角外观。存档扩容也支持 Build `26705080`，升级时会先备份旧的同名 DLL。
 
+### 三名可玩角色
+
+将勇者、战士、魔法师三个同伴槽位替换为放逐者、反派千金、落选者，提供专属武器、随楼层解锁的主动技能、头像与战斗美术。v0.1.16 加入放逐者的直接伤害合计 30 点上限，击败赫德夺舍的士兵后解除。
+
+[下载三名可玩角色 v0.1.16](https://github.com/BrickAZ/Annihilated-Mods/releases/tag/playable-rivals-v0.1.16) · [中文说明](PlayableRivalsMod/README.zh-CN.md) · [English guide](PlayableRivalsMod/README.md)
+
+这是独立发布的**手动 DLL 安装包**：先配置 MelonLoader 0.7.3，将 ZIP 解压到游戏根目录，再开新存档选人。它不包含下文的一键安装器，适用 Steam Build `26845264`。
+
 ### PNG 换皮 Mod 与贴图编辑器
 
 - 可以用 PNG 替换怪物的战斗立绘和受支持的物品图标。编辑器支持逐帧替换和恢复原图。 [换皮 Mod 与贴图编辑器 v1.1.2（ZIP）](https://github.com/BrickAZ/Annihilated-Mods/releases/download/v1.0.6/Annihilated-TextureOverride-Editor-Build26845264-Online.zip)

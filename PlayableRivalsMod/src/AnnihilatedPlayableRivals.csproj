@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>11.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>AnnihilatedPlayableRivals</AssemblyName>
+    <GameRoot Condition="'$(GameRoot)' == ''">$(ANNIHILATED_GAME_ROOT)</GameRoot>
+    <Interop>$(GameRoot)/MelonLoader/Il2CppAssemblies</Interop>
+    <Loader>$(GameRoot)/MelonLoader/net6</Loader>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="$(Interop)/UnityEngine.TextCoreFontEngineModule.dll" Private="false" />
+    <Reference Include="$(Interop)/Assembly-CSharp.dll;$(Interop)/Il2Cppmscorlib.dll;$(Interop)/Il2CppSystem.Core.dll;$(Interop)/Il2CppElringus.Naninovel.Runtime.dll;$(Interop)/UnityEngine.CoreModule.dll;$(Interop)/UnityEngine.UIModule.dll;$(Interop)/UnityEngine.IMGUIModule.dll;$(Interop)/UnityEngine.TextRenderingModule.dll;$(Interop)/UnityEngine.UI.dll;$(Interop)/UnityEngine.ImageConversionModule.dll;$(Interop)/Unity.TextMeshPro.dll;$(Interop)/Unity.InputSystem.dll" Private="false" />
+    <Reference Include="$(Loader)/MelonLoader.dll;$(Loader)/0Harmony.dll;$(Loader)/Il2CppInterop.Runtime.dll" Private="false" />
+    <EmbeddedResource Include="NativeArt/**/*.png" LogicalName="rivals/%(RecursiveDir)%(Filename).png" />
+
+
+    <EmbeddedResource Include="Art/icons/*.png" LogicalName="rivals/icons/%(Filename).png" />
+    <EmbeddedResource Include="Art/select/*.png" LogicalName="rivals/select/%(Filename).png" />
+    <EmbeddedResource Include="Art/dot/*.png" LogicalName="rivals/dot/%(Filename).png" />
+    <EmbeddedResource Include="Art/mini/**/*.png" LogicalName="rivals/mini/%(RecursiveDir)%(Filename).png" />
+    <EmbeddedResource Include="Art/battle/*.png" LogicalName="rivals/battle/%(Filename).png" />
+  </ItemGroup>
+  <Target Name="ValidateGameRoot" BeforeTargets="ResolveReferences">
+    <Error Condition="!Exists('$(GameRoot)/Annihilated.exe')" Text="Set GameRoot to your installed game folder: -p:GameRoot=&quot;path/to/Annihilated&quot;" />
+    <Error Condition="!Exists('$(Interop)/Assembly-CSharp.dll')" Text="Launch the game with MelonLoader 0.7.3 once to generate MelonLoader/Il2CppAssemblies." />
+  </Target>
+</Project>

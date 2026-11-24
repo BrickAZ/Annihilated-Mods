@@ -27,3 +27,5 @@ jobs:
         run: dotnet run --project RoomRetryMod/tests/RoomRetry.Tests.csproj --configuration Release
       - name: Enemy Intent
         run: dotnet run --project EnemyIntentMod/tests/Rows/Rows.csproj --configuration Release
+      - name: Playable Rivals
+        run: dotnet run --project PlayableRivalsMod/Checks/Checks.csproj --configuration Release
